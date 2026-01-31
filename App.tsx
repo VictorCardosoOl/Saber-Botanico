@@ -1,42 +1,23 @@
-import React, { useEffect } from 'react';
-import { BrowserRouter, Routes, Route, useLocation } from 'react-router-dom';
+import React from 'react';
 import Header from './components/Header';
+import HeroSection from './components/HeroSection';
+import SoilSection from './components/SoilSection';
+import RitualsSection from './components/RitualsSection';
+import ArchiveSection from './components/ArchiveSection';
 import Footer from './components/Footer';
-
-// Pages
-import Home from './pages/Home';
-import Glossary from './pages/Glossary';
-import Vases from './pages/Vases';
-import Soil from './pages/Soil';
-import Care from './pages/Care';
-
-// Helper to scroll to top on route change
-const ScrollToTop = () => {
-  const { pathname } = useLocation();
-  useEffect(() => {
-    window.scrollTo(0, 0);
-  }, [pathname]);
-  return null;
-};
 
 const App: React.FC = () => {
   return (
-    <BrowserRouter>
-      <div className="min-h-screen flex flex-col w-full overflow-x-hidden">
-        <ScrollToTop />
-        <Header />
-        <main className="flex-1 w-full">
-          <Routes>
-            <Route path="/" element={<Home />} />
-            <Route path="/glosario" element={<Glossary />} />
-            <Route path="/vasos" element={<Vases />} />
-            <Route path="/solo" element={<Soil />} />
-            <Route path="/cuidados" element={<Care />} />
-          </Routes>
-        </main>
-        <Footer />
-      </div>
-    </BrowserRouter>
+    <div className="min-h-screen flex flex-col w-full overflow-x-hidden">
+      <Header />
+      <main className="flex-1 w-full">
+        <HeroSection />
+        <SoilSection />
+        <RitualsSection />
+        <ArchiveSection />
+      </main>
+      <Footer />
+    </div>
   );
 };
 

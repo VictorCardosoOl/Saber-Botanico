@@ -1,10 +1,10 @@
 import React from 'react';
 import { useScrollVisibility } from '../hooks/useScrollVisibility';
-import { Link, useLocation } from 'react-router-dom';
 
+// Sub-components to keep the main component clean (Atomic Design thinking)
 const Logo = () => (
-  <Link to="/" className="flex items-center gap-4 group">
-    <div className="relative flex items-center justify-center size-10 transition-transform group-hover:scale-105">
+  <div className="flex items-center gap-4">
+    <div className="relative flex items-center justify-center size-10">
       <div className="absolute inset-0 border border-gold/30 rounded-full animate-spin-slow"></div>
       <span className="material-symbols-outlined text-[24px] text-gold">spa</span>
     </div>
@@ -12,31 +12,31 @@ const Logo = () => (
       <h2 className="text-xl font-bold leading-none tracking-[0.05em] font-serif text-gold-light uppercase">Saber Botânico</h2>
       <span className="text-[0.6rem] uppercase tracking-[0.25em] text-gold/60 mt-1">Série Obsidiana</span>
     </div>
-  </Link>
+  </div>
 );
 
-const NavLinks = () => {
-  const location = useLocation();
-  const isActive = (path: string) => location.pathname === path;
-  
-  const linkClass = (path: string) => `
-    text-xs tracking-[0.2em] font-medium uppercase transition-colors relative
-    ${isActive(path) ? 'text-gold font-bold' : 'text-gray-400 hover:text-gold'}
-    ${isActive(path) ? "after:content-[''] after:absolute after:-bottom-2 after:left-1/2 after:-translate-x-1/2 after:w-1 after:h-1 after:bg-gold after:rounded-full" : ''}
-  `;
+const NavLinks = () => (
+  <nav className="flex items-center gap-8">
+    <a href="#hero" className="text-xs tracking-[0.2em] font-medium text-gray-400 hover:text-gold transition-colors uppercase">Coleção</a>
+    <a href="#soil" className="text-xs tracking-[0.2em] font-medium text-gray-400 hover:text-gold transition-colors uppercase">Ateliê</a>
+    <a href="#rituals" className="text-xs tracking-[0.2em] font-bold text-gold relative after:content-[''] after:absolute after:-bottom-2 after:left-1/2 after:-translate-x-1/2 after:w-1 after:h-1 after:bg-gold after:rounded-full">Jornal</a>
+  </nav>
+);
 
-  return (
-    <nav className="flex items-center gap-8">
-      <Link to="/" className={linkClass('/')}>Home</Link>
-      <Link to="/glosario" className={linkClass('/glosario')}>Glosário</Link>
-      <Link to="/vasos" className={linkClass('/vasos')}>Vasos</Link>
-      <Link to="/solo" className={linkClass('/solo')}>Solo</Link>
-      <Link to="/cuidados" className={linkClass('/cuidados')}>Rega & Luz</Link>
-    </nav>
-  );
-};
+const SearchBar = () => (
+  <div className="hidden md:flex items-center border border-white/10 rounded-full px-4 py-1.5 bg-white/5 backdrop-blur-sm group hover:border-gold/30 transition-colors">
+    <span className="material-symbols-outlined text-lg text-gray-400 group-hover:text-gold transition-colors">search</span>
+    <input 
+      className="bg-transparent border-none text-xs text-white placeholder-gray-500 focus:ring-0 w-24 lg:w-32 ml-2 font-sans tracking-wide focus:outline-none" 
+      placeholder="Buscar..." 
+      type="text"
+      aria-label="Buscar no site"
+    />
+  </div>
+);
 
 const Header: React.FC = () => {
+  // Logic is now abstracted away. The component focuses only on UI.
   const isVisible = useScrollVisibility({ threshold: 10 });
 
   return (
@@ -53,13 +53,10 @@ const Header: React.FC = () => {
         </div>
 
         <div className="flex items-center gap-6">
-          <Link to="/glosario" className="hidden md:flex items-center border border-white/10 rounded-full px-4 py-1.5 bg-white/5 backdrop-blur-sm group hover:border-gold/30 transition-colors">
-            <span className="material-symbols-outlined text-lg text-gray-400 group-hover:text-gold transition-colors">search</span>
-            <span className="text-xs text-gray-500 ml-2 font-sans tracking-wide">Buscar planta...</span>
-          </Link>
+          <SearchBar />
           
           <button className="gold-border-btn hidden md:flex min-w-[100px] cursor-pointer items-center justify-center overflow-hidden rounded-sm h-9 px-4 transition-all text-gold-light text-[10px] font-bold uppercase tracking-[0.15em] border border-gold/60 hover:bg-gold/10">
-            Fórum
+            Acesso Membros
           </button>
           
           <div className="md:hidden flex items-center">

@@ -1,4 +1,4 @@
-import { PlantSpecimen, RitualStep } from './types';
+import { PlantSpecimen, RitualStep, NavItem, SocialLink } from './types';
 
 export const PLANTS: PlantSpecimen[] = [
   {
@@ -76,6 +76,20 @@ export const RITUALS: RitualStep[] = [
     icon: 'rainy',
     frequency: 'A cada 3-4 Dias'
   }
+];
+
+export const NAVIGATION_LINKS: NavItem[] = [
+  { label: 'Home', path: '/' },
+  { label: 'Glosário', path: '/glosario' },
+  { label: 'Vasos', path: '/vasos' },
+  { label: 'Solo', path: '/solo' },
+  { label: 'Rega & Luz', path: '/cuidados' }
+];
+
+export const SOCIAL_LINKS: SocialLink[] = [
+  { platform: 'Instagram', url: '#' },
+  { platform: 'Pinterest', url: '#' },
+  { platform: 'Twitter', url: '#' }
 ];
 
 export const HERO_IMAGE = "https://lh3.googleusercontent.com/aida-public/AB6AXuCGZbyvX8Kg4nE0OZTuAXQOkqnBZdCl2CCk2rSB06Q0FHRlGRVt9m_9ihDDnOr4ikBt8c9AQulAOJiKuRa0CA0gN-YdqfCwYmrfws1-IQrXRJL77p495xCM5IkSVB7DSsUHTCQBx61kD2Yb9x3wTznRi1QfrrGNWVQXRDsGDAM0hO2f4HzUK9a1DcPI98WiewC1gS6tbq7xWDhJ0MoQ_eVK2sKMlNGgwXel0u4_RZMK7m4HCcCdt0f-7gAVquzKG8EKRAHZT_m63PLj";

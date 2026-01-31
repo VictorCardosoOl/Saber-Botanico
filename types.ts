@@ -21,6 +21,10 @@ export interface RitualStep {
 
 export interface NavItem {
   label: string;
-  href: string;
-  active?: boolean;
+  path: string;
+}
+
+export interface SocialLink {
+  platform: string;
+  url: string;
 }

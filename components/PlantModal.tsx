@@ -1,6 +1,6 @@
-import React from 'react';
+import React, { useEffect, useCallback } from 'react';
 import { RITUALS } from '../constants';
-import { PlantSpecimen } from '../types';
+import { PlantSpecimen, RitualStep } from '../types';
 
 interface PlantModalProps {
   plant: PlantSpecimen | null;
@@ -8,22 +8,40 @@ interface PlantModalProps {
 }
 
 const PlantModal: React.FC<PlantModalProps> = ({ plant, onClose }) => {
+  
+  const handleKeyDown = useCallback((event: KeyboardEvent) => {
+    if (event.key === 'Escape') {
+      onClose();
+    }
+  }, [onClose]);
+
+  useEffect(() => {
+    document.addEventListener('keydown', handleKeyDown);
+    return () => {
+      document.removeEventListener('keydown', handleKeyDown);
+    };
+  }, [handleKeyDown]);
+
   if (!plant) return null;
 
-  // Mocking specific care data based on what exists or generic fallback
-  const careRitual = RITUALS.find(r => plant.isRare ? r.id === 'arid' : r.id === 'tropical') || RITUALS[2];
+  // Optimized lookup logic
+  const careRitual: RitualStep = RITUALS.find(r => 
+    plant.isRare ? r.id === 'arid' : r.id === 'tropical'
+  ) || RITUALS[2]; // Default to Tropical if unknown
 
   return (
-    <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 sm:p-6">
+    <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 sm:p-6" role="dialog" aria-modal="true" aria-labelledby="modal-title">
       <div 
         className="absolute inset-0 bg-forest-dark/90 backdrop-blur-md transition-opacity" 
         onClick={onClose}
+        aria-hidden="true"
       ></div>
       
       <div className="relative w-full max-w-4xl bg-[#FDFBF7] rounded-xl shadow-2xl overflow-hidden flex flex-col md:flex-row animate-fade-in-up max-h-[90vh] md:max-h-[80vh]">
         <button 
           onClick={onClose}
-          className="absolute top-4 right-4 z-20 w-10 h-10 rounded-full bg-white/20 backdrop-blur-sm flex items-center justify-center text-charcoal hover:bg-white transition-colors"
+          className="absolute top-4 right-4 z-20 w-10 h-10 rounded-full bg-white/20 backdrop-blur-sm flex items-center justify-center text-charcoal hover:bg-white transition-colors focus:outline-none focus:ring-2 focus:ring-gold"
+          aria-label="Close modal"
         >
           <span className="material-symbols-outlined">close</span>
         </button>
@@ -33,6 +51,8 @@ const PlantModal: React.FC<PlantModalProps> = ({ plant, onClose }) => {
           <div 
             className="absolute inset-0 bg-cover bg-center"
             style={{ backgroundImage: `url('${plant.imageUrl}')` }}
+            role="img"
+            aria-label={`Imagem de ${plant.name}`}
           ></div>
           <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent md:bg-gradient-to-r"></div>
           <div className="absolute bottom-6 left-6 text-white md:hidden">
@@ -44,7 +64,7 @@ const PlantModal: React.FC<PlantModalProps> = ({ plant, onClose }) => {
         {/* Content Side */}
         <div className="w-full md:w-1/2 p-8 md:p-12 overflow-y-auto">
           <div className="hidden md:block mb-8">
-            <h2 className="text-4xl font-serif font-bold text-charcoal mb-2">{plant.name}</h2>
+            <h2 id="modal-title" className="text-4xl font-serif font-bold text-charcoal mb-2">{plant.name}</h2>
             <p className="font-serif italic text-xl text-gold-dark">{plant.scientificName}</p>
           </div>
 
@@ -97,7 +117,7 @@ const PlantModal: React.FC<PlantModalProps> = ({ plant, onClose }) => {
               </div>
             </div>
             
-            <button className="w-full py-4 mt-4 border border-gold text-gold-dark font-mono text-xs uppercase tracking-[0.2em] hover:bg-gold hover:text-white transition-all">
+            <button className="w-full py-4 mt-4 border border-gold text-gold-dark font-mono text-xs uppercase tracking-[0.2em] hover:bg-gold hover:text-white transition-all focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gold">
               Discutir no Fórum
             </button>
           </div>

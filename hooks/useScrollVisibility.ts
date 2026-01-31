@@ -1,51 +1,44 @@
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef, useCallback } from 'react';
 
 interface ScrollVisibilityOptions {
   threshold?: number;
 }
 
-/**
- * Hook to determine if an element should be visible based on scroll direction.
- * Returns true (visible) when scrolling up or at the top.
- * Returns false (hidden) when scrolling down past the threshold.
- */
 export function useScrollVisibility({ threshold = 10 }: ScrollVisibilityOptions = {}) {
   const [isVisible, setIsVisible] = useState(true);
   const lastScrollY = useRef(0);
+  const ticking = useRef(false);
+
+  const updateVisibility = useCallback(() => {
+    const currentScrollY = window.scrollY;
+    const lastScroll = lastScrollY.current;
+
+    if (currentScrollY <= threshold) {
+      setIsVisible(true);
+    } else if (currentScrollY > lastScroll && currentScrollY > threshold) {
+      setIsVisible(false);
+    } else if (currentScrollY < lastScroll) {
+      setIsVisible(true);
+    }
+
+    lastScrollY.current = currentScrollY;
+    ticking.current = false;
+  }, [threshold]);
 
   useEffect(() => {
-    let ticking = false;
-
-    const updateVisibility = () => {
-      const currentScrollY = window.scrollY;
-      const lastScroll = lastScrollY.current;
-
-      // Logic:
-      // 1. Always visible at the very top (handling mobile bounce/negative scroll)
-      // 2. Hide if scrolling down AND past threshold
-      // 3. Show if scrolling up
-      if (currentScrollY <= threshold) {
-        setIsVisible(true);
-      } else if (currentScrollY > lastScroll && currentScrollY > threshold) {
-        setIsVisible(false);
-      } else if (currentScrollY < lastScroll) {
-        setIsVisible(true);
-      }
-
-      lastScrollY.current = currentScrollY;
-      ticking = false;
-    };
-
     const onScroll = () => {
-      if (!ticking) {
+      if (!ticking.current) {
         window.requestAnimationFrame(updateVisibility);
-        ticking = true;
+        ticking.current = true;
       }
     };
 
-    window.addEventListener('scroll', onScroll);
-    return () => window.removeEventListener('scroll', onScroll);
-  }, [threshold]);
+    window.addEventListener('scroll', onScroll, { passive: true });
+    
+    return () => {
+      window.removeEventListener('scroll', onScroll);
+    };
+  }, [updateVisibility]);
 
   return isVisible;
 }

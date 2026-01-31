@@ -1,8 +1,51 @@
-import React from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 
 const Header: React.FC = () => {
+  const [isVisible, setIsVisible] = useState(true);
+  const lastScrollY = useRef(0);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      const currentScrollY = window.scrollY;
+      const lastScroll = lastScrollY.current;
+      
+      // Lógica de Visibilidade:
+      // 1. Sempre visível se estiver no topo (ou scroll negativo em mobile iOS)
+      // 2. Ocultar se rolar para baixo E já tiver passado de um pequeno limiar (10px)
+      // 3. Mostrar se rolar para cima
+      if (currentScrollY <= 10) {
+        setIsVisible(true);
+      } else if (currentScrollY > lastScroll && currentScrollY > 10) {
+        setIsVisible(false);
+      } else if (currentScrollY < lastScroll) {
+        setIsVisible(true);
+      }
+
+      lastScrollY.current = currentScrollY;
+    };
+
+    // Otimização de Performance com requestAnimationFrame
+    let ticking = false;
+    const onScroll = () => {
+      if (!ticking) {
+        window.requestAnimationFrame(() => {
+          handleScroll();
+          ticking = false;
+        });
+        ticking = true;
+      }
+    };
+
+    window.addEventListener('scroll', onScroll);
+    return () => window.removeEventListener('scroll', onScroll);
+  }, []);
+
   return (
-    <header className="fixed top-0 left-0 right-0 z-50 transition-all duration-300 bg-forest-dark/80 backdrop-blur-md border-b border-gold/10">
+    <header 
+      className={`fixed top-0 left-0 right-0 z-50 transition-transform duration-300 ease-in-out bg-forest-dark/80 backdrop-blur-md border-b border-gold/10 ${
+        isVisible ? 'translate-y-0' : '-translate-y-full'
+      }`}
+    >
       <div className="max-w-[1600px] mx-auto px-6 py-5 flex items-center justify-between">
         
         {/* Logo */}

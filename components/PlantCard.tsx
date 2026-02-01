@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { PlantSpecimen } from '../types';
 
 interface PlantCardProps {
@@ -6,6 +6,13 @@ interface PlantCardProps {
 }
 
 const PlantCard: React.FC<PlantCardProps> = ({ plant }) => {
+  const [isExpanded, setIsExpanded] = useState(false);
+
+  const toggleDescription = (e: React.MouseEvent) => {
+    e.stopPropagation(); // Impede que o clique abra o modal da planta
+    setIsExpanded(!isExpanded);
+  };
+
   return (
     <div className="glass-panel bg-gradient-to-br from-white/40 to-white/10 backdrop-blur-md border border-white/50 rounded-2xl overflow-hidden group flex flex-col h-full hover:shadow-xl hover:-translate-y-1 transition-all duration-300">
         <div className="relative aspect-[4/5] overflow-hidden">
@@ -32,9 +39,17 @@ const PlantCard: React.FC<PlantCardProps> = ({ plant }) => {
                 {plant.isRare && <span className="px-2 py-1 rounded text-[10px] font-bold tracking-wider uppercase bg-blue-100 text-[#4cb2e6] border border-blue-200">Raro</span>}
             </div>
             
-            <p className="text-sm text-charcoal/70 mt-2 mb-4 line-clamp-2 leading-relaxed">
-                {plant.description}
-            </p>
+            <div className="mt-2 mb-4">
+              <p className={`text-sm text-charcoal/70 leading-relaxed transition-all duration-200 ${isExpanded ? '' : 'line-clamp-2'}`}>
+                  {plant.description}
+              </p>
+              <button 
+                onClick={toggleDescription}
+                className="text-xs font-bold text-gold-dark hover:text-gold mt-1 focus:outline-none underline decoration-gold/30 hover:decoration-gold transition-all"
+              >
+                {isExpanded ? 'Ler menos' : 'Leia mais'}
+              </button>
+            </div>
             
             <div className="mt-auto flex items-center justify-between pt-4 border-t border-charcoal/5">
                 <span className="text-xs font-bold text-charcoal/50 uppercase tracking-widest">Ver Guia</span>

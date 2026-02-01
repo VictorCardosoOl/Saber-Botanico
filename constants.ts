@@ -92,9 +92,25 @@ export const SOCIAL_LINKS: SocialLink[] = [
   { platform: 'Twitter', url: '#' }
 ];
 
-// Imagens Curadas do Unsplash (Temática: Botanica Dark/Luxo)
-export const HERO_IMAGE = "https://images.unsplash.com/photo-1463936575829-25148e1db1b8?auto=format&fit=crop&q=80&w=2090";
-export const SOIL_IMAGE_MAIN = "https://images.unsplash.com/photo-1615470701657-375997239029?auto=format&fit=crop&q=80&w=2069";
-export const SOIL_IMAGE_SMALL_1 = "https://images.unsplash.com/photo-1595867362088-7f9dd5a45274?auto=format&fit=crop&q=80&w=1974";
-export const SOIL_IMAGE_SMALL_2 = "https://images.unsplash.com/photo-1606103920295-8a2b53460453?auto=format&fit=crop&q=80&w=1974";
-export const ARCHIVE_HERO = "https://images.unsplash.com/photo-1518531933037-91b2f5f229cc?auto=format&fit=crop&q=80&w=2069";
+// --- IMAGENS CURADAS ---
+// Tema: Dark, Luxury, Editorial, High Contrast, Botanical Detail
+
+// Hero Principal: Monstera escura/Folhagem densa (Substituindo o hamburguer)
+export const HERO_IMAGE = "https://images.unsplash.com/photo-1592150621744-aca64f270045?q=80&w=2000&auto=format&fit=crop"; 
+
+// Solo: Textura rica de terra e vasos artesanais
+export const SOIL_IMAGE_MAIN = "https://images.unsplash.com/photo-1615479261276-857e49eb72dc?q=80&w=2000&auto=format&fit=crop"; // Close em raízes/solo
+export const SOIL_IMAGE_SMALL_1 = "https://images.unsplash.com/photo-1599056637894-3a95d43818e6?q=80&w=1000&auto=format&fit=crop"; // Mãos cuidando da planta
+export const SOIL_IMAGE_SMALL_2 = "https://images.unsplash.com/photo-1611735341450-74d61e66ee62?q=80&w=1000&auto=format&fit=crop"; // Textura argila
+
+// Arquivo: Estufa antiga ou ilustrações botânicas
+export const ARCHIVE_HERO = "https://images.unsplash.com/photo-1530968464165-3a114ce72449?q=80&w=2000&auto=format&fit=crop"; // Estufa mood
+
+// Vasos: Foco em cerâmica e design
+export const VASES_HERO = "https://images.unsplash.com/photo-1580480055273-228ff5388ef8?q=80&w=2000&auto=format&fit=crop"; // Prateleira com cerâmica
+export const VASE_TERRACOTTA = "https://images.unsplash.com/photo-1506917631379-4d6cb037d383?q=80&w=1000&auto=format&fit=crop"; // Terracota real
+export const VASE_CERAMIC = "https://images.unsplash.com/photo-1616428286950-8919672ce346?q=80&w=1000&auto=format&fit=crop"; // Cerâmica minimalista
+export const VASE_TECH = "https://images.unsplash.com/photo-1522748906645-95d8adfd66c7?q=80&w=1000&auto=format&fit=crop"; // Concreto moderno
+
+// Cuidados: Água, luz, misting
+export const CARE_HERO = "https://images.unsplash.com/photo-1599423423927-951390d79549?q=80&w=2000&auto=format&fit=crop"; // Spray de água/luz

@@ -24,10 +24,10 @@ const AboutMeSection = () => (
       <div className="w-full md:w-1/2 relative">
         <div className="aspect-[4/5] bg-gray-800 rounded-lg overflow-hidden relative border border-white/10">
             <div className="absolute inset-0 bg-gradient-to-tr from-black/40 to-transparent z-10"></div>
-            {/* Placeholder for Author Image - using a stylistic botanical image instead */}
+            {/* Imagem de jardinagem/estilo de vida botânico */}
             <img 
-                src="https://images.unsplash.com/photo-1598555849843-980646098056?q=80&w=1000&auto=format&fit=crop" 
-                alt="Jardineiro trabalhando" 
+                src="https://images.unsplash.com/photo-1466692476868-aef1dfb1e735?q=80&w=1000&auto=format&fit=crop" 
+                alt="Jardineiro trabalhando com plantas" 
                 className="w-full h-full object-cover grayscale hover:grayscale-0 transition-all duration-700"
             />
         </div>

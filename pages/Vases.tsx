@@ -1,4 +1,5 @@
 import React from 'react';
+import { VASES_HERO, VASE_TERRACOTTA, VASE_CERAMIC, VASE_TECH } from '../constants';
 
 const Vases: React.FC = () => {
   return (
@@ -11,7 +12,7 @@ const Vases: React.FC = () => {
           {/* Background Image Parallax-ish */}
           <div 
             className="absolute inset-0 bg-cover bg-center opacity-40 grayscale"
-            style={{ backgroundImage: `url('https://images.unsplash.com/photo-1585320806297-9794b3e4eeae?q=80&w=2000&auto=format&fit=crop')` }}
+            style={{ backgroundImage: `url('${VASES_HERO}')` }}
           ></div>
           <div className="absolute inset-0 bg-gradient-to-t from-forest-dark via-forest-dark/50 to-transparent"></div>
 
@@ -63,9 +64,10 @@ const Vases: React.FC = () => {
              <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
                 {/* Card 1 */}
                 <div className="group relative bg-[#FDFBF7] border border-ink/10 hover:border-gold/50 transition-all duration-500 overflow-hidden">
-                   <div className="h-48 bg-[#cba38e] relative overflow-hidden">
-                      <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/concrete-wall.png')] opacity-30"></div>
-                      <div className="absolute bottom-4 left-4 bg-white/90 px-3 py-1 font-mono text-xs font-bold uppercase tracking-widest text-ink">Terracota</div>
+                   <div className="h-48 relative overflow-hidden">
+                      <div className="absolute inset-0 bg-cover bg-center transition-transform duration-700 group-hover:scale-110" style={{ backgroundImage: `url('${VASE_TERRACOTTA}')` }}></div>
+                      <div className="absolute inset-0 bg-black/20 group-hover:bg-black/10 transition-colors"></div>
+                      <div className="absolute bottom-4 left-4 bg-white/90 px-3 py-1 font-mono text-xs font-bold uppercase tracking-widest text-ink backdrop-blur-sm">Terracota</div>
                    </div>
                    <div className="p-8">
                       <h4 className="font-serif text-2xl mb-3 group-hover:text-gold-dark transition-colors">O Clássico Poroso</h4>
@@ -85,9 +87,10 @@ const Vases: React.FC = () => {
 
                 {/* Card 2 */}
                 <div className="group relative bg-[#FDFBF7] border border-ink/10 hover:border-gold/50 transition-all duration-500 overflow-hidden">
-                   <div className="h-48 bg-[#4a5d5e] relative overflow-hidden">
-                      <div className="absolute inset-0 bg-gradient-to-tr from-white/20 to-transparent opacity-50"></div>
-                      <div className="absolute bottom-4 left-4 bg-white/90 px-3 py-1 font-mono text-xs font-bold uppercase tracking-widest text-ink">Cerâmica Esmaltada</div>
+                   <div className="h-48 relative overflow-hidden">
+                      <div className="absolute inset-0 bg-cover bg-center transition-transform duration-700 group-hover:scale-110" style={{ backgroundImage: `url('${VASE_CERAMIC}')` }}></div>
+                      <div className="absolute inset-0 bg-black/20 group-hover:bg-black/10 transition-colors"></div>
+                      <div className="absolute bottom-4 left-4 bg-white/90 px-3 py-1 font-mono text-xs font-bold uppercase tracking-widest text-ink backdrop-blur-sm">Cerâmica Esmaltada</div>
                    </div>
                    <div className="p-8">
                       <h4 className="font-serif text-2xl mb-3 group-hover:text-gold-dark transition-colors">Retenção & Estilo</h4>
@@ -107,9 +110,10 @@ const Vases: React.FC = () => {
 
                 {/* Card 3 */}
                 <div className="group relative bg-[#FDFBF7] border border-ink/10 hover:border-gold/50 transition-all duration-500 overflow-hidden">
-                   <div className="h-48 bg-[#e5e5e5] relative overflow-hidden">
-                      <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/carbon-fibre.png')] opacity-10"></div>
-                      <div className="absolute bottom-4 left-4 bg-ink text-white px-3 py-1 font-mono text-xs font-bold uppercase tracking-widest">Compósito/Técnico</div>
+                   <div className="h-48 relative overflow-hidden">
+                      <div className="absolute inset-0 bg-cover bg-center transition-transform duration-700 group-hover:scale-110" style={{ backgroundImage: `url('${VASE_TECH}')` }}></div>
+                      <div className="absolute inset-0 bg-black/20 group-hover:bg-black/10 transition-colors"></div>
+                      <div className="absolute bottom-4 left-4 bg-ink text-white px-3 py-1 font-mono text-xs font-bold uppercase tracking-widest backdrop-blur-sm">Compósito/Técnico</div>
                    </div>
                    <div className="p-8">
                       <h4 className="font-serif text-2xl mb-3 group-hover:text-gold-dark transition-colors">Leveza Moderna</h4>

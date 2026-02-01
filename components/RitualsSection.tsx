@@ -1,38 +1,38 @@
 import React from 'react';
-import { RITUALS } from '../constants';
+import { RITUALS, CARE_HERO } from '../constants';
 
 const RitualsSection: React.FC = () => {
   return (
-    <section id="rituals" className="relative bg-[#FDFBF7] text-charcoal font-sans py-24 overflow-hidden">
-      {/* Linen Grid Background Pattern */}
-      <div className="absolute inset-0 opacity-40 pointer-events-none" 
-           style={{
-             backgroundImage: `
-                linear-gradient(rgba(0,0,0,0.05) 1px, transparent 1px),
-                linear-gradient(90deg, rgba(0,0,0,0.05) 1px, transparent 1px)
-             `,
-             backgroundSize: '40px 40px'
-           }}>
+    <section id="rituals" className="relative bg-[#FDFBF7] text-charcoal font-sans min-h-screen overflow-hidden">
+      {/* Background Image Header */}
+      <div className="relative h-[50vh] w-full overflow-hidden">
+        <div 
+          className="absolute inset-0 bg-cover bg-center" 
+          style={{ backgroundImage: `url('${CARE_HERO}')` }}
+        ></div>
+        <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-transparent to-[#FDFBF7]"></div>
+        
+        <div className="absolute bottom-0 left-0 w-full p-6 md:p-12 lg:p-24 flex flex-col justify-end">
+            <div className="flex items-center gap-2 text-white/80 font-mono text-xs uppercase tracking-[0.2em] mb-4">
+                <span className="w-2 h-2 rounded-full border border-gold bg-gold"></span>
+                <span>Módulo 02: Manutenção</span>
+            </div>
+            <h1 className="text-5xl md:text-7xl font-serif font-light text-white leading-none drop-shadow-lg">
+                Rituais de Luminosidade & <br/><span className="italic text-gold-light">Hidratação</span>
+            </h1>
+        </div>
       </div>
 
-      <div className="max-w-7xl mx-auto px-6 md:px-10 relative z-10 flex flex-col gap-16">
+      <div className="max-w-7xl mx-auto px-6 md:px-10 relative z-10 py-16 flex flex-col gap-24">
         
-        {/* Header */}
-        <div className="flex flex-col md:flex-row justify-between items-start md:items-end gap-8 pb-8 border-b border-gold/20">
-            <div className="flex flex-col gap-4">
-                <div className="flex items-center gap-2 text-gold font-mono text-xs uppercase tracking-[0.2em]">
-                    <span className="w-2 h-2 rounded-full border border-gold bg-gold"></span>
-                    <span>Módulo 02: Manutenção</span>
-                </div>
-                <h1 className="text-5xl md:text-6xl font-serif font-light text-charcoal leading-none">
-                    Rituais de Luminosidade & <br/><span className="italic text-gold-dark">Hidratação</span>
-                </h1>
-                <p className="text-gray-500 font-light text-lg max-w-xl mt-2 leading-relaxed">
-                    Instruções de calibração de precisão para iluminação atmosférica e níveis de umidade, garantindo vitalidade botânica ideal.
-                </p>
-            </div>
-            <button className="group flex items-center justify-center gap-2 px-6 py-3 border border-charcoal/10 hover:border-gold transition-all bg-white hover:bg-[#F2EFE9]">
-                <span className="font-mono text-xs uppercase tracking-widest text-gray-500 group-hover:text-gold">Salvar Guia</span>
+        {/* Intro */}
+        <div className="flex flex-col md:flex-row justify-between items-end gap-8 pb-8 border-b border-gold/20">
+            <p className="text-charcoal/70 font-light text-lg max-w-2xl leading-relaxed">
+                Instruções de calibração de precisão para iluminação atmosférica e níveis de umidade, garantindo vitalidade botânica ideal. A observação diária é a ferramenta mais valiosa do curador.
+            </p>
+            <button className="group flex items-center justify-center gap-2 px-6 py-3 border border-charcoal/10 hover:border-gold transition-all bg-white hover:bg-[#F2EFE9] shadow-sm">
+                <span className="font-mono text-xs uppercase tracking-widest text-gray-500 group-hover:text-gold">Salvar Guia Técnico</span>
+                <span className="material-symbols-outlined text-sm text-gray-400 group-hover:text-gold">download</span>
             </button>
         </div>
 
@@ -50,7 +50,7 @@ const RitualsSection: React.FC = () => {
 
             <div className="grid lg:grid-cols-12 gap-10">
                 {/* Chart Visual */}
-                <div className="lg:col-span-8 bg-white p-8 border border-gray-200 relative overflow-hidden group hover:border-gold/30 transition-colors">
+                <div className="lg:col-span-8 bg-white p-8 border border-gray-200 relative overflow-hidden group hover:border-gold/30 transition-colors shadow-sm">
                     <div className="flex justify-between items-end mb-12">
                         <h3 className="font-mono text-sm uppercase tracking-widest text-gray-400">Análise de Espectro</h3>
                         <div className="text-right">

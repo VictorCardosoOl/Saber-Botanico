@@ -5,11 +5,11 @@ const Footer: React.FC = () => {
   const currentYear = new Date().getFullYear();
 
   return (
-    <footer className="bg-paper border-t border-gold/20 py-16 px-6 relative overflow-hidden text-ink">
-      <div className="max-w-[1600px] mx-auto flex flex-col md:flex-row justify-between items-center gap-8 relative z-10">
+    <footer className="bg-paper border-t border-gold/20 py-16 text-ink">
+      <div className="container relative z-10 flex flex-col md:flex-row justify-between items-center gap-8">
         
         <div className="flex items-center gap-4">
-          <div className="size-12 border border-ink/10 flex items-center justify-center rounded-sm">
+          <div className="size-12 border border-ink/10 flex items-center justify-center rounded-sm shrink-0">
             <span className="material-symbols-outlined text-3xl text-gold-dark">spa</span>
           </div>
           <div>
@@ -32,7 +32,7 @@ const Footer: React.FC = () => {
             ))}
         </div>
 
-        <p className="font-sans text-[10px] uppercase tracking-[0.2em] text-ink/40">© {currentYear} Vida Botânica de Alto Padrão</p>
+        <p className="font-sans text-[10px] uppercase tracking-[0.2em] text-ink/40 text-center md:text-right">© {currentYear} Vida Botânica de Alto Padrão</p>
       </div>
     </footer>
   );

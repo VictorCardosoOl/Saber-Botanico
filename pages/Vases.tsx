@@ -6,7 +6,7 @@ const Vases: React.FC = () => {
     <div className="min-h-screen bg-paper text-ink">
        
        {/* 1. Hero Section - Full Width & Cinematic */}
-       <section className="relative w-full h-[70vh] flex items-center justify-center overflow-hidden bg-forest-dark">
+       <section className="relative w-full min-h-[60vh] md:h-[70vh] flex items-center justify-center overflow-hidden bg-forest-dark py-20">
           <div className="absolute inset-0 opacity-40 mix-blend-overlay pointer-events-none bg-[url('https://www.transparenttextures.com/patterns/stardust.png')]"></div>
           
           {/* Background Image Parallax-ish */}
@@ -16,12 +16,12 @@ const Vases: React.FC = () => {
           ></div>
           <div className="absolute inset-0 bg-gradient-to-t from-forest-dark via-forest-dark/50 to-transparent"></div>
 
-          <div className="relative z-10 text-center px-6 max-w-4xl mx-auto">
+          <div className="relative z-10 text-center px-6 max-w-4xl mx-auto container">
              <div className="inline-flex items-center gap-2 border border-gold/30 rounded-full px-4 py-1 mb-6 backdrop-blur-sm bg-forest-dark/30">
                 <span className="w-1.5 h-1.5 rounded-full bg-gold animate-pulse"></span>
                 <span className="text-gold font-mono text-[10px] uppercase tracking-[0.25em]">Volume IV: Estrutura</span>
              </div>
-             <h1 className="text-5xl md:text-7xl lg:text-8xl font-serif text-white mb-6 tracking-tight leading-none">
+             <h1 className="text-fluid-h1 font-serif text-white mb-6 tracking-tight leading-none">
                 O Recipiente <br/> <span className="italic text-gold-light">Sagrado</span>
              </h1>
              <p className="font-alt text-xl md:text-2xl text-white/80 leading-relaxed max-w-2xl mx-auto">
@@ -30,12 +30,12 @@ const Vases: React.FC = () => {
           </div>
        </section>
 
-       <div className="max-w-[1400px] mx-auto px-6 py-24">
+       <div className="container py-24">
           
           {/* 2. Intro Text */}
           <div className="flex flex-col md:flex-row gap-16 items-start mb-32 border-b border-ink/10 pb-20">
              <div className="w-full md:w-1/3">
-                <h2 className="text-4xl font-serif text-ink mb-4">A Arquitetura <br/>da Raiz</h2>
+                <h2 className="text-fluid-h2 font-serif text-ink mb-4">A Arquitetura <br/>da Raiz</h2>
                 <div className="w-12 h-1 bg-gold mb-6"></div>
                 <p className="font-sans text-xs font-bold uppercase tracking-widest text-ink/40">
                    Leitura Obrigatória para Curadores
@@ -63,7 +63,7 @@ const Vases: React.FC = () => {
 
              <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
                 {/* Card 1 */}
-                <div className="group relative bg-[#FDFBF7] border border-ink/10 hover:border-gold/50 transition-all duration-500 overflow-hidden">
+                <div className="group relative bg-[#FDFBF7] border border-ink/10 hover:border-gold/50 transition-all duration-500 overflow-hidden rounded-sm">
                    <div className="h-48 relative overflow-hidden">
                       <div className="absolute inset-0 bg-cover bg-center transition-transform duration-700 group-hover:scale-110" style={{ backgroundImage: `url('${VASE_TERRACOTTA}')` }}></div>
                       <div className="absolute inset-0 bg-black/20 group-hover:bg-black/10 transition-colors"></div>
@@ -86,7 +86,7 @@ const Vases: React.FC = () => {
                 </div>
 
                 {/* Card 2 */}
-                <div className="group relative bg-[#FDFBF7] border border-ink/10 hover:border-gold/50 transition-all duration-500 overflow-hidden">
+                <div className="group relative bg-[#FDFBF7] border border-ink/10 hover:border-gold/50 transition-all duration-500 overflow-hidden rounded-sm">
                    <div className="h-48 relative overflow-hidden">
                       <div className="absolute inset-0 bg-cover bg-center transition-transform duration-700 group-hover:scale-110" style={{ backgroundImage: `url('${VASE_CERAMIC}')` }}></div>
                       <div className="absolute inset-0 bg-black/20 group-hover:bg-black/10 transition-colors"></div>
@@ -109,7 +109,7 @@ const Vases: React.FC = () => {
                 </div>
 
                 {/* Card 3 */}
-                <div className="group relative bg-[#FDFBF7] border border-ink/10 hover:border-gold/50 transition-all duration-500 overflow-hidden">
+                <div className="group relative bg-[#FDFBF7] border border-ink/10 hover:border-gold/50 transition-all duration-500 overflow-hidden rounded-sm">
                    <div className="h-48 relative overflow-hidden">
                       <div className="absolute inset-0 bg-cover bg-center transition-transform duration-700 group-hover:scale-110" style={{ backgroundImage: `url('${VASE_TECH}')` }}></div>
                       <div className="absolute inset-0 bg-black/20 group-hover:bg-black/10 transition-colors"></div>
@@ -204,7 +204,7 @@ const Vases: React.FC = () => {
 
           {/* 5. Form Guide */}
           <div className="mt-32 grid md:grid-cols-2 gap-12">
-             <div className="border border-gold/20 p-8 bg-[#FDFBF7]">
+             <div className="border border-gold/20 p-8 bg-[#FDFBF7] rounded-sm">
                 <div className="flex justify-between items-start mb-6">
                    <h4 className="font-serif text-2xl text-ink">Forma Cilíndrica</h4>
                    <span className="material-symbols-outlined text-gold">crop_portrait</span>
@@ -216,7 +216,7 @@ const Vases: React.FC = () => {
                 <span className="font-mono text-xs uppercase tracking-widest text-gold-dark">Estabilidade: Alta</span>
              </div>
 
-             <div className="border border-gold/20 p-8 bg-[#FDFBF7]">
+             <div className="border border-gold/20 p-8 bg-[#FDFBF7] rounded-sm">
                 <div className="flex justify-between items-start mb-6">
                    <h4 className="font-serif text-2xl text-ink">Forma Cônica/Bacia</h4>
                    <span className="material-symbols-outlined text-gold">all_inclusive</span>

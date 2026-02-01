@@ -5,7 +5,7 @@ import { NAVIGATION_LINKS } from '../constants';
 import Tooltip from './Tooltip';
 
 const Logo: React.FC = () => (
-  <Link to="/" className="flex items-center gap-4 group" aria-label="Saber Botânico Home">
+  <Link to="/" className="flex items-center gap-4 group shrink-0" aria-label="Saber Botânico Home">
     <div className="relative flex items-center justify-center size-10 transition-transform group-hover:scale-105">
       <div className="absolute inset-0 border border-gold/30 rounded-full animate-spin-slow"></div>
       <span className="material-symbols-outlined text-[24px] text-gold">spa</span>
@@ -22,16 +22,16 @@ const NavLinks: React.FC = () => {
   
   const getLinkClasses = (path: string): string => {
     const isActive = location.pathname === path;
-    const baseClasses = "text-xs tracking-[0.2em] font-medium uppercase transition-colors relative";
+    const baseClasses = "text-xs tracking-[0.2em] font-medium uppercase transition-colors relative py-2";
     const stateClasses = isActive 
-      ? "text-gold font-bold after:content-[''] after:absolute after:-bottom-2 after:left-1/2 after:-translate-x-1/2 after:w-1 after:h-1 after:bg-gold after:rounded-full" 
+      ? "text-gold font-bold after:content-[''] after:absolute after:bottom-0 after:left-1/2 after:-translate-x-1/2 after:w-1 after:h-1 after:bg-gold after:rounded-full" 
       : "text-gray-400 hover:text-gold";
     
     return `${baseClasses} ${stateClasses}`;
   };
 
   return (
-    <nav className="flex items-center gap-8">
+    <nav className="flex items-center gap-8 xl:gap-12">
       {NAVIGATION_LINKS.map((link) => (
         <Link key={link.path} to={link.path} className={getLinkClasses(link.path)}>
           {link.label}
@@ -47,21 +47,16 @@ const Header: React.FC = () => {
   const location = useLocation();
   
   const headerClasses = useMemo(() => {
-    // Quando o menu mobile está aberto, removemos a transparência para consistência visual
     const bgClass = isMobileMenuOpen ? 'bg-forest-dark' : 'bg-forest-dark/80 backdrop-blur-md';
-    return `fixed top-0 left-0 right-0 z-50 transition-all duration-300 ease-in-out border-b border-gold/10 ${bgClass} ${
+    return `fixed top-0 left-0 right-0 z-[60] transition-transform duration-300 ease-in-out border-b border-gold/10 ${bgClass} ${
       isVisible ? 'translate-y-0' : '-translate-y-full'
     }`;
   }, [isVisible, isMobileMenuOpen]);
 
   const toggleMenu = () => {
-    setIsMobileMenuOpen(!isMobileMenuOpen);
-    // Bloqueia o scroll do corpo quando o menu está aberto
-    if (!isMobileMenuOpen) {
-      document.body.style.overflow = 'hidden';
-    } else {
-      document.body.style.overflow = '';
-    }
+    const newState = !isMobileMenuOpen;
+    setIsMobileMenuOpen(newState);
+    document.body.style.overflow = newState ? 'hidden' : '';
   };
 
   const closeMenu = () => {
@@ -72,18 +67,19 @@ const Header: React.FC = () => {
   return (
     <>
       <header className={headerClasses}>
-        <div className="max-w-[1600px] mx-auto px-6 py-5 flex items-center justify-between">
+        {/* Container padronizado via Tailwind Config */}
+        <div className="container h-20 flex items-center justify-between">
           <Logo />
 
-          <div className="hidden lg:flex flex-1 justify-center gap-10 items-center">
+          <div className="hidden lg:flex flex-1 justify-center px-8">
             <NavLinks />
           </div>
 
-          <div className="flex items-center gap-6">
+          <div className="flex items-center gap-4 xl:gap-6 shrink-0">
             <Tooltip content="Pesquisar no Glosário" position="bottom">
               <Link to="/glosario" className="hidden md:flex items-center border border-white/10 rounded-full px-4 py-1.5 bg-white/5 backdrop-blur-sm group hover:border-gold/30 transition-colors" aria-label="Search">
                 <span className="material-symbols-outlined text-lg text-gray-400 group-hover:text-gold transition-colors">search</span>
-                <span className="text-xs text-gray-500 ml-2 font-sans tracking-wide">Buscar planta...</span>
+                <span className="text-xs text-gray-500 ml-2 font-sans tracking-wide">Buscar...</span>
               </Link>
             </Tooltip>
             
@@ -93,14 +89,13 @@ const Header: React.FC = () => {
               </button>
             </Tooltip>
             
-            {/* Ajustado breakpoint para lg:hidden para cobrir tablets verticais */}
             <div className="lg:hidden flex items-center">
               <button 
-                className="text-gold-light p-1 relative z-50 focus:outline-none" 
+                className="text-gold-light p-2 relative z-50 focus:outline-none" 
                 aria-label={isMobileMenuOpen ? "Fechar menu" : "Abrir menu"}
                 onClick={toggleMenu}
               >
-                <span className={`material-symbols-outlined transition-transform duration-300 ${isMobileMenuOpen ? 'rotate-90' : 'rotate-0'}`}>
+                <span className={`material-symbols-outlined text-3xl transition-transform duration-300 ${isMobileMenuOpen ? 'rotate-90' : 'rotate-0'}`}>
                   {isMobileMenuOpen ? 'close' : 'menu'}
                 </span>
               </button>
@@ -111,13 +106,12 @@ const Header: React.FC = () => {
 
       {/* Mobile Menu Overlay */}
       <div 
-        className={`fixed inset-0 z-40 bg-forest-dark lg:hidden transition-all duration-500 ease-in-out ${
-          isMobileMenuOpen ? 'opacity-100 translate-x-0' : 'opacity-0 translate-x-full pointer-events-none'
+        className={`fixed inset-0 z-50 bg-forest-dark lg:hidden transition-all duration-500 ease-in-out flex flex-col pt-20 ${
+          isMobileMenuOpen ? 'opacity-100 visible' : 'opacity-0 invisible pointer-events-none'
         }`}
-        style={{ top: 0, paddingTop: '80px' }}
       >
-        <div className="flex flex-col h-full px-8 pb-10 overflow-y-auto">
-           <nav className="flex flex-col gap-6 items-center justify-center flex-1 min-h-[400px]">
+        <div className="flex-1 flex flex-col px-8 pb-10 overflow-y-auto">
+           <nav className="flex flex-col gap-6 items-center justify-center flex-1 py-10">
             {NAVIGATION_LINKS.map((link, idx) => (
               <Link 
                 key={link.path} 

@@ -1,4 +1,4 @@
-import React, { useEffect, useCallback } from 'react';
+import React, { useEffect, useCallback, useRef } from 'react';
 import { RITUALS } from '../constants';
 import { PlantSpecimen, RitualStep } from '../types';
 import Tooltip from './Tooltip';
@@ -9,26 +9,58 @@ interface PlantModalProps {
 }
 
 const PlantModal: React.FC<PlantModalProps> = ({ plant, onClose }) => {
+  const modalRef = useRef<HTMLDivElement>(null);
   
+  // Focus Trap Logic (Acessibilidade Fase 1)
   const handleKeyDown = useCallback((event: KeyboardEvent) => {
     if (event.key === 'Escape') {
       onClose();
+      return;
+    }
+
+    if (event.key === 'Tab' && modalRef.current) {
+      const focusableElements = modalRef.current.querySelectorAll(
+        'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])'
+      );
+      const firstElement = focusableElements[0] as HTMLElement;
+      const lastElement = focusableElements[focusableElements.length - 1] as HTMLElement;
+
+      if (event.shiftKey) {
+        if (document.activeElement === firstElement) {
+          lastElement.focus();
+          event.preventDefault();
+        }
+      } else {
+        if (document.activeElement === lastElement) {
+          firstElement.focus();
+          event.preventDefault();
+        }
+      }
     }
   }, [onClose]);
 
   useEffect(() => {
     document.addEventListener('keydown', handleKeyDown);
+    // Bloquear scroll ao abrir modal
+    document.body.style.overflow = 'hidden';
+    
+    // Focar no modal ao abrir
+    if (modalRef.current) {
+      const closeBtn = modalRef.current.querySelector('button');
+      if (closeBtn) closeBtn.focus();
+    }
+
     return () => {
       document.removeEventListener('keydown', handleKeyDown);
+      document.body.style.overflow = '';
     };
   }, [handleKeyDown]);
 
   if (!plant) return null;
 
-  // Optimized lookup logic
   const careRitual: RitualStep = RITUALS.find(r => 
     plant.isRare ? r.id === 'arid' : r.id === 'tropical'
-  ) || RITUALS[2]; // Default to Tropical if unknown
+  ) || RITUALS[2];
 
   return (
     <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 sm:p-6" role="dialog" aria-modal="true" aria-labelledby="modal-title">
@@ -38,7 +70,10 @@ const PlantModal: React.FC<PlantModalProps> = ({ plant, onClose }) => {
         aria-hidden="true"
       ></div>
       
-      <div className="relative w-full max-w-4xl bg-[#FDFBF7] rounded-xl shadow-2xl overflow-hidden flex flex-col md:flex-row animate-fade-in-up max-h-[90vh] md:max-h-[80vh]">
+      <div 
+        ref={modalRef}
+        className="relative w-full max-w-4xl bg-[#FDFBF7] rounded-xl shadow-2xl overflow-hidden flex flex-col md:flex-row animate-fade-in-up max-h-[90vh] md:max-h-[80vh]"
+      >
         <Tooltip content="Fechar (Esc)" position="left">
           <button 
             onClick={onClose}
@@ -50,9 +85,11 @@ const PlantModal: React.FC<PlantModalProps> = ({ plant, onClose }) => {
         </Tooltip>
 
         {/* Image Side */}
-        <div className="w-full md:w-1/2 relative h-64 md:h-auto">
+        <div className="w-full md:w-1/2 relative h-64 md:h-auto overflow-hidden bg-gray-100">
+           {/* Fallback visual com background image para manter aspect ratio, ou img tag para SEO/Acessibilidade. 
+               Usando background para consistência com o design original, mas acessível via role img */}
           <div 
-            className="absolute inset-0 bg-cover bg-center"
+            className="absolute inset-0 bg-cover bg-center transition-transform duration-700 hover:scale-105"
             style={{ backgroundImage: `url('${plant.imageUrl}')` }}
             role="img"
             aria-label={`Imagem de ${plant.name}`}

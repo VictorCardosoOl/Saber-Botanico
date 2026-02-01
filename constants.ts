@@ -5,7 +5,7 @@ export const PLANTS: PlantSpecimen[] = [
     id: '1',
     name: 'Orquídea Fantasma',
     scientificName: 'Dendrophylax lindenii',
-    price: '2.4 ETH',
+    price: 'R$ 12.400',
     description: 'Uma epífita sem folhas da Flórida, conhecida pela sua forma de sapo e cor branca etérea.',
     imageUrl: 'https://images.unsplash.com/photo-1603525169004-9a8b5e944743?auto=format&fit=crop&q=80&w=800',
     isRare: true
@@ -14,7 +14,7 @@ export const PLANTS: PlantSpecimen[] = [
     id: '2',
     name: 'Flor Morcego Negra',
     scientificName: 'Tacca chantrieri',
-    price: '1.8 ETH',
+    price: 'R$ 850',
     description: 'Nomeada por suas flores negras únicas que se assemelham a um morcego em voo, nativa do Sudeste Asiático.',
     imageUrl: 'https://images.unsplash.com/photo-1614594975525-e45190c55d0b?auto=format&fit=crop&q=80&w=800'
   },
@@ -22,7 +22,7 @@ export const PLANTS: PlantSpecimen[] = [
     id: '3',
     name: 'Videira de Jade',
     scientificName: 'Strongylodon macrobotrys',
-    price: '3.1 ETH',
+    price: 'R$ 3.200',
     description: 'Famosa por suas espetaculares flores em forma de garra em um tom turquesa deslumbrante.',
     imageUrl: 'https://images.unsplash.com/photo-1516205651411-a85a4a51db0c?auto=format&fit=crop&q=80&w=800',
     isNew: true
@@ -31,7 +31,7 @@ export const PLANTS: PlantSpecimen[] = [
     id: '4',
     name: 'Monstera Albo',
     scientificName: 'M. deliciosa variegata',
-    price: '4.5 ETH',
+    price: 'R$ 4.500',
     description: 'Altamente procurada por sua impressionante variegação branca, imitando respingos de tinta.',
     imageUrl: 'https://images.unsplash.com/photo-1598555849843-980646098056?auto=format&fit=crop&q=80&w=800',
     isHot: true
@@ -40,7 +40,7 @@ export const PLANTS: PlantSpecimen[] = [
     id: '5',
     name: 'Protea Real',
     scientificName: 'Protea cynaroides',
-    price: '1.2 ETH',
+    price: 'R$ 680',
     description: 'A flor nacional da África do Sul, ostentando uma enorme cabeça floral e longevidade incrível.',
     imageUrl: 'https://images.unsplash.com/photo-1551893665-28ab3b52aa9d?auto=format&fit=crop&q=80&w=800'
   },
@@ -48,7 +48,7 @@ export const PLANTS: PlantSpecimen[] = [
     id: '6',
     name: 'Cardo Azul',
     scientificName: 'Eryngium planum',
-    price: '0.9 ETH',
+    price: 'R$ 240',
     description: 'Conhecida por sua folhagem azul metálica e flores semelhantes a cardos, adicionando interesse estrutural.',
     imageUrl: 'https://images.unsplash.com/photo-1627429184288-513689cb432d?auto=format&fit=crop&q=80&w=800'
   }
@@ -95,7 +95,7 @@ export const SOCIAL_LINKS: SocialLink[] = [
 // --- IMAGENS CURADAS ---
 // Tema: Dark, Luxury, Editorial, High Contrast, Botanical Detail
 
-// Hero Principal: Monstera escura/Folhagem densa (Substituindo o hamburguer)
+// Hero Principal: Monstera escura/Folhagem densa
 export const HERO_IMAGE = "https://images.unsplash.com/photo-1592150621744-aca64f270045?q=80&w=2000&auto=format&fit=crop"; 
 
 // Solo: Textura rica de terra e vasos artesanais

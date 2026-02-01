@@ -3,20 +3,24 @@ import { PLANTS } from '../constants';
 import { PlantSpecimen } from '../types';
 import PlantCard from '../components/PlantCard';
 import PlantModal from '../components/PlantModal';
+import { useDebounce } from '../hooks/useDebounce';
 
 const Glossary: React.FC = () => {
   const [searchTerm, setSearchTerm] = useState<string>('');
   const [selectedPlant, setSelectedPlant] = useState<PlantSpecimen | null>(null);
+  
+  // Debounce do termo de busca para evitar filtrar a cada tecla (Performance)
+  const debouncedSearchTerm = useDebounce(searchTerm, 300);
 
   const filteredPlants = useMemo(() => {
-    const term = searchTerm.toLowerCase().trim();
+    const term = debouncedSearchTerm.toLowerCase().trim();
     if (!term) return PLANTS;
     
     return PLANTS.filter(plant => 
       plant.name.toLowerCase().includes(term) ||
       plant.scientificName.toLowerCase().includes(term)
     );
-  }, [searchTerm]);
+  }, [debouncedSearchTerm]);
 
   const handleCloseModal = () => setSelectedPlant(null);
 

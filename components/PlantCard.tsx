@@ -1,5 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { PlantSpecimen } from '../types';
+import Tooltip from './Tooltip';
 
 interface PlantCardProps {
   plant: PlantSpecimen;
@@ -42,9 +43,11 @@ const PlantCard: React.FC<PlantCardProps> = ({ plant }) => {
                 style={{backgroundImage: `url('${plant.imageUrl}')`}}
             ></div>
             <div className="absolute top-3 right-3 opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-20">
-                <button className="w-8 h-8 rounded-full bg-white/80 backdrop-blur-sm flex items-center justify-center shadow-sm hover:bg-white text-[#4cb2e6]">
-                    <span className="material-symbols-outlined text-[18px]">visibility</span>
-                </button>
+                <Tooltip content="Visualização Rápida" position="left">
+                  <button className="w-8 h-8 rounded-full bg-white/80 backdrop-blur-sm flex items-center justify-center shadow-sm hover:bg-white text-[#4cb2e6]">
+                      <span className="material-symbols-outlined text-[18px]">visibility</span>
+                  </button>
+                </Tooltip>
             </div>
         </div>
         
@@ -56,7 +59,11 @@ const PlantCard: React.FC<PlantCardProps> = ({ plant }) => {
                     <h3 className="text-xl font-serif font-medium text-charcoal leading-tight tracking-tight">{plant.name}</h3>
                     <p className="text-sm italic text-charcoal/60 font-alt tracking-wide mt-1">{plant.scientificName}</p>
                 </div>
-                {plant.isRare && <span className="px-2 py-1 rounded text-[10px] font-bold tracking-wider uppercase bg-blue-100 text-[#4cb2e6] border border-blue-200">Raro</span>}
+                {plant.isRare && (
+                  <Tooltip content="Alta Demanda / Estoque Limitado" position="left">
+                    <span className="px-2 py-1 rounded text-[10px] font-bold tracking-wider uppercase bg-blue-100 text-[#4cb2e6] border border-blue-200 cursor-help">Raro</span>
+                  </Tooltip>
+                )}
             </div>
             
             <div className="mt-3 mb-4">

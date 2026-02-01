@@ -1,5 +1,6 @@
 import React from 'react';
 import { PLANTS, ARCHIVE_HERO } from '../constants';
+import Tooltip from './Tooltip';
 
 const ArchiveSection: React.FC = () => {
   return (
@@ -43,15 +44,19 @@ const ArchiveSection: React.FC = () => {
 
         {/* Filters */}
         <div className="flex flex-wrap justify-center gap-3 mb-12">
-             <button className="glass-panel bg-white/40 border-white/60 px-5 py-2 rounded-full flex items-center gap-2 group hover:bg-white/80 cursor-pointer transition-colors shadow-sm">
-                <span className="text-sm font-semibold text-charcoal">Todos os Espécimes</span>
-                <span className="material-symbols-outlined text-[18px] text-charcoal/60 group-hover:text-[#4cb2e6]">filter_list</span>
-            </button>
-            {['Orchidaceae', 'Araceae', 'Cactaceae', 'Ferns'].map(cat => (
-                <button key={cat} className="glass-panel bg-white/40 border-white/60 px-5 py-2 rounded-full flex items-center gap-2 group hover:bg-white/80 cursor-pointer transition-colors shadow-sm">
-                    <span className="text-sm font-medium text-charcoal/80">{cat}</span>
-                    <span className="material-symbols-outlined text-[18px] text-charcoal/40 group-hover:text-charcoal">keyboard_arrow_down</span>
+             <Tooltip content="Limpar todos os filtros">
+                <button className="glass-panel bg-white/40 border-white/60 px-5 py-2 rounded-full flex items-center gap-2 group hover:bg-white/80 cursor-pointer transition-colors shadow-sm">
+                    <span className="text-sm font-semibold text-charcoal">Todos os Espécimes</span>
+                    <span className="material-symbols-outlined text-[18px] text-charcoal/60 group-hover:text-[#4cb2e6]">filter_list</span>
                 </button>
+             </Tooltip>
+            {['Orchidaceae', 'Araceae', 'Cactaceae', 'Ferns'].map(cat => (
+                <Tooltip key={cat} content={`Filtrar por ${cat}`} position="top">
+                  <button className="glass-panel bg-white/40 border-white/60 px-5 py-2 rounded-full flex items-center gap-2 group hover:bg-white/80 cursor-pointer transition-colors shadow-sm">
+                      <span className="text-sm font-medium text-charcoal/80">{cat}</span>
+                      <span className="material-symbols-outlined text-[18px] text-charcoal/40 group-hover:text-charcoal">keyboard_arrow_down</span>
+                  </button>
+                </Tooltip>
             ))}
         </div>
 
@@ -66,9 +71,11 @@ const ArchiveSection: React.FC = () => {
                             style={{backgroundImage: `url('${plant.imageUrl}')`}}
                         ></div>
                         <div className="absolute top-3 right-3 opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-20">
-                            <button className="w-8 h-8 rounded-full bg-white/80 backdrop-blur-sm flex items-center justify-center shadow-sm hover:bg-white text-[#4cb2e6]">
-                                <span className="material-symbols-outlined text-[18px]">favorite</span>
-                            </button>
+                            <Tooltip content="Adicionar aos Favoritos" position="left">
+                              <button className="w-8 h-8 rounded-full bg-white/80 backdrop-blur-sm flex items-center justify-center shadow-sm hover:bg-white text-[#4cb2e6]">
+                                  <span className="material-symbols-outlined text-[18px]">favorite</span>
+                              </button>
+                            </Tooltip>
                         </div>
                     </div>
                     
@@ -80,9 +87,21 @@ const ArchiveSection: React.FC = () => {
                                 <h3 className="text-lg font-bold text-charcoal leading-tight font-sans">{plant.name}</h3>
                                 <p className="text-sm italic text-charcoal/60 font-serif">{plant.scientificName}</p>
                             </div>
-                            {plant.isRare && <span className="px-2 py-1 rounded text-[10px] font-bold tracking-wider uppercase bg-blue-100 text-[#4cb2e6] border border-blue-200">Raro</span>}
-                            {plant.isNew && <span className="px-2 py-1 rounded text-[10px] font-bold tracking-wider uppercase bg-green-100 text-green-700 border border-green-200">Novo</span>}
-                            {plant.isHot && <span className="px-2 py-1 rounded text-[10px] font-bold tracking-wider uppercase bg-[#4cb2e6]/10 text-[#4cb2e6] border border-[#4cb2e6]/20">Em Alta</span>}
+                            {plant.isRare && (
+                              <Tooltip content="Coleção Rara" position="left">
+                                <span className="px-2 py-1 rounded text-[10px] font-bold tracking-wider uppercase bg-blue-100 text-[#4cb2e6] border border-blue-200 cursor-help">Raro</span>
+                              </Tooltip>
+                            )}
+                            {plant.isNew && (
+                              <Tooltip content="Chegou esta semana" position="left">
+                                <span className="px-2 py-1 rounded text-[10px] font-bold tracking-wider uppercase bg-green-100 text-green-700 border border-green-200 cursor-help">Novo</span>
+                              </Tooltip>
+                            )}
+                            {plant.isHot && (
+                              <Tooltip content="Tendência atual" position="left">
+                                <span className="px-2 py-1 rounded text-[10px] font-bold tracking-wider uppercase bg-[#4cb2e6]/10 text-[#4cb2e6] border border-[#4cb2e6]/20 cursor-help">Em Alta</span>
+                              </Tooltip>
+                            )}
                         </div>
                         
                         <p className="text-sm text-charcoal/70 mt-2 mb-4 line-clamp-2 leading-relaxed">
@@ -91,9 +110,11 @@ const ArchiveSection: React.FC = () => {
                         
                         <div className="mt-auto flex items-center justify-between pt-4 border-t border-charcoal/5">
                             <span className="text-charcoal font-bold">{plant.price}</span>
-                            <button className="text-xs font-bold text-charcoal/80 hover:text-[#4cb2e6] transition-colors flex items-center gap-1 uppercase tracking-wider">
-                                Ver Detalhes <span className="material-symbols-outlined text-[14px]">arrow_forward</span>
-                            </button>
+                            <Tooltip content="Acessar Ficha Técnica" position="top">
+                              <button className="text-xs font-bold text-charcoal/80 hover:text-[#4cb2e6] transition-colors flex items-center gap-1 uppercase tracking-wider">
+                                  Ver Detalhes <span className="material-symbols-outlined text-[14px]">arrow_forward</span>
+                              </button>
+                            </Tooltip>
                         </div>
                     </div>
                 </div>
@@ -103,15 +124,19 @@ const ArchiveSection: React.FC = () => {
         {/* Pagination */}
         <div className="mt-16 flex justify-center">
             <div className="glass-panel bg-white/40 border border-white/50 rounded-lg p-2 flex gap-2 shadow-sm">
-                <button className="w-10 h-10 flex items-center justify-center rounded hover:bg-white/50 text-charcoal/60 transition-colors">
-                    <span className="material-symbols-outlined">chevron_left</span>
-                </button>
+                <Tooltip content="Página Anterior">
+                  <button className="w-10 h-10 flex items-center justify-center rounded hover:bg-white/50 text-charcoal/60 transition-colors">
+                      <span className="material-symbols-outlined">chevron_left</span>
+                  </button>
+                </Tooltip>
                 <button className="w-10 h-10 flex items-center justify-center rounded bg-[#4cb2e6] text-white shadow-md font-bold">1</button>
                 <button className="w-10 h-10 flex items-center justify-center rounded hover:bg-white/50 text-charcoal transition-colors">2</button>
                 <button className="w-10 h-10 flex items-center justify-center rounded hover:bg-white/50 text-charcoal transition-colors">3</button>
-                <button className="w-10 h-10 flex items-center justify-center rounded hover:bg-white/50 text-charcoal/60 transition-colors">
-                    <span className="material-symbols-outlined">chevron_right</span>
-                </button>
+                <Tooltip content="Próxima Página">
+                  <button className="w-10 h-10 flex items-center justify-center rounded hover:bg-white/50 text-charcoal/60 transition-colors">
+                      <span className="material-symbols-outlined">chevron_right</span>
+                  </button>
+                </Tooltip>
             </div>
         </div>
 

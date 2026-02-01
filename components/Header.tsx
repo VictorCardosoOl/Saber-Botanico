@@ -2,6 +2,7 @@ import React, { useMemo, useState } from 'react';
 import { useScrollVisibility } from '../hooks/useScrollVisibility';
 import { Link, useLocation } from 'react-router-dom';
 import { NAVIGATION_LINKS } from '../constants';
+import Tooltip from './Tooltip';
 
 const Logo: React.FC = () => (
   <Link to="/" className="flex items-center gap-4 group" aria-label="Saber Botânico Home">
@@ -79,14 +80,18 @@ const Header: React.FC = () => {
           </div>
 
           <div className="flex items-center gap-6">
-            <Link to="/glosario" className="hidden md:flex items-center border border-white/10 rounded-full px-4 py-1.5 bg-white/5 backdrop-blur-sm group hover:border-gold/30 transition-colors" aria-label="Search">
-              <span className="material-symbols-outlined text-lg text-gray-400 group-hover:text-gold transition-colors">search</span>
-              <span className="text-xs text-gray-500 ml-2 font-sans tracking-wide">Buscar planta...</span>
-            </Link>
+            <Tooltip content="Pesquisar no Glosário" position="bottom">
+              <Link to="/glosario" className="hidden md:flex items-center border border-white/10 rounded-full px-4 py-1.5 bg-white/5 backdrop-blur-sm group hover:border-gold/30 transition-colors" aria-label="Search">
+                <span className="material-symbols-outlined text-lg text-gray-400 group-hover:text-gold transition-colors">search</span>
+                <span className="text-xs text-gray-500 ml-2 font-sans tracking-wide">Buscar planta...</span>
+              </Link>
+            </Tooltip>
             
-            <button className="gold-border-btn hidden md:flex min-w-[100px] cursor-pointer items-center justify-center overflow-hidden rounded-sm h-9 px-4 transition-all text-gold-light text-[10px] font-bold uppercase tracking-[0.15em] border border-gold/60 hover:bg-gold/10">
-              Assinar
-            </button>
+            <Tooltip content="Conteúdo Exclusivo" position="bottom">
+              <button className="gold-border-btn hidden md:flex min-w-[100px] cursor-pointer items-center justify-center overflow-hidden rounded-sm h-9 px-4 transition-all text-gold-light text-[10px] font-bold uppercase tracking-[0.15em] border border-gold/60 hover:bg-gold/10">
+                Assinar
+              </button>
+            </Tooltip>
             
             {/* Ajustado breakpoint para lg:hidden para cobrir tablets verticais */}
             <div className="lg:hidden flex items-center">

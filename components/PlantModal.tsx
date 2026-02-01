@@ -1,6 +1,7 @@
 import React, { useEffect, useCallback } from 'react';
 import { RITUALS } from '../constants';
 import { PlantSpecimen, RitualStep } from '../types';
+import Tooltip from './Tooltip';
 
 interface PlantModalProps {
   plant: PlantSpecimen | null;
@@ -38,13 +39,15 @@ const PlantModal: React.FC<PlantModalProps> = ({ plant, onClose }) => {
       ></div>
       
       <div className="relative w-full max-w-4xl bg-[#FDFBF7] rounded-xl shadow-2xl overflow-hidden flex flex-col md:flex-row animate-fade-in-up max-h-[90vh] md:max-h-[80vh]">
-        <button 
-          onClick={onClose}
-          className="absolute top-4 right-4 z-20 w-10 h-10 rounded-full bg-white/20 backdrop-blur-sm flex items-center justify-center text-charcoal hover:bg-white transition-colors focus:outline-none focus:ring-2 focus:ring-gold"
-          aria-label="Close modal"
-        >
-          <span className="material-symbols-outlined">close</span>
-        </button>
+        <Tooltip content="Fechar (Esc)" position="left">
+          <button 
+            onClick={onClose}
+            className="absolute top-4 right-4 z-20 w-10 h-10 rounded-full bg-white/20 backdrop-blur-sm flex items-center justify-center text-charcoal hover:bg-white transition-colors focus:outline-none focus:ring-2 focus:ring-gold"
+            aria-label="Close modal"
+          >
+            <span className="material-symbols-outlined">close</span>
+          </button>
+        </Tooltip>
 
         {/* Image Side */}
         <div className="w-full md:w-1/2 relative h-64 md:h-auto">
@@ -69,8 +72,14 @@ const PlantModal: React.FC<PlantModalProps> = ({ plant, onClose }) => {
           </div>
 
           <div className="flex flex-wrap gap-2 mb-8">
-             {plant.isRare && <span className="px-3 py-1 bg-blue-100 text-[#4cb2e6] text-xs font-bold uppercase tracking-widest rounded-sm">Raro</span>}
-             <span className="px-3 py-1 bg-paper border border-gold/20 text-gold-dark text-xs font-bold uppercase tracking-widest rounded-sm">Interior</span>
+             {plant.isRare && (
+               <Tooltip content="Espécie de difícil propagação">
+                 <span className="px-3 py-1 bg-blue-100 text-[#4cb2e6] text-xs font-bold uppercase tracking-widest rounded-sm cursor-help">Raro</span>
+               </Tooltip>
+             )}
+             <Tooltip content="Ideal para ambientes internos">
+                <span className="px-3 py-1 bg-paper border border-gold/20 text-gold-dark text-xs font-bold uppercase tracking-widest rounded-sm cursor-help">Interior</span>
+             </Tooltip>
           </div>
 
           <div className="space-y-8">
@@ -86,9 +95,11 @@ const PlantModal: React.FC<PlantModalProps> = ({ plant, onClose }) => {
               
               <div className="grid grid-cols-1 gap-4">
                 <div className="flex items-start gap-4">
-                   <div className="w-10 h-10 rounded-full bg-[#F2EFE9] flex items-center justify-center text-gold-dark shrink-0">
-                      <span className="material-symbols-outlined">water_drop</span>
-                   </div>
+                   <Tooltip content="Necessidade de Água">
+                     <div className="w-10 h-10 rounded-full bg-[#F2EFE9] flex items-center justify-center text-gold-dark shrink-0 cursor-help">
+                        <span className="material-symbols-outlined">water_drop</span>
+                     </div>
+                   </Tooltip>
                    <div>
                      <h4 className="font-bold text-charcoal font-serif">Rega</h4>
                      <p className="text-sm text-gray-600 leading-relaxed">{careRitual.description} ({careRitual.frequency})</p>
@@ -96,9 +107,11 @@ const PlantModal: React.FC<PlantModalProps> = ({ plant, onClose }) => {
                 </div>
 
                 <div className="flex items-start gap-4">
-                   <div className="w-10 h-10 rounded-full bg-[#F2EFE9] flex items-center justify-center text-gold-dark shrink-0">
-                      <span className="material-symbols-outlined">wb_sunny</span>
-                   </div>
+                   <Tooltip content="Exposição Solar">
+                     <div className="w-10 h-10 rounded-full bg-[#F2EFE9] flex items-center justify-center text-gold-dark shrink-0 cursor-help">
+                        <span className="material-symbols-outlined">wb_sunny</span>
+                     </div>
+                   </Tooltip>
                    <div>
                      <h4 className="font-bold text-charcoal font-serif">Luz</h4>
                      <p className="text-sm text-gray-600 leading-relaxed">Prefere luz indireta brilhante. Evite sol direto que pode queimar as folhas delicadas.</p>
@@ -106,9 +119,11 @@ const PlantModal: React.FC<PlantModalProps> = ({ plant, onClose }) => {
                 </div>
 
                 <div className="flex items-start gap-4">
-                   <div className="w-10 h-10 rounded-full bg-[#F2EFE9] flex items-center justify-center text-gold-dark shrink-0">
-                      <span className="material-symbols-outlined">thermostat</span>
-                   </div>
+                   <Tooltip content="Temperatura Ideal">
+                     <div className="w-10 h-10 rounded-full bg-[#F2EFE9] flex items-center justify-center text-gold-dark shrink-0 cursor-help">
+                        <span className="material-symbols-outlined">thermostat</span>
+                     </div>
+                   </Tooltip>
                    <div>
                      <h4 className="font-bold text-charcoal font-serif">Clima</h4>
                      <p className="text-sm text-gray-600 leading-relaxed">Manter entre 18°C e 26°C. Aprecia umidade elevada.</p>

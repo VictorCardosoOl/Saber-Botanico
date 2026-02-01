@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { PlantSpecimen } from '../types';
 
 interface PlantCardProps {
@@ -7,6 +7,26 @@ interface PlantCardProps {
 
 const PlantCard: React.FC<PlantCardProps> = ({ plant }) => {
   const [isExpanded, setIsExpanded] = useState(false);
+  const [isTruncated, setIsTruncated] = useState(false);
+  const textRef = useRef<HTMLParagraphElement>(null);
+
+  useEffect(() => {
+    const checkTruncation = () => {
+      if (textRef.current && !isExpanded) {
+        const { scrollHeight, clientHeight } = textRef.current;
+        // Verifica se o conteúdo excede a altura visível (adiciona tolerância de 1px)
+        setIsTruncated(scrollHeight > clientHeight + 1);
+      }
+    };
+
+    // Verificar na montagem e redimensionamento
+    checkTruncation();
+    window.addEventListener('resize', checkTruncation);
+    
+    return () => {
+      window.removeEventListener('resize', checkTruncation);
+    };
+  }, [plant.description, isExpanded]);
 
   const toggleDescription = (e: React.MouseEvent) => {
     e.stopPropagation(); // Impede que o clique abra o modal da planta
@@ -33,22 +53,28 @@ const PlantCard: React.FC<PlantCardProps> = ({ plant }) => {
             
             <div className="flex justify-between items-start mb-2">
                 <div>
-                    <h3 className="text-lg font-bold text-charcoal leading-tight font-sans">{plant.name}</h3>
-                    <p className="text-sm italic text-charcoal/60 font-serif">{plant.scientificName}</p>
+                    <h3 className="text-xl font-serif font-medium text-charcoal leading-tight tracking-tight">{plant.name}</h3>
+                    <p className="text-sm italic text-charcoal/60 font-alt tracking-wide mt-1">{plant.scientificName}</p>
                 </div>
                 {plant.isRare && <span className="px-2 py-1 rounded text-[10px] font-bold tracking-wider uppercase bg-blue-100 text-[#4cb2e6] border border-blue-200">Raro</span>}
             </div>
             
-            <div className="mt-2 mb-4">
-              <p className={`text-sm text-charcoal/70 leading-relaxed transition-all duration-200 ${isExpanded ? '' : 'line-clamp-2'}`}>
+            <div className="mt-3 mb-4">
+              <p 
+                ref={textRef}
+                className={`text-sm text-charcoal/80 font-sans leading-relaxed transition-all duration-200 ${isExpanded ? '' : 'line-clamp-2'}`}
+              >
                   {plant.description}
               </p>
-              <button 
-                onClick={toggleDescription}
-                className="text-xs font-bold text-gold-dark hover:text-gold mt-1 focus:outline-none underline decoration-gold/30 hover:decoration-gold transition-all"
-              >
-                {isExpanded ? 'Ler menos' : 'Leia mais'}
-              </button>
+              
+              {(isTruncated || isExpanded) && (
+                <button 
+                    onClick={toggleDescription}
+                    className="text-[10px] font-bold uppercase tracking-widest text-gold-dark hover:text-gold mt-2 focus:outline-none border-b border-transparent hover:border-gold transition-all pb-0.5"
+                >
+                    {isExpanded ? 'Ler menos' : 'Leia mais'}
+                </button>
+              )}
             </div>
             
             <div className="mt-auto flex items-center justify-between pt-4 border-t border-charcoal/5">

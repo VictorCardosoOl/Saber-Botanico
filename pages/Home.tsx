@@ -3,57 +3,113 @@ import HeroSection from '../components/HeroSection';
 import LazyImage from '../components/LazyImage';
 
 const IdeaSection = () => (
-  <section className="py-24 px-6 bg-paper text-ink relative overflow-hidden">
-    <div className="max-w-4xl mx-auto text-center relative z-10">
-      <span className="material-symbols-outlined text-4xl text-gold mb-6">psychology_alt</span>
-      <h2 className="text-4xl md:text-5xl font-serif font-light mb-8 text-ink">O Santuário Digital</h2>
-      <div className="w-24 h-px bg-gold/50 mx-auto mb-10"></div>
-      <p className="font-alt text-xl md:text-2xl leading-relaxed text-ink/80 mb-8">
-        "O Saber Botânico não é uma loja, mas um templo de conhecimento."
-      </p>
-      <p className="font-sans text-gray-600 leading-relaxed max-w-2xl mx-auto">
-        Este projeto nasceu da necessidade de desconectar o ato de jardinagem do consumismo desenfreado. Aqui, celebramos a botânica como ciência e arte. Um fórum dedicado ao estudo, à troca de saberes e à preservação de espécies, onde o valor de uma planta não é medido em moeda, mas em sua história biológica e no bem-estar que proporciona.
-      </p>
+  <section className="py-32 px-6 bg-paper text-ink relative overflow-hidden">
+    {/* Decorative Background Elements */}
+    <div className="absolute top-0 left-0 w-full h-32 bg-gradient-to-b from-forest-dark/5 to-transparent pointer-events-none"></div>
+    <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/noise.png')] opacity-[0.03] pointer-events-none"></div>
+    
+    <div className="container relative z-10">
+      <div className="max-w-4xl mx-auto text-center">
+        <div className="flex justify-center mb-8">
+            <div className="size-16 border border-gold/30 rounded-full flex items-center justify-center bg-white/50 backdrop-blur-sm">
+                <span className="material-symbols-outlined text-3xl text-gold-dark">psychology_alt</span>
+            </div>
+        </div>
+        
+        <span className="font-mono text-xs uppercase tracking-[0.3em] text-gold-dark mb-4 block">Manifesto</span>
+        
+        <h2 className="text-fluid-h2 font-serif font-light mb-10 text-ink leading-tight">
+          O Santuário <span className="italic text-sage">Digital</span>
+        </h2>
+        
+        <div className="relative py-12 mb-10">
+            <span className="absolute top-0 left-1/2 -translate-x-1/2 text-6xl text-gold/20 font-serif">"</span>
+            <p className="font-alt text-2xl md:text-4xl leading-relaxed text-ink/90 relative z-10">
+              O Saber Botânico não é uma loja,<br className="hidden md:block"/> mas um templo de conhecimento.
+            </p>
+            <div className="w-16 h-px bg-gold/50 mx-auto mt-12"></div>
+        </div>
+
+        <p className="font-sans text-charcoal/70 leading-loose max-w-2xl mx-auto text-sm md:text-base">
+          Este projeto nasceu da necessidade de desconectar o ato de jardinagem do consumismo desenfreado. 
+          Aqui, celebramos a botânica como <strong className="text-ink font-serif italic text-lg">ciência e arte</strong>. 
+          Um fórum dedicado ao estudo, à troca de saberes e à preservação de espécies, onde o valor de uma planta não é medido em moeda, 
+          mas em sua história biológica e no bem-estar que proporciona.
+        </p>
+      </div>
     </div>
-    <div className="absolute top-0 left-0 w-full h-full opacity-5 pointer-events-none bg-[url('https://www.transparenttextures.com/patterns/cubes.png')]"></div>
   </section>
 );
 
 const AboutMeSection = () => (
-  <section className="py-24 px-6 bg-forest-dark text-white relative">
-    <div className="max-w-6xl mx-auto flex flex-col md:flex-row items-center gap-16">
-      <div className="w-full md:w-1/2 relative">
-        <div className="aspect-[4/5] bg-gray-800 rounded-lg overflow-hidden relative border border-white/10">
-            <div className="absolute inset-0 bg-gradient-to-tr from-black/40 to-transparent z-10 pointer-events-none"></div>
-            {/* Imagem Otimizada com Lazy Loading */}
-            <LazyImage 
-                src="https://images.unsplash.com/photo-1466692476868-aef1dfb1e735?q=80&w=1000&auto=format&fit=crop" 
-                alt="Jardineiro trabalhando com plantas" 
-                className="w-full h-full object-cover grayscale hover:grayscale-0 transition-all duration-700"
-            />
+  <section className="py-24 md:py-32 bg-forest-dark text-white relative overflow-hidden">
+    {/* Background Texture */}
+    <div className="absolute top-[-20%] right-[-10%] w-[60vw] h-[60vw] bg-gold/5 rounded-full blur-[150px] pointer-events-none"></div>
+
+    <div className="container relative z-10">
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-16 items-center">
+        
+        {/* Image Column - Editorial Layout */}
+        <div className="lg:col-span-5 relative group">
+          <div className="relative aspect-[3/4] overflow-hidden rounded-sm border border-white/5 bg-gray-900">
+              <div className="absolute inset-0 bg-gradient-to-tr from-black/20 to-transparent z-10 pointer-events-none"></div>
+              {/* Imagem Otimizada */}
+              <LazyImage 
+                  src="https://images.unsplash.com/photo-1466692476868-aef1dfb1e735?q=80&w=1000&auto=format&fit=crop" 
+                  alt="Jardineiro trabalhando com plantas" 
+                  className="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-1000 ease-out scale-105 group-hover:scale-100"
+              />
+          </div>
+          
+          {/* Floating Badge - Glassmorphism */}
+          <div className="absolute -bottom-8 -right-4 md:-right-8 bg-forest/90 backdrop-blur-md border border-white/10 p-6 shadow-2xl max-w-[180px]">
+               <div className="flex flex-col items-center text-center">
+                   <span className="text-4xl font-serif text-gold leading-none mb-1">15+</span>
+                   <div className="w-8 h-px bg-white/20 my-2"></div>
+                   <span className="text-[10px] uppercase tracking-widest text-white/60">Anos de<br/>Cultivo</span>
+               </div>
+          </div>
+
+          {/* Decorative Frame */}
+          <div className="absolute -top-4 -left-4 w-full h-full border border-gold/20 -z-10 hidden md:block transition-transform duration-700 group-hover:translate-x-2 group-hover:translate-y-2"></div>
         </div>
-        <div className="absolute -bottom-6 -right-6 w-32 h-32 bg-forest border border-gold/30 p-4 flex flex-col justify-center items-center text-center z-20 shadow-xl">
-             <span className="text-3xl font-serif text-gold">15+</span>
-             <span className="text-[10px] uppercase tracking-widest text-sage">Anos de Cultivo</span>
+        
+        {/* Content Column */}
+        <div className="lg:col-span-7 lg:pl-12">
+          <div className="flex items-center gap-4 mb-8">
+              <span className="h-px w-12 bg-gold"></span>
+              <span className="text-gold text-xs font-mono uppercase tracking-[0.25em]">O Curador</span>
+          </div>
+          
+          <h2 className="text-fluid-h2 font-serif mb-8 leading-[1.1]">
+            Cultivando mais do que <br/> 
+            <span className="italic text-transparent bg-clip-text bg-gradient-to-r from-sage via-white to-sage">apenas plantas.</span>
+          </h2>
+          
+          <p className="font-alt text-2xl text-white/90 mb-8 border-l-2 border-gold/30 pl-6 leading-relaxed">
+            "Olá, sou um desenvolvedor júnior e jardineiro sênior. Minha missão é traduzir a complexidade da natureza em interfaces serenas."
+          </p>
+          
+          <div className="space-y-6 text-gray-400 font-light leading-loose text-sm md:text-base max-w-xl">
+            <p>
+              Minha jornada começou com uma pequena suculenta e floresceu em uma paixão por criar ecossistemas sustentáveis dentro de casa. 
+              Criei este espaço para documentar rituais de cuidado e compartilhar as nuances que transformam um "dedo verde" em um botânico amador.
+            </p>
+            <p>
+              Acredito que a tecnologia e a natureza podem coexistir. Através do design biofílico, busco criar experiências digitais que tragam 
+              a mesma paz de um jardim matinal.
+            </p>
+          </div>
+
+          <div className="mt-12 flex flex-wrap gap-4">
+               {['Design Biofílico', 'React & Natureza', 'Slow Living'].map(tag => (
+                   <span key={tag} className="px-5 py-2 border border-white/10 rounded-full text-xs uppercase tracking-widest text-white/60 hover:border-gold hover:text-gold hover:bg-gold/5 transition-all cursor-default">
+                       {tag}
+                   </span>
+               ))}
+          </div>
         </div>
-      </div>
-      
-      <div className="w-full md:w-1/2">
-        <div className="flex items-center gap-4 mb-6">
-            <div className="h-px w-12 bg-gold"></div>
-            <span className="text-gold text-xs font-mono uppercase tracking-widest">Sobre o Autor</span>
-        </div>
-        <h2 className="text-4xl md:text-5xl font-serif mb-8 leading-tight">Cultivando mais do que <br/> <span className="italic text-sage">apenas plantas.</span></h2>
-        <p className="font-alt text-xl text-white/80 mb-6">
-          Olá, sou um desenvolvedor júnior e jardineiro sênior.
-        </p>
-        <p className="text-gray-400 leading-relaxed mb-8 font-sans font-light">
-          Minha jornada começou com uma pequena suculenta e floresceu em uma paixão por criar ecossistemas sustentáveis dentro de casa. Criei este espaço para documentar rituais de cuidado e compartilhar as nuances que transformam um polegar verde em um botânico amador. Acredito que a tecnologia e a natureza podem coexistir para criar interfaces que trazem paz e sabedoria.
-        </p>
-        <div className="flex gap-4">
-             <span className="px-4 py-2 border border-white/20 rounded-full text-xs uppercase tracking-widest text-white/60 hover:border-gold hover:text-gold transition-colors cursor-default">Design Biofílico</span>
-             <span className="px-4 py-2 border border-white/20 rounded-full text-xs uppercase tracking-widest text-white/60 hover:border-gold hover:text-gold transition-colors cursor-default">React & Natureza</span>
-        </div>
+
       </div>
     </div>
   </section>

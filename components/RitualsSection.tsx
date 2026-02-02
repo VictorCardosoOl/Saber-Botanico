@@ -3,87 +3,83 @@ import { RITUALS, CARE_HERO } from '../constants';
 
 const RitualsSection: React.FC = () => {
   return (
-    <section id="rituals" className="relative bg-[#FDFBF7] text-charcoal font-sans min-h-screen overflow-hidden">
-      {/* Background Image Header - Altura responsiva */}
-      <div className="relative h-[40vh] md:h-[50vh] w-full overflow-hidden">
+    <section id="rituals" className="relative bg-paper text-charcoal font-sans min-h-screen overflow-hidden">
+      {/* Background Image Header */}
+      <div className="relative h-[45vh] md:h-[55vh] w-full overflow-hidden">
         <div 
           className="absolute inset-0 bg-cover bg-center" 
           style={{ backgroundImage: `url('${CARE_HERO}')` }}
         ></div>
-        <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-transparent to-[#FDFBF7]"></div>
+        <div className="absolute inset-0 bg-gradient-to-b from-black/50 via-transparent to-paper"></div>
         
-        <div className="container absolute bottom-0 left-0 right-0 p-6 md:p-12 lg:p-24 flex flex-col justify-end h-full">
-            <div className="flex items-center gap-2 text-white/80 font-mono text-xs uppercase tracking-[0.2em] mb-4">
-                <span className="w-2 h-2 rounded-full border border-gold bg-gold"></span>
+        <div className="container absolute bottom-0 left-0 right-0 p-6 md:p-12 lg:p-24 flex flex-col justify-end h-full z-10">
+            <div className="flex items-center gap-3 text-white/90 font-mono text-[10px] uppercase tracking-widest mb-6">
+                <span className="w-2 h-2 rounded-full border border-white bg-transparent"></span>
                 <span>Módulo 02: Manutenção</span>
             </div>
-            <h1 className="text-fluid-h2 font-serif font-light text-white leading-none drop-shadow-lg">
-                Rituais de Luminosidade & <br/><span className="italic text-gold-light">Hidratação</span>
+            <h1 className="text-fluid-h2 font-serif font-light text-white leading-none drop-shadow-md tracking-tighter">
+                Rituais de Luminosidade & <br/><span className="italic text-gold-light font-medium">Hidratação</span>
             </h1>
         </div>
       </div>
 
-      <div className="container relative z-10 py-16 md:py-24 flex flex-col gap-24">
+      <div className="container relative z-10 py-20 md:py-32 flex flex-col gap-32">
         
         {/* Intro */}
-        <div className="flex flex-col md:flex-row justify-between items-end gap-8 pb-8 border-b border-gold/20">
-            <p className="text-charcoal/70 font-light text-lg max-w-2xl leading-relaxed">
-                Instruções de calibração de precisão para iluminação atmosférica e níveis de umidade, garantindo vitalidade botânica ideal. A observação diária é a ferramenta mais valiosa do curador.
+        <div className="flex flex-col md:flex-row justify-between items-end gap-12 pb-12 border-b border-gold/10">
+            <p className="text-charcoal/80 font-serif text-2xl max-w-3xl leading-relaxed">
+                Instruções de calibração de precisão para iluminação atmosférica e níveis de umidade. <span className="text-sage italic">A observação diária é a ferramenta mais valiosa do curador.</span>
             </p>
-            <button className="group flex items-center justify-center gap-2 px-6 py-3 border border-charcoal/10 hover:border-gold transition-all bg-white hover:bg-[#F2EFE9] shadow-sm whitespace-nowrap">
-                <span className="font-mono text-xs uppercase tracking-widest text-gray-500 group-hover:text-gold">Salvar Guia</span>
-                <span className="material-symbols-outlined text-sm text-gray-400 group-hover:text-gold">download</span>
+            <button className="group flex items-center justify-center gap-3 px-8 py-4 border border-charcoal/5 hover:border-gold transition-all bg-white hover:bg-[#F2EFE9] shadow-sm whitespace-nowrap">
+                <span className="font-mono text-[10px] uppercase tracking-widest text-gray-500 group-hover:text-gold">Salvar Guia</span>
+                <span className="material-symbols-outlined text-sm text-gray-400 group-hover:text-gold font-light">download</span>
             </button>
         </div>
 
         {/* Luminosity Chart */}
-        <div className="flex flex-col gap-10">
-            <div className="flex flex-col sm:flex-row sm:items-baseline justify-between border-b border-gray-200 pb-4 gap-4">
-                <div className="flex items-center gap-4">
-                    <div className="size-12 border border-gold/30 rounded-full flex items-center justify-center bg-gold/5 shrink-0">
-                        <span className="material-symbols-outlined text-gold">light_mode</span>
+        <div className="flex flex-col gap-12">
+            <div className="flex flex-col sm:flex-row sm:items-baseline justify-between gap-6">
+                <div className="flex items-center gap-6">
+                    <div className="size-16 border border-gold/20 rounded-full flex items-center justify-center bg-gold/5 shrink-0 text-gold-dark">
+                        <span className="material-symbols-outlined text-3xl font-thin">light_mode</span>
                     </div>
-                    <h2 className="text-fluid-h3 font-serif font-light text-charcoal">Espectro de Luminosidade</h2>
+                    <div>
+                        <span className="font-mono text-[10px] uppercase tracking-widest text-gold-dark mb-1 block">Fator Essencial</span>
+                        <h2 className="text-4xl font-serif font-light text-charcoal tracking-tight">Espectro de Luz</h2>
+                    </div>
                 </div>
-                <span className="font-mono text-xs text-gold uppercase tracking-widest">Unidade: Foot-Candles (FC)</span>
+                <span className="font-mono text-[10px] text-gray-400 uppercase tracking-widest border border-gray-200 px-3 py-1 rounded-full">Unidade: Foot-Candles (FC)</span>
             </div>
 
-            <div className="grid lg:grid-cols-12 gap-10">
+            <div className="grid lg:grid-cols-12 gap-12">
                 {/* Chart Visual */}
-                <div className="lg:col-span-8 bg-white p-8 border border-gray-200 relative overflow-hidden group hover:border-gold/30 transition-colors shadow-sm rounded-sm">
-                    <div className="flex justify-between items-end mb-12">
-                        <h3 className="font-mono text-sm uppercase tracking-widest text-gray-400">Análise de Espectro</h3>
+                <div className="lg:col-span-8 bg-white p-10 border border-gray-100 shadow-sm rounded-sm relative overflow-hidden">
+                    <div className="flex justify-between items-end mb-16">
+                        <h3 className="font-mono text-[10px] uppercase tracking-widest text-gray-400">Análise de Espectro</h3>
                         <div className="text-right">
-                            <div className="text-3xl font-serif text-gold">800 - 2000</div>
-                            <div className="text-xs font-mono text-gray-400 uppercase">Faixa Alvo (Lux)</div>
+                            <div className="text-4xl font-serif text-gold-dark">800 - 2000</div>
+                            <div className="text-[9px] font-mono text-gray-400 uppercase tracking-widest mt-1">Faixa Alvo (Lux)</div>
                         </div>
                     </div>
                     
-                    <div className="relative py-10 px-2 overflow-x-auto">
+                    <div className="relative py-8 px-4">
                          {/* Spectrum Line */}
-                        <div className="h-px w-full min-w-[300px] bg-gradient-to-r from-charcoal/20 via-gold to-charcoal/20"></div>
-                        <div className="absolute top-0 w-full min-w-[300px] h-full pointer-events-none flex justify-between px-0 text-center">
-                            {['Baixa', 'Média', 'Indireta', 'Sol Direto'].map((label, i) => (
-                                <div key={i} className={`relative flex flex-col items-center mt-6 ${i === 2 ? '-translate-y-4' : ''}`}>
-                                     {i === 2 ? (
-                                        <>
-                                            <div className="size-3 rounded-full border border-gold bg-gold shadow-[0_0_15px_rgba(197,160,40,0.6)] mb-2 z-10"></div>
-                                            <div className="w-px h-6 bg-gold mb-2"></div>
-                                            <span className="font-mono text-xs uppercase tracking-widest text-gold font-bold">{label}</span>
-                                        </>
-                                     ) : (
-                                         <>
-                                            <div className="w-px h-4 bg-charcoal/20 mb-2"></div>
-                                            <span className="font-mono text-[10px] uppercase tracking-widest text-gray-400">{label}</span>
-                                         </>
-                                     )}
+                        <div className="h-px w-full bg-gradient-to-r from-charcoal/10 via-gold to-charcoal/10 relative">
+                             <div className="absolute top-1/2 left-[60%] -translate-y-1/2 w-3 h-3 bg-gold rounded-full shadow-[0_0_20px_rgba(212,175,55,0.8)] border border-white"></div>
+                        </div>
+                        
+                        <div className="flex justify-between mt-8 text-center px-4">
+                            {['Sombra', 'Luz Indireta', 'Luz Filtrada', 'Sol Pleno'].map((label, i) => (
+                                <div key={i} className={`flex flex-col items-center ${i === 2 ? 'opacity-100' : 'opacity-40'}`}>
+                                     <div className="w-px h-4 bg-charcoal/20 mb-3"></div>
+                                     <span className={`font-mono text-[9px] uppercase tracking-widest ${i === 2 ? 'text-gold-dark font-bold' : 'text-charcoal'}`}>{label}</span>
                                 </div>
                             ))}
                         </div>
                     </div>
                     
-                     <div className="mt-8 border-t border-dashed border-gray-200 pt-6">
-                        <p className="font-serif italic text-lg text-gray-500 text-center max-w-lg mx-auto">
+                     <div className="mt-12 pt-8 border-t border-dashed border-gray-100">
+                        <p className="font-serif italic text-lg text-gray-400 text-center max-w-lg mx-auto leading-relaxed">
                             "O posicionamento ideal imita a luz solar filtrada de uma copa de floresta — difusa, consistente e suave."
                         </p>
                     </div>
@@ -96,12 +92,12 @@ const RitualsSection: React.FC = () => {
                          {zone: 'Zona B: Indireta', icon: 'filter_drama', desc: 'O padrão ouro. A luz passa através de uma cortina transparente.', active: true},
                          {zone: 'Zona C: Baixa', icon: 'bedtime', desc: 'Iluminação ambiente longe das janelas.'}
                      ].map((item, idx) => (
-                         <div key={idx} className={`p-6 border transition-all duration-300 group rounded-sm ${item.active ? 'bg-[#F2EFE9] border-gold/30' : 'bg-white border-gray-200 hover:border-gold/50'}`}>
-                             <div className="flex items-start justify-between mb-4">
-                                <h4 className={`font-mono text-xs uppercase tracking-widest ${item.active ? 'text-gold font-bold' : 'text-charcoal'}`}>{item.zone}</h4>
-                                <span className={`material-symbols-outlined ${item.active ? 'text-gold' : 'text-gray-400'}`}>{item.icon}</span>
+                         <div key={idx} className={`p-8 border transition-all duration-500 group rounded-sm hover:translate-x-1 ${item.active ? 'bg-[#FDFBF7] border-gold/40' : 'bg-white border-transparent hover:border-gold/20 shadow-sm'}`}>
+                             <div className="flex items-start justify-between mb-3">
+                                <h4 className={`font-mono text-[10px] uppercase tracking-widest ${item.active ? 'text-gold-dark font-bold' : 'text-charcoal/60'}`}>{item.zone}</h4>
+                                <span className={`material-symbols-outlined text-lg ${item.active ? 'text-gold' : 'text-gray-300'}`}>{item.icon}</span>
                              </div>
-                             <p className="text-sm font-light text-charcoal leading-relaxed">{item.desc}</p>
+                             <p className="text-sm font-light text-charcoal/80 leading-relaxed">{item.desc}</p>
                          </div>
                      ))}
                 </div>
@@ -109,36 +105,38 @@ const RitualsSection: React.FC = () => {
         </div>
 
         {/* Hydration Rituals */}
-        <div className="flex flex-col gap-10">
-             <div className="flex items-baseline justify-between border-b border-gray-200 pb-4">
-                <div className="flex items-center gap-4">
-                    <div className="size-12 border border-gold/30 rounded-full flex items-center justify-center bg-gold/5 shrink-0">
-                        <span className="material-symbols-outlined text-gold">water_drop</span>
+        <div className="flex flex-col gap-12">
+             <div className="flex items-end justify-between border-b border-gold/10 pb-6">
+                <div className="flex items-center gap-6">
+                    <div className="size-16 border border-gold/20 rounded-full flex items-center justify-center bg-gold/5 shrink-0 text-gold-dark">
+                        <span className="material-symbols-outlined text-3xl font-thin">water_drop</span>
                     </div>
-                    <h2 className="text-fluid-h3 font-serif font-light text-charcoal">Rituais de Hidratação</h2>
+                    <div>
+                        <span className="font-mono text-[10px] uppercase tracking-widest text-gold-dark mb-1 block">Fator Vital</span>
+                        <h2 className="text-4xl font-serif font-light text-charcoal tracking-tight">Hidratação</h2>
+                    </div>
                 </div>
-                <span className="font-mono text-xs text-gold uppercase tracking-widest hidden sm:block">Sensor: Higrômetro</span>
             </div>
 
-            <div className="grid md:grid-cols-3 gap-6">
+            <div className="grid md:grid-cols-3 gap-8">
                 {RITUALS.map((ritual, idx) => (
-                    <div key={ritual.id} className={`group relative border p-8 transition-all duration-500 flex flex-col rounded-sm ${idx === 1 ? 'bg-[#F2EFE9] border-gold/40' : 'bg-white border-gray-200 hover:border-gold/40 hover:shadow-lg'}`}>
-                         <div className="absolute top-6 right-6 opacity-20">
-                            <span className="material-symbols-outlined text-4xl text-gold">{ritual.icon}</span>
-                         </div>
-                         <div className="mb-6">
-                            <span className={`font-mono text-[10px] uppercase tracking-[0.2em] px-2 py-1 ${idx === 1 ? 'text-gold-dark border border-gold/30 bg-white/50' : 'text-gray-400 border border-gray-200'}`}>
-                                Frequência: {['Baixa', 'Média', 'Alta'][idx]}
+                    <div key={ritual.id} className={`group relative p-10 transition-all duration-700 flex flex-col rounded-sm border ${idx === 1 ? 'bg-[#FDFBF7] border-gold/30' : 'bg-white border-gray-100 hover:border-gold/20 hover:shadow-lg'}`}>
+                         <div className="mb-8 flex justify-between items-start">
+                            <span className={`font-mono text-[9px] uppercase tracking-widest px-2 py-1 border ${idx === 1 ? 'text-gold-dark border-gold/30' : 'text-gray-400 border-gray-200'}`}>
+                                {['Baixa', 'Média', 'Alta'][idx]} Frequência
                             </span>
+                            <span className="material-symbols-outlined text-3xl text-gold/20 group-hover:text-gold/50 transition-colors">{ritual.icon}</span>
                          </div>
-                         <h3 className={`text-2xl font-serif mb-4 ${idx === 1 ? 'text-gold-dark' : 'text-charcoal group-hover:text-gold'}`}>{ritual.title}</h3>
-                         <div className="w-8 h-px bg-gold mb-6"></div>
-                         <p className="text-sm font-light text-gray-500 leading-relaxed mb-8 flex-grow">
+                         
+                         <h3 className="text-2xl font-serif mb-6 text-charcoal group-hover:text-gold-dark transition-colors">{ritual.title}</h3>
+                         
+                         <p className="text-sm font-light text-gray-500 leading-loose mb-10 flex-grow border-l border-gray-100 pl-4 group-hover:border-gold/30 transition-colors">
                              {ritual.description}
                          </p>
-                         <div className={`flex items-center gap-2 text-xs font-mono uppercase tracking-widest ${idx === 1 ? 'text-gold-dark font-bold' : 'text-gold'}`}>
-                            <span>{ritual.frequency}</span>
-                            <span className="material-symbols-outlined text-sm">arrow_forward</span>
+                         
+                         <div className="mt-auto flex items-center justify-between border-t border-gray-50 pt-6 group-hover:border-gold/10">
+                            <span className={`font-mono text-[10px] uppercase tracking-widest ${idx === 1 ? 'text-gold-dark' : 'text-gray-400'}`}>{ritual.frequency}</span>
+                            <span className="material-symbols-outlined text-lg text-gold-dark opacity-0 group-hover:opacity-100 transition-opacity -translate-x-2 group-hover:translate-x-0">arrow_right_alt</span>
                          </div>
                     </div>
                 ))}

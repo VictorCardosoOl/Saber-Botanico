@@ -9,7 +9,6 @@ const Glossary: React.FC = () => {
   const [searchTerm, setSearchTerm] = useState<string>('');
   const [selectedPlant, setSelectedPlant] = useState<PlantSpecimen | null>(null);
   
-  // Debounce do termo de busca para evitar filtrar a cada tecla (Performance)
   const debouncedSearchTerm = useDebounce(searchTerm, 300);
 
   const filteredPlants = useMemo(() => {
@@ -25,39 +24,43 @@ const Glossary: React.FC = () => {
   const handleCloseModal = () => setSelectedPlant(null);
 
   return (
-    <section className="min-h-screen pt-32 pb-20 bg-gradient-to-br from-[#fbfcf8] via-[#f4f7f9] to-[#eef2f6]">
-      <div className="max-w-[1400px] mx-auto px-6">
+    <section className="min-h-screen pt-32 pb-20 bg-[#F9F7F2]">
+      <div className="container px-6">
         
         {/* Header Glossary */}
-        <div className="text-center mb-16">
-          <span className="text-gold-dark font-mono text-xs uppercase tracking-[0.3em] mb-4 block">Arquivo Botânico</span>
-          <h1 className="text-5xl md:text-6xl font-serif text-charcoal mb-6">Glosário de Espécies</h1>
-          <p className="max-w-2xl mx-auto text-charcoal/60 font-alt text-xl">
-            Uma enciclopédia viva das plantas que habitam nossos lares. Clique em um espécime para iniciar a interação e descobrir seus rituais.
+        <div className="text-center mb-20 max-w-3xl mx-auto">
+          <div className="flex items-center justify-center gap-3 mb-6">
+             <span className="h-px w-8 bg-gold-dark/40"></span>
+             <span className="text-gold-dark font-mono text-[10px] uppercase tracking-widest-xl">Arquivo Botânico</span>
+             <span className="h-px w-8 bg-gold-dark/40"></span>
+          </div>
+          <h1 className="text-fluid-h1 font-serif text-charcoal mb-8 tracking-tighter leading-none">Glosário de <span className="italic text-gold-dark">Espécies</span></h1>
+          <p className="text-charcoal/60 font-sans text-lg font-light leading-relaxed">
+            Uma enciclopédia viva. Descubra a proveniência, rituais e a poesia biológica de cada espécime.
           </p>
         </div>
 
-        {/* Search Bar */}
-        <div className="max-w-xl mx-auto mb-16 relative">
+        {/* Search Bar - Minimalist */}
+        <div className="max-w-xl mx-auto mb-20 relative group">
           <input 
             type="text" 
-            placeholder="Pesquisar por nome ou espécie..." 
+            placeholder="Pesquisar por nome científico ou comum..." 
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
-            className="w-full bg-white border border-charcoal/10 rounded-full py-4 pl-14 pr-6 text-charcoal placeholder-charcoal/40 focus:outline-none focus:border-gold/50 focus:ring-1 focus:ring-gold/50 shadow-sm transition-all"
+            className="w-full bg-white border-b border-charcoal/10 py-4 pl-12 pr-6 text-charcoal placeholder-charcoal/30 focus:outline-none focus:border-gold transition-colors font-sans text-lg font-light tracking-wide rounded-none"
             aria-label="Pesquisar plantas"
           />
-          <span className="material-symbols-outlined absolute left-5 top-1/2 -translate-y-1/2 text-charcoal/40" aria-hidden="true">search</span>
+          <span className="material-symbols-outlined absolute left-0 top-1/2 -translate-y-1/2 text-charcoal/30 group-hover:text-gold transition-colors" aria-hidden="true">search</span>
         </div>
 
         {/* Grid */}
         {filteredPlants.length > 0 ? (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-8 gap-y-12">
             {filteredPlants.map((plant) => (
               <div 
                 key={plant.id} 
                 onClick={() => setSelectedPlant(plant)} 
-                className="cursor-pointer"
+                className="cursor-pointer focus:outline-none focus:ring-2 focus:ring-gold/20 rounded-sm"
                 role="button"
                 tabIndex={0}
                 onKeyDown={(e) => e.key === 'Enter' && setSelectedPlant(plant)}
@@ -69,13 +72,12 @@ const Glossary: React.FC = () => {
           </div>
         ) : (
           <div className="text-center py-20 opacity-50">
-             <span className="material-symbols-outlined text-6xl mb-4">grass</span>
-             <p className="text-xl font-serif">Nenhum espécime encontrado.</p>
+             <span className="material-symbols-outlined text-4xl mb-4 text-charcoal/30">spa</span>
+             <p className="text-lg font-serif italic text-charcoal/60">Nenhum espécime encontrado no arquivo.</p>
           </div>
         )}
       </div>
 
-      {/* Modal Interaction */}
       {selectedPlant && (
         <PlantModal plant={selectedPlant} onClose={handleCloseModal} />
       )}

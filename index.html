@@ -7,7 +7,7 @@
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,400&family=Manrope:wght@200;300;400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,500;0,600;1,400&family=Space+Mono:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,400;1,500&family=Manrope:wght@200;300;400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=Space+Mono:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet" />
     
     <!-- Tailwind CSS -->
@@ -16,13 +16,12 @@
       tailwind.config = {
         darkMode: 'class',
         theme: {
-          // Breakpoints padronizados e estendidos
           screens: {
             'sm': '640px',
             'md': '768px',
             'lg': '1024px',
             'xl': '1280px',
-            '2xl': '1440px', // Limite de conteúdo padrão para "Luxury"
+            '2xl': '1440px',
             '3xl': '1920px',
           },
           container: {
@@ -30,12 +29,12 @@
             padding: {
               DEFAULT: '1.5rem',
               sm: '2rem',
-              lg: '4rem',
-              xl: '5rem',
-              '2xl': '6rem',
+              lg: '3rem',
+              xl: '4rem',
+              '2xl': '5rem',
             },
             screens: {
-              '2xl': '1440px', // Trava o container max-width em 1440px
+              '2xl': '1440px', 
             }
           },
           extend: {
@@ -45,36 +44,56 @@
               alt: ['Cormorant Garamond', 'serif'],
               mono: ['Space Mono', 'monospace'],
             },
+            letterSpacing: {
+              tighter: '-0.04em', // Editorial Display
+              tight: '-0.02em',
+              normal: '0em',
+              wide: '0.025em',
+              wider: '0.05em',
+              widest: '0.2em', // Luxury Label
+              'widest-xl': '0.3em',
+            },
             colors: {
               gold: {
                 DEFAULT: '#D4AF37',
-                light: '#F3E5AB',
-                dark: '#AA8C2C',
-                dim: '#C5A028'
+                light: '#E6D8AD', // Champagne
+                dark: '#997B20',
+                dim: '#B59530',
+                subtle: 'rgba(212, 175, 55, 0.1)'
               },
               forest: {
-                DEFAULT: '#0f2f1e',
+                DEFAULT: '#0F2F1E',
                 dark: '#051605',
-                light: '#1a3c2b'
+                light: '#1A3C2B',
+                deep: '#020B02'
               },
-              paper: '#F4F1EA',
-              ink: '#2C2A29',
-              sage: '#7D8F83',
-              charcoal: '#36414c',
+              paper: '#F9F7F2', // Off-white orgânico
+              ink: '#1A1A1A', // Preto suave
+              sage: {
+                DEFAULT: '#8FA196',
+                light: '#AABCB1',
+                dark: '#6B7C72'
+              },
+              charcoal: '#262626',
             },
             backgroundImage: {
-              'luxury-gradient': 'linear-gradient(135deg, #051605 0%, #0f2f1e 100%)',
-              'noise': "url('data:image/svg+xml,%3Csvg viewBox=%220 0 200 200%22 xmlns=%22http://www.w3.org/2000/svg%22%3E%3Cfilter id=%22noiseFilter%22%3E%3CfeTurbulence type=%22fractalNoise%22 baseFrequency=%220.65%22 numOctaves=%223%22 stitchTiles=%22stitch%22/%3E%3C/filter%3E%3Crect width=%22100%25%22 height=%22100%25%22 filter=%22url(%23noiseFilter)%22 opacity=%220.05%22/%3E%3C/svg%3E')",
+              'luxury-gradient': 'linear-gradient(135deg, #051605 0%, #0F2F1E 100%)',
+              'noise': "url('data:image/svg+xml,%3Csvg viewBox=%220 0 200 200%22 xmlns=%22http://www.w3.org/2000/svg%22%3E%3Cfilter id=%22noiseFilter%22%3E%3CfeTurbulence type=%22fractalNoise%22 baseFrequency=%220.8%22 numOctaves=%223%22 stitchTiles=%22stitch%22/%3E%3C/filter%3E%3Crect width=%22100%25%22 height=%22100%25%22 filter=%22url(%23noiseFilter)%22 opacity=%220.04%22/%3E%3C/svg%3E')",
               'linen': "repeating-linear-gradient(0deg, transparent, transparent 2px, #E8E6DE 2px, #E8E6DE 3px), repeating-linear-gradient(90deg, transparent, transparent 2px, #E8E6DE 2px, #E8E6DE 3px)",
             },
             animation: {
               'spin-slow': 'spin 12s linear infinite',
-              'fade-in-up': 'fadeInUp 0.8s ease-out forwards',
+              'fade-in-up': 'fadeInUp 1s cubic-bezier(0.16, 1, 0.3, 1) forwards',
+              'pulse-subtle': 'pulseSubtle 4s ease-in-out infinite',
             },
             keyframes: {
               fadeInUp: {
-                '0%': { opacity: '0', transform: 'translateY(20px)' },
+                '0%': { opacity: '0', transform: 'translateY(40px)' },
                 '100%': { opacity: '1', transform: 'translateY(0)' },
+              },
+              pulseSubtle: {
+                '0%, 100%': { opacity: '1' },
+                '50%': { opacity: '0.8' },
               }
             }
           }
@@ -85,52 +104,58 @@
       /* Reset e Bases */
       html, body {
         height: 100%;
-        overflow-x: hidden; /* Previne scroll horizontal acidental */
+        overflow-x: hidden;
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+        text-rendering: optimizeLegibility;
+      }
+
+      /* Seleção de Texto Premium */
+      ::selection {
+        background: rgba(212, 175, 55, 0.3);
+        color: inherit;
       }
       
-      /* Custom Scrollbar */
+      /* Custom Scrollbar - Minimalista */
       ::-webkit-scrollbar {
-        width: 8px;
+        width: 6px;
       }
       ::-webkit-scrollbar-track {
         background: #051605;
       }
       ::-webkit-scrollbar-thumb {
-        background: #36414c;
-        border-radius: 4px;
+        background: #333;
+        border-radius: 3px;
+        border: 1px solid #051605;
       }
       ::-webkit-scrollbar-thumb:hover {
-        background: #D4AF37;
+        background: #555;
       }
-      
-      .material-symbols-outlined {
-        font-variation-settings: 'FILL' 0, 'wght' 300, 'GRAD' 0, 'opsz' 24;
-      }
-      
-      /* Smooth scrolling */
-      html {
-        scroll-behavior: smooth;
-      }
-      
+
       /* Glassmorphism Utilities */
       .glass-panel {
-        background: rgba(255, 255, 255, 0.03);
-        backdrop-filter: blur(10px);
-        -webkit-backdrop-filter: blur(10px);
+        background: rgba(255, 255, 255, 0.05);
+        backdrop-filter: blur(12px);
+        -webkit-backdrop-filter: blur(12px);
         border: 1px solid rgba(255, 255, 255, 0.1);
+        box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
       }
-      
-      /* Utilitários de Tipografia Fluida (Clamp) */
+
+      /* Utilitários de Tipografia Fluida (Clamp) Refinados */
       .text-fluid-h1 {
-        font-size: clamp(2.5rem, 5vw + 1rem, 5.5rem); /* Min 40px, Ideal 5vw+16px, Max 88px */
-        line-height: 1.1;
+        font-size: clamp(2.5rem, 5vw + 1rem, 5rem);
+        line-height: 1;
+        letter-spacing: -0.04em;
       }
       .text-fluid-h2 {
-        font-size: clamp(2rem, 4vw + 0.5rem, 4rem);
+        font-size: clamp(2rem, 4vw + 0.5rem, 3.5rem);
         line-height: 1.1;
+        letter-spacing: -0.03em;
       }
       .text-fluid-h3 {
-        font-size: clamp(1.5rem, 3vw, 2.5rem);
+        font-size: clamp(1.25rem, 2.5vw, 2rem);
+        line-height: 1.2;
+        letter-spacing: -0.02em;
       }
     </style>
   <script type="importmap">

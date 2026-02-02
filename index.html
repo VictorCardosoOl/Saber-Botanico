@@ -3,6 +3,10 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="Saber Botânico: Uma curadoria de luxo para entusiastas de plantas raras. Guia de cultivo, rituais e acervo botânico." />
+    <meta property="og:title" content="Saber Botânico | Série Obsidiana" />
+    <meta property="og:description" content="Santuário digital dedicado à curadoria, estudo e preservação de conhecimentos botânicos de alto padrão." />
+    <meta property="og:image" content="https://images.unsplash.com/photo-1592150621744-aca64f270045?q=80&w=1200" />
     <title>Saber Botânico</title>
     
     <!-- Google Fonts -->
@@ -55,7 +59,8 @@
               gold: {
                 DEFAULT: '#D4AF37',
                 light: '#E6D8AD',
-                dark: '#997B20',
+                dark: '#856b1c', // Escurecido para passar WCAG AA em fundos claros
+                text: '#705810',  // Nova cor específica para texto pequeno de alto contraste
                 dim: '#B59530',
                 subtle: 'rgba(212, 175, 55, 0.1)'
               },
@@ -111,7 +116,6 @@
       }
       
       html {
-        /* Lenis controls scroll, remove native smooth behavior to prevent conflicts */
         height: auto;
         min-height: 100%;
       }
@@ -121,6 +125,12 @@
         min-height: 100%;
       }
       
+      /* Accessibility Focus States */
+      :focus-visible {
+        outline: 2px solid #D4AF37;
+        outline-offset: 4px;
+      }
+
       /* Lenis Integration */
       html.lenis, html.lenis body {
         height: auto;
@@ -197,7 +207,7 @@
       }
     </style>
 
-    <!-- Import Map: Limpo e estritamente versionado para evitar conflitos -->
+    <!-- Import Map -->
     <script type="importmap">
 {
   "imports": {

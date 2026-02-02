@@ -1,6 +1,7 @@
 import React, { useState, useRef, useEffect, useCallback } from 'react';
 import { PlantSpecimen } from '../types';
 import Tooltip from './Tooltip';
+import { useGarden } from '../hooks/useGarden';
 
 interface PlantCardProps {
   plant: PlantSpecimen;
@@ -10,6 +11,9 @@ const PlantCard: React.FC<PlantCardProps> = ({ plant }) => {
   const [isExpanded, setIsExpanded] = useState(false);
   const [isTruncated, setIsTruncated] = useState(false);
   const textRef = useRef<HTMLParagraphElement>(null);
+  const { hasPlant, togglePlant } = useGarden();
+
+  const isSaved = hasPlant(plant.id);
 
   useEffect(() => {
     const element = textRef.current;
@@ -36,6 +40,11 @@ const PlantCard: React.FC<PlantCardProps> = ({ plant }) => {
     window.open(plant.imageUrl, '_blank', 'noopener,noreferrer');
   }, [plant.imageUrl]);
 
+  const handleSave = useCallback((e: React.MouseEvent) => {
+    e.stopPropagation();
+    togglePlant(plant.id);
+  }, [plant.id, togglePlant]);
+
   return (
     <article className="group flex flex-col h-full bg-white rounded-sm overflow-hidden shadow-sm hover:shadow-xl transition-all duration-500 ease-out border border-transparent hover:border-gold/10 focus-within:ring-2 focus-within:ring-gold/50">
         <div className="relative aspect-[3/4] overflow-hidden bg-gray-100">
@@ -46,24 +55,27 @@ const PlantCard: React.FC<PlantCardProps> = ({ plant }) => {
                 aria-label={`Imagem de ${plant.name}`}
             />
             
-            <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+            {/* Gradiente sempre visível no mobile para garantir leitura dos ícones */}
+            <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent opacity-60 md:opacity-0 md:group-hover:opacity-100 transition-opacity duration-500" />
 
-            <div className="absolute top-4 right-4 opacity-0 group-hover:opacity-100 transition-opacity duration-500 z-20 flex flex-col gap-2">
+            {/* Actions: Always visible on mobile, hover on desktop */}
+            <div className="absolute top-4 right-4 opacity-100 md:opacity-0 md:group-hover:opacity-100 transition-opacity duration-500 z-20 flex flex-col gap-3">
+                <Tooltip content={isSaved ? "Remover do Jardim" : "Salvar no Jardim"} position="left">
+                   <button 
+                      onClick={handleSave}
+                      className={`w-10 h-10 rounded-full backdrop-blur-sm flex items-center justify-center shadow-md transition-all focus:outline-none focus:ring-2 focus:ring-gold ${isSaved ? 'bg-gold text-white' : 'bg-white/90 text-gold-dark hover:bg-gold hover:text-white'}`}
+                      aria-label={isSaved ? "Remover dos favoritos" : "Salvar nos favoritos"}
+                    >
+                      <span className={`material-symbols-outlined text-[20px] ${isSaved ? 'font-variation-fill' : ''}`}>favorite</span>
+                   </button>
+                </Tooltip>
+
                 <Tooltip content="Visualização Rápida" position="left">
                   <button 
-                    className="w-9 h-9 rounded-full bg-white/90 backdrop-blur-sm flex items-center justify-center shadow-md hover:bg-gold hover:text-white text-gold-dark transition-all focus:outline-none focus:ring-2 focus:ring-gold"
+                    className="w-10 h-10 rounded-full bg-white/90 backdrop-blur-sm flex items-center justify-center shadow-md hover:bg-gold hover:text-white text-gold-dark transition-all focus:outline-none focus:ring-2 focus:ring-gold"
                     aria-label="Visualização Rápida"
                   >
-                      <span className="material-symbols-outlined text-[18px]">visibility</span>
-                  </button>
-                </Tooltip>
-                <Tooltip content="Abrir Imagem Original" position="left">
-                  <button 
-                    onClick={openImage}
-                    className="w-9 h-9 rounded-full bg-white/90 backdrop-blur-sm flex items-center justify-center shadow-md hover:bg-gold hover:text-white text-gold-dark transition-all focus:outline-none focus:ring-2 focus:ring-gold"
-                    aria-label="Abrir Imagem Original"
-                  >
-                      <span className="material-symbols-outlined text-[18px]">open_in_new</span>
+                      <span className="material-symbols-outlined text-[20px]">visibility</span>
                   </button>
                 </Tooltip>
             </div>
@@ -88,7 +100,7 @@ const PlantCard: React.FC<PlantCardProps> = ({ plant }) => {
             <div className="mb-6 flex-grow">
               <p 
                 ref={textRef}
-                className={`text-sm text-charcoal/70 font-sans leading-relaxed transition-all duration-300 ${isExpanded ? '' : 'line-clamp-3'}`}
+                className={`text-sm text-charcoal/80 font-sans leading-relaxed transition-all duration-300 ${isExpanded ? '' : 'line-clamp-3'}`}
               >
                   {plant.description}
               </p>
@@ -96,16 +108,16 @@ const PlantCard: React.FC<PlantCardProps> = ({ plant }) => {
               {(isTruncated || isExpanded) && (
                 <button 
                     onClick={toggleDescription}
-                    className="text-[10px] font-bold uppercase tracking-widest text-gold-dark hover:text-gold mt-3 focus:outline-none border-b border-gold/30 hover:border-gold pb-0.5 inline-block"
+                    className="text-[10px] font-bold uppercase tracking-widest text-gold-text hover:text-gold mt-3 focus:outline-none border-b border-gold/30 hover:border-gold pb-0.5 inline-block"
                 >
                     {isExpanded ? 'Ler menos' : 'Leia mais'}
                 </button>
               )}
             </div>
             
-            <footer className="mt-auto pt-4 flex items-center justify-between opacity-60 group-hover:opacity-100 transition-opacity duration-500">
+            <footer className="mt-auto pt-4 flex items-center justify-between opacity-80 md:opacity-60 md:group-hover:opacity-100 transition-opacity duration-500">
                 <span className="text-xs font-mono font-bold text-gold-dark">{plant.price}</span>
-                <div className="flex items-center gap-2 text-charcoal/40 group-hover:text-gold-dark transition-colors">
+                <div className="flex items-center gap-2 text-charcoal/60 group-hover:text-gold-dark transition-colors">
                     <span className="text-[9px] font-mono uppercase tracking-widest">Ficha Técnica</span>
                     <span className="material-symbols-outlined text-[16px]">arrow_right_alt</span>
                 </div>

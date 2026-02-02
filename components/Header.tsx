@@ -3,6 +3,7 @@ import { useScrollDirection } from '../hooks/useScrollDirection';
 import { Link, useLocation } from 'react-router-dom';
 import { NAVIGATION_LINKS } from '../constants';
 import Tooltip from './Tooltip';
+import { useGarden } from '../hooks/useGarden';
 
 const Logo: React.FC = () => (
   <Link to="/" className="flex items-center gap-4 group shrink-0" aria-label="Saber Botânico Home">
@@ -44,6 +45,7 @@ const NavLinks: React.FC = () => {
 const Header: React.FC = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isAtTop, setIsAtTop] = useState(true);
+  const { savedIds } = useGarden();
   
   const scrollDirection = useScrollDirection();
   const location = useLocation();
@@ -58,16 +60,10 @@ const Header: React.FC = () => {
   }, []);
 
   const headerClasses = useMemo(() => {
-    // Styling states
     const bgClass = (isAtTop && !isMobileMenuOpen) 
       ? 'bg-transparent border-transparent' 
       : 'bg-forest-dark/90 backdrop-blur-md border-gold/10 shadow-lg';
       
-    // Visibility Logic:
-    // 1. Always visible if mobile menu is open
-    // 2. Always visible if at the top (scrollY = 0 area)
-    // 3. Visible if scrolling UP
-    // 4. Hidden if scrolling DOWN and NOT at top
     const isVisible = isMobileMenuOpen || isAtTop || scrollDirection === 'up';
     const transformClass = isVisible ? 'translate-y-0' : '-translate-y-full';
 
@@ -98,6 +94,20 @@ const Header: React.FC = () => {
           </div>
 
           <div className="flex items-center gap-4 xl:gap-6 shrink-0">
+            {/* My Garden Feature (Retention Strategy) */}
+            <Tooltip content="Meu Jardim (Salvos)" position="bottom">
+              <button className="flex items-center justify-center relative group" aria-label={`Meu Jardim, ${savedIds.length} itens salvos`}>
+                <span className={`material-symbols-outlined text-xl transition-colors ${savedIds.length > 0 ? 'text-gold' : 'text-gray-400 group-hover:text-gold'}`}>
+                  {savedIds.length > 0 ? 'favorite' : 'favorite_border'}
+                </span>
+                {savedIds.length > 0 && (
+                  <span className="absolute -top-1.5 -right-1.5 flex items-center justify-center min-w-[14px] h-[14px] px-0.5 bg-gold text-forest-dark text-[8px] font-bold rounded-full">
+                    {savedIds.length}
+                  </span>
+                )}
+              </button>
+            </Tooltip>
+
             <Tooltip content="Pesquisar no Glosário" position="bottom">
               <Link to="/glosario" className="hidden md:flex items-center border border-white/10 rounded-full px-4 py-1.5 bg-white/5 backdrop-blur-sm group hover:border-gold/30 transition-colors" aria-label="Search">
                 <span className="material-symbols-outlined text-lg text-gray-400 group-hover:text-gold transition-colors">search</span>

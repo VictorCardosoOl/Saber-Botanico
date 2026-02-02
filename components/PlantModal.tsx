@@ -2,6 +2,7 @@ import React, { useEffect, useCallback, useRef } from 'react';
 import { RITUALS } from '../constants';
 import { PlantSpecimen, RitualStep } from '../types';
 import Tooltip from './Tooltip';
+import { useGarden } from '../hooks/useGarden';
 
 interface PlantModalProps {
   plant: PlantSpecimen | null;
@@ -10,6 +11,7 @@ interface PlantModalProps {
 
 const PlantModal: React.FC<PlantModalProps> = ({ plant, onClose }) => {
   const modalRef = useRef<HTMLDivElement>(null);
+  const { hasPlant, togglePlant } = useGarden();
   
   const handleKeyDown = useCallback((event: KeyboardEvent) => {
     if (event.key === 'Escape') {
@@ -45,7 +47,7 @@ const PlantModal: React.FC<PlantModalProps> = ({ plant, onClose }) => {
     document.addEventListener('keydown', handleKeyDown);
     document.body.style.overflow = 'hidden';
     
-    // Focus management: Focus the close button or the modal itself on mount
+    // Focus management
     const timer = setTimeout(() => {
         if (modalRef.current) {
             const closeBtn = modalRef.current.querySelector('button');
@@ -66,6 +68,8 @@ const PlantModal: React.FC<PlantModalProps> = ({ plant, onClose }) => {
   const careRitual: RitualStep = RITUALS.find(r => 
     plant.isRare ? r.id === 'arid' : r.id === 'tropical'
   ) || RITUALS[2];
+
+  const isSaved = hasPlant(plant.id);
 
   return (
     <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 sm:p-6" role="dialog" aria-modal="true" aria-labelledby="modal-title">
@@ -121,9 +125,19 @@ const PlantModal: React.FC<PlantModalProps> = ({ plant, onClose }) => {
 
         {/* Content Side */}
         <div className="w-full md:w-1/2 p-8 md:p-12 overflow-y-auto">
-          <div className="hidden md:block mb-8">
-            <h2 id="modal-title" className="text-4xl font-serif font-bold text-charcoal mb-2">{plant.name}</h2>
-            <p className="font-serif italic text-xl text-gold-dark">{plant.scientificName}</p>
+          <div className="flex justify-between items-start mb-8">
+            <div className="hidden md:block">
+                <h2 id="modal-title" className="text-4xl font-serif font-bold text-charcoal mb-2">{plant.name}</h2>
+                <p className="font-serif italic text-xl text-gold-dark">{plant.scientificName}</p>
+            </div>
+            
+            <button 
+                onClick={() => togglePlant(plant.id)}
+                className={`flex items-center gap-2 px-4 py-2 rounded-full border text-xs font-mono uppercase tracking-wider transition-colors ${isSaved ? 'border-gold bg-gold/10 text-gold-dark' : 'border-charcoal/20 text-charcoal/60 hover:border-gold hover:text-gold-dark'}`}
+            >
+                <span className={`material-symbols-outlined text-sm ${isSaved ? 'font-variation-fill' : ''}`}>favorite</span>
+                {isSaved ? 'Salvo' : 'Salvar'}
+            </button>
           </div>
 
           <div className="flex flex-wrap gap-2 mb-8">
@@ -139,14 +153,14 @@ const PlantModal: React.FC<PlantModalProps> = ({ plant, onClose }) => {
 
           <div className="space-y-8">
             <div>
-              <h3 className="font-mono text-xs uppercase tracking-[0.2em] text-gray-400 mb-3">Sobre o Espécime</h3>
-              <p className="font-alt text-lg leading-relaxed text-charcoal/80">
+              <h3 className="font-mono text-xs uppercase tracking-[0.2em] text-gray-500 mb-3">Sobre o Espécime</h3>
+              <p className="font-alt text-lg leading-relaxed text-charcoal">
                 {plant.description} Esta espécie é valorizada não apenas por sua beleza estética, mas por sua história botânica única. Requer atenção aos detalhes e recompensa o jardineiro paciente com um crescimento vigoroso e folhagem exuberante.
               </p>
             </div>
 
             <div className="border-t border-gold/20 pt-8">
-              <h3 className="font-mono text-xs uppercase tracking-[0.2em] text-gray-400 mb-4">Necessidades de Cultivo</h3>
+              <h3 className="font-mono text-xs uppercase tracking-[0.2em] text-gray-500 mb-4">Necessidades de Cultivo</h3>
               
               <div className="grid grid-cols-1 gap-4">
                 <div className="flex items-start gap-4">
@@ -157,7 +171,7 @@ const PlantModal: React.FC<PlantModalProps> = ({ plant, onClose }) => {
                    </Tooltip>
                    <div>
                      <h4 className="font-bold text-charcoal font-serif">Rega</h4>
-                     <p className="text-sm text-gray-600 leading-relaxed">{careRitual.description} ({careRitual.frequency})</p>
+                     <p className="text-sm text-gray-700 leading-relaxed">{careRitual.description} ({careRitual.frequency})</p>
                    </div>
                 </div>
 
@@ -169,27 +183,28 @@ const PlantModal: React.FC<PlantModalProps> = ({ plant, onClose }) => {
                    </Tooltip>
                    <div>
                      <h4 className="font-bold text-charcoal font-serif">Luz</h4>
-                     <p className="text-sm text-gray-600 leading-relaxed">Prefere luz indireta brilhante. Evite sol direto que pode queimar as folhas delicadas.</p>
-                   </div>
-                </div>
-
-                <div className="flex items-start gap-4">
-                   <Tooltip content="Temperatura Ideal">
-                     <div className="w-10 h-10 rounded-full bg-[#F2EFE9] flex items-center justify-center text-gold-dark shrink-0 cursor-help">
-                        <span className="material-symbols-outlined">thermostat</span>
-                     </div>
-                   </Tooltip>
-                   <div>
-                     <h4 className="font-bold text-charcoal font-serif">Clima</h4>
-                     <p className="text-sm text-gray-600 leading-relaxed">Manter entre 18°C e 26°C. Aprecia umidade elevada.</p>
+                     <p className="text-sm text-gray-700 leading-relaxed">Prefere luz indireta brilhante. Evite sol direto que pode queimar as folhas delicadas.</p>
                    </div>
                 </div>
               </div>
             </div>
             
-            <button className="w-full py-4 mt-4 border border-gold text-gold-dark font-mono text-xs uppercase tracking-[0.2em] hover:bg-gold hover:text-white transition-all focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gold">
-              Discutir no Fórum
-            </button>
+            <div className="flex gap-4 mt-8 pt-6 border-t border-gold/10">
+                {/* Monetization Action */}
+                <a 
+                    href={plant.affiliateUrl || "#"} 
+                    target="_blank" 
+                    rel="noopener noreferrer" 
+                    className="flex-1 py-4 bg-gold-dark text-white font-mono text-xs uppercase tracking-[0.2em] hover:bg-gold transition-all text-center flex items-center justify-center gap-2 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gold shadow-md hover:shadow-xl"
+                >
+                    <span>Adquirir Espécime</span>
+                    <span className="material-symbols-outlined text-sm">shopping_bag</span>
+                </a>
+                
+                <button className="flex-1 py-4 border border-gold text-gold-dark font-mono text-xs uppercase tracking-[0.2em] hover:bg-gold hover:text-white transition-all focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gold">
+                   Fórum
+                </button>
+            </div>
           </div>
         </div>
       </div>

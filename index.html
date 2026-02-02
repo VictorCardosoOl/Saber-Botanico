@@ -10,7 +10,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,400;1,500&family=Manrope:wght@200;300;400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=Space+Mono:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet" />
     
-    <!-- Tailwind CSS -->
+    <!-- Tailwind CSS CDN (Restored for environment compatibility) -->
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
       tailwind.config = {
@@ -34,7 +34,7 @@
               '2xl': '5rem',
             },
             screens: {
-              '2xl': '1440px', 
+              '2xl': '1440px',
             }
           },
           extend: {
@@ -45,18 +45,18 @@
               mono: ['Space Mono', 'monospace'],
             },
             letterSpacing: {
-              tighter: '-0.04em', // Editorial Display
+              tighter: '-0.04em',
               tight: '-0.02em',
               normal: '0em',
               wide: '0.025em',
               wider: '0.05em',
-              widest: '0.2em', // Luxury Label
+              widest: '0.2em',
               'widest-xl': '0.3em',
             },
             colors: {
               gold: {
                 DEFAULT: '#D4AF37',
-                light: '#E6D8AD', // Champagne
+                light: '#E6D8AD',
                 dark: '#997B20',
                 dim: '#B59530',
                 subtle: 'rgba(212, 175, 55, 0.1)'
@@ -67,8 +67,8 @@
                 light: '#1A3C2B',
                 deep: '#020B02'
               },
-              paper: '#F9F7F2', // Off-white orgânico
-              ink: '#1A1A1A', // Preto suave
+              paper: '#F9F7F2',
+              ink: '#1A1A1A',
               sage: {
                 DEFAULT: '#8FA196',
                 light: '#AABCB1',
@@ -100,76 +100,19 @@
         }
       }
     </script>
-    <style>
-      /* Reset e Bases */
-      html, body {
-        height: 100%;
-        overflow-x: hidden;
-        -webkit-font-smoothing: antialiased;
-        -moz-osx-font-smoothing: grayscale;
-        text-rendering: optimizeLegibility;
+    
+    <script type="importmap">
+    {
+      "imports": {
+        "react/": "https://esm.sh/react@^19.2.4/",
+        "react": "https://esm.sh/react@^19.2.4",
+        "react-dom/": "https://esm.sh/react-dom@^19.2.4/",
+        "react-router-dom": "https://esm.sh/react-router-dom@6",
+        "@remix-run/router": "https://esm.sh/@remix-run/router@1.21.0"
       }
-
-      /* Seleção de Texto Premium */
-      ::selection {
-        background: rgba(212, 175, 55, 0.3);
-        color: inherit;
-      }
-      
-      /* Custom Scrollbar - Minimalista */
-      ::-webkit-scrollbar {
-        width: 6px;
-      }
-      ::-webkit-scrollbar-track {
-        background: #051605;
-      }
-      ::-webkit-scrollbar-thumb {
-        background: #333;
-        border-radius: 3px;
-        border: 1px solid #051605;
-      }
-      ::-webkit-scrollbar-thumb:hover {
-        background: #555;
-      }
-
-      /* Glassmorphism Utilities */
-      .glass-panel {
-        background: rgba(255, 255, 255, 0.05);
-        backdrop-filter: blur(12px);
-        -webkit-backdrop-filter: blur(12px);
-        border: 1px solid rgba(255, 255, 255, 0.1);
-        box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
-      }
-
-      /* Utilitários de Tipografia Fluida (Clamp) Refinados */
-      .text-fluid-h1 {
-        font-size: clamp(2.5rem, 5vw + 1rem, 5rem);
-        line-height: 1;
-        letter-spacing: -0.04em;
-      }
-      .text-fluid-h2 {
-        font-size: clamp(2rem, 4vw + 0.5rem, 3.5rem);
-        line-height: 1.1;
-        letter-spacing: -0.03em;
-      }
-      .text-fluid-h3 {
-        font-size: clamp(1.25rem, 2.5vw, 2rem);
-        line-height: 1.2;
-        letter-spacing: -0.02em;
-      }
-    </style>
-  <script type="importmap">
-{
-  "imports": {
-    "react/": "https://esm.sh/react@^19.2.4/",
-    "react": "https://esm.sh/react@^19.2.4",
-    "react-dom/": "https://esm.sh/react-dom@^19.2.4/",
-    "react-router-dom": "https://esm.sh/react-router-dom@6",
-    "@remix-run/router": "https://esm.sh/@remix-run/router@1.21.0"
-  }
-}
-</script>
-</head>
+    }
+    </script>
+  </head>
   <body class="antialiased bg-forest-dark text-paper">
     <div id="root"></div>
   </body>

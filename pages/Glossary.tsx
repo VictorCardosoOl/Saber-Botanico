@@ -57,17 +57,14 @@ const Glossary: React.FC = () => {
         {filteredPlants.length > 0 ? (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-8 gap-y-12">
             {filteredPlants.map((plant) => (
-              <div 
+              <button 
                 key={plant.id} 
                 onClick={() => setSelectedPlant(plant)} 
-                className="cursor-pointer focus:outline-none focus:ring-2 focus:ring-gold/20 rounded-sm"
-                role="button"
-                tabIndex={0}
-                onKeyDown={(e) => e.key === 'Enter' && setSelectedPlant(plant)}
+                className="cursor-pointer focus:outline-none focus:ring-2 focus:ring-gold/20 rounded-sm text-left block w-full p-0 border-none bg-transparent"
                 aria-label={`Ver detalhes de ${plant.name}`}
               >
                 <PlantCard plant={plant} />
-              </div>
+              </button>
             ))}
           </div>
         ) : (

@@ -1,0 +1,56 @@
+/* Base styles - Plain CSS since we are using CDN */
+html, body {
+  height: 100%;
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+}
+
+/* Seleção de Texto Premium */
+::selection {
+  background: rgba(212, 175, 55, 0.3);
+  color: inherit;
+}
+
+/* Utilitários de Tipografia Fluida (Clamp) */
+.text-fluid-h1 {
+  font-size: clamp(2.5rem, 5vw + 1rem, 5rem);
+  line-height: 1;
+  letter-spacing: -0.04em;
+}
+.text-fluid-h2 {
+  font-size: clamp(2rem, 4vw + 0.5rem, 3.5rem);
+  line-height: 1.1;
+  letter-spacing: -0.03em;
+}
+.text-fluid-h3 {
+  font-size: clamp(1.25rem, 2.5vw, 2rem);
+  line-height: 1.2;
+  letter-spacing: -0.02em;
+}
+
+/* Glassmorphism Utilities */
+.glass-panel {
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+}
+
+/* Custom Scrollbar - Minimalista */
+::-webkit-scrollbar {
+  width: 6px;
+}
+::-webkit-scrollbar-track {
+  background: #051605;
+}
+::-webkit-scrollbar-thumb {
+  background: #333;
+  border-radius: 3px;
+  border: 1px solid #051605;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}

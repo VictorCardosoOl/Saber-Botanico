@@ -9,7 +9,6 @@ export interface PlantSpecimen {
   isRare?: boolean;
   isNew?: boolean;
   isHot?: boolean;
-  affiliateUrl?: string; // Monetization Strategy
 }
 
 export interface RitualStep {

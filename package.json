@@ -9,13 +9,10 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "react": "18.3.1",
+    "react": "^19.2.4",
     "react-dom": "^19.2.4",
-    "react-router-dom": "6.22.3",
-    "@remix-run/router": "1.15.3",
-    "gsap": "^3.14.2",
-    "@studio-freight/react-lenis": "0.0.47",
-    "splitting": "1.1.0"
+    "react-router-dom": "6",
+    "@remix-run/router": "1.21.0"
   },
   "devDependencies": {
     "@types/node": "^22.14.0",

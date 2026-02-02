@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Link } from 'react-router-dom';
 import HeroSection from '../components/HeroSection';
 import LazyImage from '../components/LazyImage';
@@ -26,7 +26,7 @@ const ManifestoSection = () => (
               <span className="material-symbols-outlined text-3xl text-gold-dark font-light">{item.icon}</span>
             </div>
             <h3 className="font-serif text-2xl text-ink mb-4">{item.title}</h3>
-            <p className="font-sans text-sm text-ink/70 leading-relaxed max-w-xs">{item.text}</p>
+            <p className="font-sans text-sm text-ink/60 leading-relaxed max-w-xs">{item.text}</p>
           </div>
         ))}
       </div>
@@ -110,7 +110,7 @@ const JournalSection = () => {
               <span className="font-mono text-[9px] uppercase tracking-widest text-ink/40">5 Min Leitura</span>
             </div>
             <h3 className="text-3xl md:text-4xl font-serif mb-3 group-hover:text-gold-dark transition-colors">O Mito da "Rega Uma Vez por Semana"</h3>
-            <p className="font-sans text-ink/70 font-light leading-relaxed mb-4">
+            <p className="font-sans text-ink/60 font-light leading-relaxed mb-4">
               Desconstruindo a regra mais perigosa da jardinagem amadora e aprendendo a ler a linguagem tátil do substrato.
             </p>
             <span className="text-xs font-bold uppercase tracking-widest text-ink border-b border-ink/20 pb-1 group-hover:border-gold transition-colors">Ler Artigo</span>
@@ -216,67 +216,31 @@ const AboutMeSection = () => (
   </section>
 );
 
-// --- SEÇÃO 5: NEWSLETTER (Refatorada para Feedback UX) ---
-const NewsletterSection = () => {
-  const [status, setStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle');
-
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    setStatus('loading');
-    
-    // Simulate CRM API Call
-    setTimeout(() => {
-      setStatus('success');
-    }, 1500);
-  };
-
-  return (
-    <section className="py-24 bg-gold-dark text-paper relative overflow-hidden">
-      <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/noise.png')] opacity-10"></div>
-      <div className="container relative z-10 text-center max-w-2xl mx-auto">
-        <span className="material-symbols-outlined text-4xl mb-4 opacity-80">mark_email_unread</span>
-        <h2 className="text-3xl md:text-4xl font-serif mb-4">Junte-se ao Círculo Obsidiana</h2>
-        <p className="text-white/80 font-light mb-8 leading-relaxed">
-          Receba mensalmente nossa curadoria de espécimes raros, guias de rituais sazonais e convites para eventos digitais.
-        </p>
-        
-        {status === 'success' ? (
-           <div className="bg-white/10 border border-white/20 p-8 rounded-sm animate-fade-in">
-             <span className="material-symbols-outlined text-3xl mb-2 text-white">check_circle</span>
-             <h3 className="text-xl font-serif text-white mb-2">Bem-vindo ao Círculo.</h3>
-             <p className="text-white/60 text-sm">Verifique sua caixa de entrada para confirmar sua inscrição.</p>
-             <button 
-                onClick={() => setStatus('idle')}
-                className="mt-4 text-[10px] uppercase tracking-widest underline opacity-50 hover:opacity-100"
-             >
-                Cadastrar outro e-mail
-             </button>
-           </div>
-        ) : (
-          <form className="flex flex-col md:flex-row gap-4 relative" onSubmit={handleSubmit}>
-            <input 
-              type="email" 
-              placeholder="Seu endereço de e-mail" 
-              required
-              disabled={status === 'loading'}
-              className="flex-1 bg-white/10 border border-white/20 px-6 py-4 placeholder-white/50 text-white focus:outline-none focus:bg-white/20 transition-all font-sans disabled:opacity-50"
-            />
-            <button 
-              disabled={status === 'loading'}
-              className="bg-white text-gold-dark font-mono text-xs uppercase tracking-widest px-8 py-4 font-bold hover:bg-paper transition-all disabled:opacity-70 flex items-center justify-center min-w-[160px]"
-            >
-              {status === 'loading' ? (
-                <span className="w-4 h-4 border-2 border-gold-dark border-t-transparent rounded-full animate-spin"></span>
-              ) : 'Inscrever-se'}
-            </button>
-          </form>
-        )}
-        
-        <p className="mt-4 text-[10px] opacity-50 uppercase tracking-widest">Respeitamos seu tempo e seu cultivo. Zero spam.</p>
-      </div>
-    </section>
-  );
-};
+// --- SEÇÃO 5: NEWSLETTER (Nova) ---
+const NewsletterSection = () => (
+  <section className="py-24 bg-gold-dark text-paper relative overflow-hidden">
+    <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/noise.png')] opacity-10"></div>
+    <div className="container relative z-10 text-center max-w-2xl mx-auto">
+      <span className="material-symbols-outlined text-4xl mb-4 opacity-80">mark_email_unread</span>
+      <h2 className="text-3xl md:text-4xl font-serif mb-4">Junte-se ao Círculo Obsidiana</h2>
+      <p className="text-white/80 font-light mb-8 leading-relaxed">
+        Receba mensalmente nossa curadoria de espécimes raros, guias de rituais sazonais e convites para eventos digitais.
+      </p>
+      
+      <form className="flex flex-col md:flex-row gap-4" onSubmit={(e) => e.preventDefault()}>
+        <input 
+          type="email" 
+          placeholder="Seu endereço de e-mail" 
+          className="flex-1 bg-white/10 border border-white/20 px-6 py-4 placeholder-white/50 text-white focus:outline-none focus:bg-white/20 transition-all font-sans"
+        />
+        <button className="bg-white text-gold-dark font-mono text-xs uppercase tracking-widest px-8 py-4 font-bold hover:bg-paper transition-colors">
+          Inscrever-se
+        </button>
+      </form>
+      <p className="mt-4 text-[10px] opacity-50 uppercase tracking-widest">Respeitamos seu tempo e seu cultivo. Zero spam.</p>
+    </div>
+  </section>
+);
 
 const Home: React.FC = () => {
   return (

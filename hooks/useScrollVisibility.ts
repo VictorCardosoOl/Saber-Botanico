@@ -7,40 +7,29 @@ interface ScrollVisibilityOptions {
 export function useScrollVisibility({ threshold = 10 }: ScrollVisibilityOptions = {}) {
   const [isVisible, setIsVisible] = useState(true);
   const lastScrollY = useRef(0);
-  const rafId = useRef<number | null>(null);
+  const ticking = useRef(false);
 
   const updateVisibility = useCallback(() => {
     const currentScrollY = window.scrollY;
     const lastScroll = lastScrollY.current;
 
-    // Prevent rubber banding on iOS/Mac
-    if (currentScrollY < 0) {
-      lastScrollY.current = 0;
-      return;
-    }
-
-    let shouldBeVisible = isVisible;
-
     if (currentScrollY <= threshold) {
-      shouldBeVisible = true;
+      setIsVisible(true);
     } else if (currentScrollY > lastScroll && currentScrollY > threshold) {
-      shouldBeVisible = false;
+      setIsVisible(false);
     } else if (currentScrollY < lastScroll) {
-      shouldBeVisible = true;
-    }
-
-    if (shouldBeVisible !== isVisible) {
-      setIsVisible(shouldBeVisible);
+      setIsVisible(true);
     }
 
     lastScrollY.current = currentScrollY;
-    rafId.current = null;
-  }, [isVisible, threshold]);
+    ticking.current = false;
+  }, [threshold]);
 
   useEffect(() => {
     const onScroll = () => {
-      if (rafId.current === null) {
-        rafId.current = window.requestAnimationFrame(updateVisibility);
+      if (!ticking.current) {
+        window.requestAnimationFrame(updateVisibility);
+        ticking.current = true;
       }
     };
 
@@ -48,9 +37,6 @@ export function useScrollVisibility({ threshold = 10 }: ScrollVisibilityOptions 
     
     return () => {
       window.removeEventListener('scroll', onScroll);
-      if (rafId.current !== null) {
-        window.cancelAnimationFrame(rafId.current);
-      }
     };
   }, [updateVisibility]);
 

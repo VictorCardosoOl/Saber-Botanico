@@ -1,18 +1,7 @@
-import React, { useCallback } from 'react';
+import React from 'react';
 import { SOIL_IMAGE_MAIN, SOIL_IMAGE_SMALL_1, SOIL_IMAGE_SMALL_2 } from '../constants';
 
 const SoilSection: React.FC = () => {
-  const openImage = useCallback((url: string) => {
-    window.open(url, '_blank', 'noopener,noreferrer');
-  }, []);
-
-  const handleKeyDown = useCallback((e: React.KeyboardEvent, url: string) => {
-    if (e.key === 'Enter' || e.key === ' ') {
-      e.preventDefault();
-      openImage(url);
-    }
-  }, [openImage]);
-
   return (
     <section id="soil" className="relative w-full bg-paper text-ink font-sans py-24 md:py-32 overflow-hidden">
       <div className="absolute inset-0 bg-linen opacity-40 pointer-events-none"></div>
@@ -54,51 +43,27 @@ const SoilSection: React.FC = () => {
           <div className="lg:col-span-7 relative mt-16 lg:mt-0">
              <div className="grid grid-cols-12 grid-rows-12 aspect-[4/5] md:aspect-square lg:aspect-[4/3] w-full">
                 
-                {/* Main Image - Clickable */}
-                <div 
-                  className="col-start-4 col-span-9 row-start-1 row-span-10 z-10 bg-ink p-1 shadow-2xl transform rotate-1 transition-transform hover:rotate-0 duration-1000 ease-out group cursor-pointer focus:outline-none focus:ring-4 focus:ring-gold/30" 
-                  role="button"
-                  tabIndex={0}
-                  onClick={() => openImage(SOIL_IMAGE_MAIN)}
-                  onKeyDown={(e) => handleKeyDown(e, SOIL_IMAGE_MAIN)}
-                  aria-label="Ver imagem do solo em detalhes"
-                >
+                {/* Main Image */}
+                <div className="col-start-4 col-span-9 row-start-1 row-span-10 z-10 bg-ink p-1 shadow-2xl transform rotate-1 transition-transform hover:rotate-0 duration-1000 ease-out">
                   <div className="w-full h-full relative overflow-hidden">
                     <div className="absolute inset-0 bg-cover bg-center sepia-[0.15] contrast-[1.1]" style={{ backgroundImage: `url('${SOIL_IMAGE_MAIN}')` }}></div>
-                    <div className="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
-                        <span className="material-symbols-outlined text-white text-3xl opacity-0 group-hover:opacity-100 transform translate-y-4 group-hover:translate-y-0 transition-all duration-500">open_in_new</span>
-                    </div>
                   </div>
                 </div>
                 
                 {/* Overlay Image 1 */}
-                <div 
-                  className="col-start-2 col-span-5 row-start-7 row-span-6 z-20 shadow-xl border-[6px] border-paper transform -rotate-2 group transition-transform hover:rotate-0 duration-700 ease-out cursor-pointer focus:outline-none focus:ring-4 focus:ring-gold/30" 
-                  role="button"
-                  tabIndex={0}
-                  onClick={() => openImage(SOIL_IMAGE_SMALL_1)}
-                  onKeyDown={(e) => handleKeyDown(e, SOIL_IMAGE_SMALL_1)}
-                  aria-label="Ver detalhes em Terracota"
-                >
+                <div className="col-start-2 col-span-5 row-start-7 row-span-6 z-20 shadow-xl border-[6px] border-paper transform -rotate-2 group transition-transform hover:rotate-0 duration-700 ease-out">
                   <div className="w-full h-full aspect-[4/5] bg-cover bg-center grayscale transition duration-1000 group-hover:grayscale-0" style={{ backgroundImage: `url('${SOIL_IMAGE_SMALL_1}')` }}></div>
                   <div className="hidden md:block absolute -bottom-10 -right-4 font-serif italic text-3xl text-ink whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity duration-700">Detalhes em Terracota</div>
                 </div>
                 
                 {/* Overlay Image 2 (Small) */}
-                <div 
-                  className="col-start-1 col-span-3 row-start-2 row-span-3 z-30 shadow-lg border border-gold/30 bg-paper p-1 rotate-3 hover:rotate-0 transition-transform duration-500 cursor-pointer focus:outline-none focus:ring-4 focus:ring-gold/30" 
-                  role="button"
-                  tabIndex={0}
-                  onClick={() => openImage(SOIL_IMAGE_SMALL_2)}
-                  onKeyDown={(e) => handleKeyDown(e, SOIL_IMAGE_SMALL_2)}
-                  aria-label="Ver textura da argila"
-                >
+                <div className="col-start-1 col-span-3 row-start-2 row-span-3 z-30 shadow-lg border border-gold/30 bg-paper p-1 rotate-3 hover:rotate-0 transition-transform duration-500">
                   <div className="w-full h-full aspect-square bg-cover bg-center" style={{ backgroundImage: `url('${SOIL_IMAGE_SMALL_2}')` }}></div>
                   <div className="absolute -top-3 -right-3 size-6 rounded-full bg-gold-dark text-paper flex items-center justify-center font-serif font-bold text-xs shadow-md">03</div>
                 </div>
 
                 {/* Arrow Decor */}
-                <div className="hidden md:block absolute bottom-4 right-0 z-30 opacity-40 pointer-events-none">
+                <div className="hidden md:block absolute bottom-4 right-0 z-30 opacity-40">
                    <span className="material-symbols-outlined text-gold-dark text-5xl font-thin -rotate-45">arrow_back</span>
                 </div>
 

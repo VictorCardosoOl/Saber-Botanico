@@ -1,9 +1,8 @@
-import React, { useMemo, useState, useCallback, useEffect } from 'react';
-import { useScrollDirection } from '../hooks/useScrollDirection';
+import React, { useMemo, useState } from 'react';
+import { useScrollVisibility } from '../hooks/useScrollVisibility';
 import { Link, useLocation } from 'react-router-dom';
 import { NAVIGATION_LINKS } from '../constants';
 import Tooltip from './Tooltip';
-import { useGarden } from '../hooks/useGarden';
 
 const Logo: React.FC = () => (
   <Link to="/" className="flex items-center gap-4 group shrink-0" aria-label="Saber Botânico Home">
@@ -21,7 +20,7 @@ const Logo: React.FC = () => (
 const NavLinks: React.FC = () => {
   const location = useLocation();
   
-  const getLinkClasses = useCallback((path: string): string => {
+  const getLinkClasses = (path: string): string => {
     const isActive = location.pathname === path;
     const baseClasses = "text-xs tracking-[0.2em] font-medium uppercase transition-colors relative py-2";
     const stateClasses = isActive 
@@ -29,7 +28,7 @@ const NavLinks: React.FC = () => {
       : "text-gray-400 hover:text-gold";
     
     return `${baseClasses} ${stateClasses}`;
-  }, [location.pathname]);
+  };
 
   return (
     <nav className="flex items-center gap-8 xl:gap-12">
@@ -44,48 +43,31 @@ const NavLinks: React.FC = () => {
 
 const Header: React.FC = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  const [isAtTop, setIsAtTop] = useState(true);
-  const { savedIds } = useGarden();
-  
-  const scrollDirection = useScrollDirection();
+  const isVisible = useScrollVisibility({ threshold: 10 });
   const location = useLocation();
   
-  // Track if we are at the very top of the page for transparency styling
-  useEffect(() => {
-    const handleScroll = () => {
-      setIsAtTop(window.scrollY < 20);
-    };
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
-
   const headerClasses = useMemo(() => {
-    const bgClass = (isAtTop && !isMobileMenuOpen) 
-      ? 'bg-transparent border-transparent' 
-      : 'bg-forest-dark/90 backdrop-blur-md border-gold/10 shadow-lg';
-      
-    const isVisible = isMobileMenuOpen || isAtTop || scrollDirection === 'up';
-    const transformClass = isVisible ? 'translate-y-0' : '-translate-y-full';
+    const bgClass = isMobileMenuOpen ? 'bg-forest-dark' : 'bg-forest-dark/80 backdrop-blur-md';
+    return `fixed top-0 left-0 right-0 z-[60] transition-transform duration-300 ease-in-out border-b border-gold/10 ${bgClass} ${
+      isVisible ? 'translate-y-0' : '-translate-y-full'
+    }`;
+  }, [isVisible, isMobileMenuOpen]);
 
-    return `fixed top-0 left-0 right-0 z-[60] transition-all duration-300 ease-in-out border-b ${bgClass} ${transformClass}`;
-  }, [isAtTop, isMobileMenuOpen, scrollDirection]);
+  const toggleMenu = () => {
+    const newState = !isMobileMenuOpen;
+    setIsMobileMenuOpen(newState);
+    document.body.style.overflow = newState ? 'hidden' : '';
+  };
 
-  const toggleMenu = useCallback(() => {
-    setIsMobileMenuOpen(prev => {
-      const newState = !prev;
-      document.body.style.overflow = newState ? 'hidden' : '';
-      return newState;
-    });
-  }, []);
-
-  const closeMenu = useCallback(() => {
+  const closeMenu = () => {
     setIsMobileMenuOpen(false);
     document.body.style.overflow = '';
-  }, []);
+  };
 
   return (
     <>
       <header className={headerClasses}>
+        {/* Container padronizado via Tailwind Config */}
         <div className="container h-20 flex items-center justify-between">
           <Logo />
 
@@ -94,20 +76,6 @@ const Header: React.FC = () => {
           </div>
 
           <div className="flex items-center gap-4 xl:gap-6 shrink-0">
-            {/* My Garden Feature (Retention Strategy) */}
-            <Tooltip content="Meu Jardim (Salvos)" position="bottom">
-              <button className="flex items-center justify-center relative group" aria-label={`Meu Jardim, ${savedIds.length} itens salvos`}>
-                <span className={`material-symbols-outlined text-xl transition-colors ${savedIds.length > 0 ? 'text-gold' : 'text-gray-400 group-hover:text-gold'}`}>
-                  {savedIds.length > 0 ? 'favorite' : 'favorite_border'}
-                </span>
-                {savedIds.length > 0 && (
-                  <span className="absolute -top-1.5 -right-1.5 flex items-center justify-center min-w-[14px] h-[14px] px-0.5 bg-gold text-forest-dark text-[8px] font-bold rounded-full">
-                    {savedIds.length}
-                  </span>
-                )}
-              </button>
-            </Tooltip>
-
             <Tooltip content="Pesquisar no Glosário" position="bottom">
               <Link to="/glosario" className="hidden md:flex items-center border border-white/10 rounded-full px-4 py-1.5 bg-white/5 backdrop-blur-sm group hover:border-gold/30 transition-colors" aria-label="Search">
                 <span className="material-symbols-outlined text-lg text-gray-400 group-hover:text-gold transition-colors">search</span>

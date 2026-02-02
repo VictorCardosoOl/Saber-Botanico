@@ -8,8 +8,7 @@ export const PLANTS: PlantSpecimen[] = [
     price: 'R$ 12.400',
     description: 'Uma epífita sem folhas da Flórida, conhecida pela sua forma de sapo e cor branca etérea.',
     imageUrl: 'https://images.unsplash.com/photo-1603525169004-9a8b5e944743?auto=format&fit=crop&q=80&w=800',
-    isRare: true,
-    affiliateUrl: 'https://example.com/shop/ghost-orchid'
+    isRare: true
   },
   {
     id: '2',
@@ -17,8 +16,7 @@ export const PLANTS: PlantSpecimen[] = [
     scientificName: 'Tacca chantrieri',
     price: 'R$ 850',
     description: 'Nomeada por suas flores negras únicas que se assemelham a um morcego em voo, nativa do Sudeste Asiático.',
-    imageUrl: 'https://images.unsplash.com/photo-1614594975525-e45190c55d0b?auto=format&fit=crop&q=80&w=800',
-    affiliateUrl: 'https://example.com/shop/bat-flower'
+    imageUrl: 'https://images.unsplash.com/photo-1614594975525-e45190c55d0b?auto=format&fit=crop&q=80&w=800'
   },
   {
     id: '3',
@@ -27,8 +25,7 @@ export const PLANTS: PlantSpecimen[] = [
     price: 'R$ 3.200',
     description: 'Famosa por suas espetaculares flores em forma de garra em um tom turquesa deslumbrante.',
     imageUrl: 'https://images.unsplash.com/photo-1516205651411-a85a4a51db0c?auto=format&fit=crop&q=80&w=800',
-    isNew: true,
-    affiliateUrl: 'https://example.com/shop/jade-vine'
+    isNew: true
   },
   {
     id: '4',
@@ -37,8 +34,7 @@ export const PLANTS: PlantSpecimen[] = [
     price: 'R$ 4.500',
     description: 'Altamente procurada por sua impressionante variegação branca, imitando respingos de tinta.',
     imageUrl: 'https://images.unsplash.com/photo-1598555849843-980646098056?auto=format&fit=crop&q=80&w=800',
-    isHot: true,
-    affiliateUrl: 'https://example.com/shop/monstera-albo'
+    isHot: true
   },
   {
     id: '5',
@@ -46,8 +42,7 @@ export const PLANTS: PlantSpecimen[] = [
     scientificName: 'Protea cynaroides',
     price: 'R$ 680',
     description: 'A flor nacional da África do Sul, ostentando uma enorme cabeça floral e longevidade incrível.',
-    imageUrl: 'https://images.unsplash.com/photo-1551893665-28ab3b52aa9d?auto=format&fit=crop&q=80&w=800',
-    affiliateUrl: 'https://example.com/shop/king-protea'
+    imageUrl: 'https://images.unsplash.com/photo-1551893665-28ab3b52aa9d?auto=format&fit=crop&q=80&w=800'
   },
   {
     id: '6',
@@ -55,8 +50,7 @@ export const PLANTS: PlantSpecimen[] = [
     scientificName: 'Eryngium planum',
     price: 'R$ 240',
     description: 'Conhecida por sua folhagem azul metálica e flores semelhantes a cardos, adicionando interesse estrutural.',
-    imageUrl: 'https://images.unsplash.com/photo-1627429184288-513689cb432d?auto=format&fit=crop&q=80&w=800',
-    affiliateUrl: 'https://example.com/shop/sea-holly'
+    imageUrl: 'https://images.unsplash.com/photo-1627429184288-513689cb432d?auto=format&fit=crop&q=80&w=800'
   }
 ];
 

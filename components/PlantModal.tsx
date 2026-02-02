@@ -21,6 +21,9 @@ const PlantModal: React.FC<PlantModalProps> = ({ plant, onClose }) => {
       const focusableElements = modalRef.current.querySelectorAll(
         'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])'
       );
+      
+      if (focusableElements.length === 0) return;
+
       const firstElement = focusableElements[0] as HTMLElement;
       const lastElement = focusableElements[focusableElements.length - 1] as HTMLElement;
 
@@ -42,14 +45,19 @@ const PlantModal: React.FC<PlantModalProps> = ({ plant, onClose }) => {
     document.addEventListener('keydown', handleKeyDown);
     document.body.style.overflow = 'hidden';
     
-    if (modalRef.current) {
-      const closeBtn = modalRef.current.querySelector('button');
-      if (closeBtn) closeBtn.focus();
-    }
+    // Focus management: Focus the close button or the modal itself on mount
+    const timer = setTimeout(() => {
+        if (modalRef.current) {
+            const closeBtn = modalRef.current.querySelector('button');
+            if (closeBtn) closeBtn.focus();
+            else modalRef.current.focus();
+        }
+    }, 50);
 
     return () => {
       document.removeEventListener('keydown', handleKeyDown);
       document.body.style.overflow = '';
+      clearTimeout(timer);
     };
   }, [handleKeyDown]);
 
@@ -65,11 +73,12 @@ const PlantModal: React.FC<PlantModalProps> = ({ plant, onClose }) => {
         className="absolute inset-0 bg-forest-dark/90 backdrop-blur-md transition-opacity" 
         onClick={onClose}
         aria-hidden="true"
-      ></div>
+      />
       
       <div 
         ref={modalRef}
-        className="relative w-full max-w-4xl bg-[#FDFBF7] rounded-xl shadow-2xl overflow-hidden flex flex-col md:flex-row animate-fade-in-up max-h-[90vh] md:max-h-[80vh]"
+        className="relative w-full max-w-4xl bg-[#FDFBF7] rounded-xl shadow-2xl overflow-hidden flex flex-col md:flex-row animate-fade-in-up max-h-[90vh] md:max-h-[80vh] outline-none"
+        tabIndex={-1}
       >
         <Tooltip content="Fechar (Esc)" position="left">
           <button 
@@ -88,8 +97,8 @@ const PlantModal: React.FC<PlantModalProps> = ({ plant, onClose }) => {
             style={{ backgroundImage: `url('${plant.imageUrl}')` }}
             role="img"
             aria-label={`Imagem de ${plant.name}`}
-          ></div>
-          <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent md:bg-gradient-to-r pointer-events-none"></div>
+          />
+          <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent md:bg-gradient-to-r pointer-events-none" />
           
           <div className="absolute bottom-6 right-6 z-20">
             <Tooltip content="Ver imagem original" position="left">
@@ -97,7 +106,7 @@ const PlantModal: React.FC<PlantModalProps> = ({ plant, onClose }) => {
                 href={plant.imageUrl} 
                 target="_blank" 
                 rel="noopener noreferrer"
-                className="w-10 h-10 rounded-full bg-white/10 backdrop-blur-md flex items-center justify-center text-white hover:bg-white hover:text-charcoal transition-all border border-white/20"
+                className="w-10 h-10 rounded-full bg-white/10 backdrop-blur-md flex items-center justify-center text-white hover:bg-white hover:text-charcoal transition-all border border-white/20 focus:outline-none focus:ring-2 focus:ring-gold"
               >
                 <span className="material-symbols-outlined text-[20px]">open_in_new</span>
               </a>

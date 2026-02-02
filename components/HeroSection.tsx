@@ -1,8 +1,10 @@
-import React, { useLayoutEffect, useRef } from 'react';
+import React, { useLayoutEffect, useRef, useCallback } from 'react';
 import { HERO_IMAGE } from '../constants';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import Splitting from 'splitting';
+
+gsap.registerPlugin(ScrollTrigger);
 
 const HeroSection: React.FC = () => {
   const containerRef = useRef<HTMLElement>(null);
@@ -10,91 +12,88 @@ const HeroSection: React.FC = () => {
   const imageRef = useRef<HTMLDivElement>(null);
   const imageWrapperRef = useRef<HTMLDivElement>(null);
 
-  const openHeroImage = () => {
-    window.open(HERO_IMAGE, '_blank');
-  };
+  const openHeroImage = useCallback(() => {
+    window.open(HERO_IMAGE, '_blank', 'noopener,noreferrer');
+  }, []);
+
+  // Magnetic Button Effect Logic
+  const handleMagneticMove = useCallback((e: React.MouseEvent<HTMLButtonElement>) => {
+    const btn = e.currentTarget;
+    const rect = btn.getBoundingClientRect();
+    const x = e.clientX - rect.left - rect.width / 2;
+    const y = e.clientY - rect.top - rect.height / 2;
+
+    gsap.to(btn, {
+      x: x * 0.2,
+      y: y * 0.2,
+      duration: 0.3,
+      ease: 'power2.out'
+    });
+  }, []);
+
+  const handleMagneticLeave = useCallback((e: React.MouseEvent<HTMLButtonElement>) => {
+    gsap.to(e.currentTarget, { 
+      x: 0, 
+      y: 0, 
+      duration: 0.5, 
+      ease: 'elastic.out(1, 0.3)' 
+    });
+  }, []);
 
   useLayoutEffect(() => {
     const ctx = gsap.context(() => {
-      // 1. Text Reveal Animation (Char by Char)
-      // Primeiro, aplicamos o Splitting
+      // 1. Text Reveal Animation
       if (textContainerRef.current) {
         const targets = textContainerRef.current.querySelectorAll('[data-splitting]');
         Splitting({ target: targets, by: 'chars' });
 
-        // Animação de entrada do título
-        gsap.from('.char', {
+        const tl = gsap.timeline({ delay: 0.2 });
+
+        tl.from('.char', {
           y: 100,
           opacity: 0,
           rotationZ: 10,
           duration: 1.2,
           stagger: 0.02,
           ease: 'power4.out',
-          delay: 0.2
-        });
-
-        // Reveal das linhas auxiliares
-        gsap.from('.hero-line-reveal', {
+        })
+        .from('.hero-line-reveal', {
           y: 20,
           opacity: 0,
           duration: 1,
           stagger: 0.1,
           ease: 'power3.out',
-          delay: 0.8
-        });
+        }, '-=0.8');
       }
 
-      // 2. Parallax de Entrada na Imagem
-      // Efeito de "Curtain" + Scale Down
-      gsap.fromTo(imageWrapperRef.current, 
-        { 
-          clipPath: 'inset(100% 0% 0% 0%)',
-          scale: 1.2
-        },
-        { 
-          clipPath: 'inset(0% 0% 0% 0%)',
-          scale: 1,
-          duration: 1.8,
-          ease: 'expo.inOut',
-          delay: 0.2
-        }
-      );
+      // 2. Parallax Image Entry
+      if (imageWrapperRef.current) {
+        gsap.fromTo(imageWrapperRef.current, 
+          { clipPath: 'inset(100% 0% 0% 0%)', scale: 1.2 },
+          { 
+            clipPath: 'inset(0% 0% 0% 0%)', 
+            scale: 1, 
+            duration: 1.8, 
+            ease: 'expo.inOut', 
+            delay: 0.2 
+          }
+        );
+      }
 
-      // 3. Scroll Parallax (Física)
-      // A imagem move mais devagar que o scroll (yPercent) para dar profundidade
-      gsap.to(imageRef.current, {
-        scrollTrigger: {
-          trigger: containerRef.current,
-          start: 'top top',
-          end: 'bottom top',
-          scrub: true
-        },
-        yPercent: 20, // Move 20% no eixo Y enquanto scrolla
-        scale: 1.05, // Sutil zoom in
-        ease: 'none'
-      });
-
-      // 4. Efeito Magnético nos Botões (Microinteração)
-      const buttons = document.querySelectorAll('.magnetic-btn');
-      buttons.forEach((btn) => {
-        btn.addEventListener('mousemove', (e: any) => {
-          const rect = btn.getBoundingClientRect();
-          const x = e.clientX - rect.left - rect.width / 2;
-          const y = e.clientY - rect.top - rect.height / 2;
-          
-          gsap.to(btn, {
-            x: x * 0.2, // Força magnética
-            y: y * 0.2,
-            duration: 0.3,
-            ease: 'power2.out'
-          });
+      // 3. Scroll Parallax
+      if (imageRef.current && containerRef.current) {
+        gsap.to(imageRef.current, {
+          scrollTrigger: {
+            trigger: containerRef.current,
+            start: 'top top',
+            end: 'bottom top',
+            scrub: true
+          },
+          yPercent: 20,
+          scale: 1.05,
+          ease: 'none'
         });
-
-        btn.addEventListener('mouseleave', () => {
-          gsap.to(btn, { x: 0, y: 0, duration: 0.5, ease: 'elastic.out(1, 0.3)' });
-        });
-      });
-
+      }
     }, containerRef);
 
     return () => ctx.revert();
@@ -131,11 +130,19 @@ const HeroSection: React.FC = () => {
             </div>
             
             <div className="flex flex-col sm:flex-row gap-6 mt-6 hero-line-reveal">
-              <button className="magnetic-btn group flex min-w-[180px] cursor-pointer items-center justify-center rounded-sm h-14 px-8 border border-gold/40 hover:bg-gold/5 hover:border-gold transition-colors duration-300 text-gold-light text-xs font-mono uppercase tracking-widest">
+              <button 
+                onMouseMove={handleMagneticMove}
+                onMouseLeave={handleMagneticLeave}
+                className="group flex min-w-[180px] cursor-pointer items-center justify-center rounded-sm h-14 px-8 border border-gold/40 hover:bg-gold/5 hover:border-gold transition-colors duration-300 text-gold-light text-xs font-mono uppercase tracking-widest"
+              >
                 <span className="mr-3">Explorar Galeria</span>
                 <span className="material-symbols-outlined text-[16px] group-hover:translate-x-1 transition-transform font-light">arrow_forward</span>
               </button>
-              <button className="magnetic-btn flex min-w-[160px] cursor-pointer items-center justify-center rounded-sm h-14 px-8 text-sage hover:text-white transition-colors text-xs font-mono uppercase tracking-widest border-b border-transparent hover:border-gold/30">
+              <button 
+                onMouseMove={handleMagneticMove}
+                onMouseLeave={handleMagneticLeave}
+                className="flex min-w-[160px] cursor-pointer items-center justify-center rounded-sm h-14 px-8 text-sage hover:text-white transition-colors text-xs font-mono uppercase tracking-widest border-b border-transparent hover:border-gold/30"
+              >
                 Concierge
               </button>
             </div>
@@ -156,13 +163,16 @@ const HeroSection: React.FC = () => {
             <div className="relative w-full max-w-[500px] lg:max-w-full aspect-[4/5]">
                <div className="absolute inset-0 border border-gold/10 rounded-t-[10rem] rounded-b-sm translate-x-4 translate-y-4 z-0 transition-transform duration-1000 group-hover:translate-x-2 group-hover:translate-y-2"></div>
                
-               {/* Wrapper para o efeito de Curtain Reveal */}
                <div ref={imageWrapperRef} className="relative z-10 w-full h-full overflow-hidden rounded-t-[10rem] rounded-b-sm shadow-2xl shadow-black/80 border border-white/5 bg-forest-dark will-change-transform">
                   <div 
                     ref={imageRef}
-                    className="w-full h-[120%] bg-center bg-no-repeat bg-cover -mt-[10%] cursor-pointer will-change-transform" 
+                    role="button"
+                    tabIndex={0}
+                    className="w-full h-[120%] bg-center bg-no-repeat bg-cover -mt-[10%] cursor-pointer will-change-transform focus:outline-none focus:ring-2 focus:ring-gold" 
                     style={{backgroundImage: `url('${HERO_IMAGE}')`, filter: 'brightness(0.85) contrast(1.05) saturate(0.9)'}}
                     onClick={openHeroImage}
+                    onKeyDown={(e) => e.key === 'Enter' && openHeroImage()}
+                    aria-label="Ver imagem original da Monstera Albo"
                     title="Ver imagem original"
                   >
                     <div className="absolute inset-0 bg-gradient-to-t from-forest-dark/90 via-transparent to-transparent pointer-events-none"></div>
@@ -180,8 +190,11 @@ const HeroSection: React.FC = () => {
                       </div>
                       <button 
                         onClick={openHeroImage}
-                        className="magnetic-btn size-10 md:size-12 rounded-full border border-gold/30 text-gold hover:bg-gold hover:text-forest-dark transition-colors duration-500 flex items-center justify-center shrink-0"
+                        onMouseMove={handleMagneticMove}
+                        onMouseLeave={handleMagneticLeave}
+                        className="size-10 md:size-12 rounded-full border border-gold/30 text-gold hover:bg-gold hover:text-forest-dark transition-colors duration-500 flex items-center justify-center shrink-0"
                         title="Ver Imagem Original"
+                        aria-label="Ver imagem original"
                       >
                         <span className="material-symbols-outlined font-light text-xl">open_in_new</span>
                       </button>

@@ -20,13 +20,16 @@ const HeroSection: React.FC = () => {
                 <span className="text-gold text-[10px] font-mono uppercase tracking-widest-xl">Coleção Privada</span>
               </div>
               
-              {/* Tipografia Fluida via classe customizada no index.html */}
-              <h1 className="text-white text-fluid-h1 font-serif font-light tracking-tighter">
-                Cultivando <br/>
-                <span className="italic text-transparent bg-clip-text bg-gradient-to-r from-gold-light via-gold to-gold-dark pr-4">Arte Viva</span>
+              {/* Tipografia Fluida Ajustada - H1 */}
+              <h1 className="text-white font-serif font-light tracking-tighter leading-[1.1] md:leading-[0.95] text-[clamp(3.25rem,6vw,6rem)]">
+                Cultivando <br className="hidden md:block" />
+                <span className="italic text-transparent bg-clip-text bg-gradient-to-r from-gold-light via-gold to-gold-dark pr-4">
+                  Arte Viva
+                </span>
               </h1>
               
-              <h2 className="text-sage-light text-lg font-light leading-relaxed max-w-[480px] font-sans border-l border-gold/10 pl-6 tracking-wide">
+              {/* Tipografia Fluida Ajustada - H2 */}
+              <h2 className="text-sage-light font-light leading-relaxed max-w-[480px] font-sans border-l border-gold/10 pl-6 tracking-wide text-[clamp(1rem,1.25vw,1.25rem)]">
                 Experimente o epítome do luxo botânico. Guias curados para a flora mais rara, projetados para o conhecedor moderno.
               </h2>
             </div>
@@ -59,7 +62,7 @@ const HeroSection: React.FC = () => {
                <div className="relative z-10 w-full h-full overflow-hidden rounded-t-[10rem] rounded-b-sm shadow-2xl shadow-black/80 border border-white/5 bg-forest-dark">
                   <div 
                     className="w-full h-full bg-center bg-no-repeat bg-cover transform transition-transform duration-[2s] ease-out group-hover:scale-105" 
-                    style={{backgroundImage: `url("${HERO_IMAGE}")`, filter: 'brightness(0.85) contrast(1.05) saturate(0.9)'}}
+                    style={{backgroundImage: `url('${HERO_IMAGE}")`, filter: 'brightness(0.85) contrast(1.05) saturate(0.9)'}}
                   >
                     <div className="absolute inset-0 bg-gradient-to-t from-forest-dark/90 via-transparent to-transparent"></div>
                   </div>

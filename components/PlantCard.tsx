@@ -28,6 +28,11 @@ const PlantCard: React.FC<PlantCardProps> = ({ plant }) => {
     setIsExpanded(!isExpanded);
   };
 
+  const openImage = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    window.open(plant.imageUrl, '_blank');
+  };
+
   return (
     <div className="group flex flex-col h-full bg-white rounded-sm overflow-hidden shadow-sm hover:shadow-xl transition-all duration-500 ease-out border border-transparent hover:border-gold/10">
         <div className="relative aspect-[3/4] overflow-hidden bg-gray-100">
@@ -39,10 +44,18 @@ const PlantCard: React.FC<PlantCardProps> = ({ plant }) => {
             {/* Overlay Gradient on Hover */}
             <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
 
-            <div className="absolute top-4 right-4 opacity-0 group-hover:opacity-100 transition-opacity duration-500 z-20">
+            <div className="absolute top-4 right-4 opacity-0 group-hover:opacity-100 transition-opacity duration-500 z-20 flex flex-col gap-2">
                 <Tooltip content="Visualização Rápida" position="left">
                   <button className="w-9 h-9 rounded-full bg-white/90 backdrop-blur-sm flex items-center justify-center shadow-md hover:bg-gold hover:text-white text-gold-dark transition-all">
                       <span className="material-symbols-outlined text-[18px]">visibility</span>
+                  </button>
+                </Tooltip>
+                <Tooltip content="Abrir Imagem Original" position="left">
+                  <button 
+                    onClick={openImage}
+                    className="w-9 h-9 rounded-full bg-white/90 backdrop-blur-sm flex items-center justify-center shadow-md hover:bg-gold hover:text-white text-gold-dark transition-all"
+                  >
+                      <span className="material-symbols-outlined text-[18px]">open_in_new</span>
                   </button>
                 </Tooltip>
             </div>

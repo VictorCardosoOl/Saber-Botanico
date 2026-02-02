@@ -1,56 +1,152 @@
-import React from 'react';
+import React, { useLayoutEffect, useRef } from 'react';
 import { HERO_IMAGE } from '../constants';
+import gsap from 'gsap';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import Splitting from 'splitting';
 
 const HeroSection: React.FC = () => {
+  const containerRef = useRef<HTMLElement>(null);
+  const textContainerRef = useRef<HTMLDivElement>(null);
+  const imageRef = useRef<HTMLDivElement>(null);
+  const imageWrapperRef = useRef<HTMLDivElement>(null);
+
+  const openHeroImage = () => {
+    window.open(HERO_IMAGE, '_blank');
+  };
+
+  useLayoutEffect(() => {
+    const ctx = gsap.context(() => {
+      // 1. Text Reveal Animation (Char by Char)
+      // Primeiro, aplicamos o Splitting
+      if (textContainerRef.current) {
+        const targets = textContainerRef.current.querySelectorAll('[data-splitting]');
+        Splitting({ target: targets, by: 'chars' });
+
+        // Animação de entrada do título
+        gsap.from('.char', {
+          y: 100,
+          opacity: 0,
+          rotationZ: 10,
+          duration: 1.2,
+          stagger: 0.02,
+          ease: 'power4.out',
+          delay: 0.2
+        });
+
+        // Reveal das linhas auxiliares
+        gsap.from('.hero-line-reveal', {
+          y: 20,
+          opacity: 0,
+          duration: 1,
+          stagger: 0.1,
+          ease: 'power3.out',
+          delay: 0.8
+        });
+      }
+
+      // 2. Parallax de Entrada na Imagem
+      // Efeito de "Curtain" + Scale Down
+      gsap.fromTo(imageWrapperRef.current, 
+        { 
+          clipPath: 'inset(100% 0% 0% 0%)',
+          scale: 1.2
+        },
+        { 
+          clipPath: 'inset(0% 0% 0% 0%)',
+          scale: 1,
+          duration: 1.8,
+          ease: 'expo.inOut',
+          delay: 0.2
+        }
+      );
+
+      // 3. Scroll Parallax (Física)
+      // A imagem move mais devagar que o scroll (yPercent) para dar profundidade
+      gsap.to(imageRef.current, {
+        scrollTrigger: {
+          trigger: containerRef.current,
+          start: 'top top',
+          end: 'bottom top',
+          scrub: true
+        },
+        yPercent: 20, // Move 20% no eixo Y enquanto scrolla
+        scale: 1.05, // Sutil zoom in
+        ease: 'none'
+      });
+
+      // 4. Efeito Magnético nos Botões (Microinteração)
+      const buttons = document.querySelectorAll('.magnetic-btn');
+      buttons.forEach((btn) => {
+        btn.addEventListener('mousemove', (e: any) => {
+          const rect = btn.getBoundingClientRect();
+          const x = e.clientX - rect.left - rect.width / 2;
+          const y = e.clientY - rect.top - rect.height / 2;
+          
+          gsap.to(btn, {
+            x: x * 0.2, // Força magnética
+            y: y * 0.2,
+            duration: 0.3,
+            ease: 'power2.out'
+          });
+        });
+
+        btn.addEventListener('mouseleave', () => {
+          gsap.to(btn, { x: 0, y: 0, duration: 0.5, ease: 'elastic.out(1, 0.3)' });
+        });
+      });
+
+    }, containerRef);
+
+    return () => ctx.revert();
+  }, []);
+
   return (
-    // Usa min-h-[100svh] para lidar com a barra de endereço do mobile corretamente
-    <section id="hero" className="relative min-h-[100svh] w-full flex flex-col pt-24 pb-12 overflow-hidden bg-forest-dark justify-center">
+    <section ref={containerRef} id="hero" className="relative min-h-[100svh] w-full flex flex-col pt-24 pb-12 overflow-hidden bg-forest-dark justify-center">
       {/* Background Elements */}
       <div className="absolute inset-0 bg-noise pointer-events-none opacity-30 mix-blend-overlay"></div>
-      <div className="absolute -top-20 -right-20 w-[clamp(300px,40vw,600px)] h-[clamp(300px,40vw,600px)] bg-gold/5 rounded-full blur-[120px] pointer-events-none"></div>
+      <div className="absolute -top-20 -right-20 w-[clamp(300px,40vw,600px)] h-[clamp(300px,40vw,600px)] bg-gold/5 rounded-full blur-[120px] pointer-events-none animate-pulse-subtle"></div>
       
       <div className="container relative z-10 flex-1 flex flex-col justify-center">
         <div className="flex flex-col-reverse lg:grid lg:grid-cols-12 gap-12 lg:gap-8 items-center h-full">
           
           {/* Text Content */}
-          <div className="flex flex-col gap-10 lg:col-span-6 xl:col-span-5 z-10 animate-fade-in-up">
+          <div ref={textContainerRef} className="flex flex-col gap-10 lg:col-span-6 xl:col-span-5 z-10">
             <div className="flex flex-col gap-6 text-left">
-              <div className="flex items-center gap-3 mb-2">
+              <div className="flex items-center gap-3 mb-2 hero-line-reveal">
                 <div className="h-px w-8 bg-gold/60"></div>
                 <span className="text-gold text-[10px] font-mono uppercase tracking-widest-xl">Coleção Privada</span>
               </div>
               
-              {/* Tipografia Fluida Ajustada - H1 */}
-              <h1 className="text-white font-serif font-light tracking-tighter leading-[1.1] md:leading-[0.95] text-[clamp(3.25rem,6vw,6rem)]">
-                Cultivando <br className="hidden md:block" />
-                <span className="italic text-transparent bg-clip-text bg-gradient-to-r from-gold-light via-gold to-gold-dark pr-4">
+              <h1 className="text-white font-serif font-light tracking-tighter leading-[1.1] md:leading-[0.95] text-[clamp(3.25rem,6vw,6rem)] overflow-hidden">
+                <div data-splitting className="block">Cultivando</div>
+                <br className="hidden md:block" />
+                <span data-splitting className="italic text-transparent bg-clip-text bg-gradient-to-r from-gold-light via-gold to-gold-dark pr-4 inline-block">
                   Arte Viva
                 </span>
               </h1>
               
-              {/* Tipografia Fluida Ajustada - H2 */}
-              <h2 className="text-sage-light font-light leading-relaxed max-w-[480px] font-sans border-l border-gold/10 pl-6 tracking-wide text-[clamp(1rem,1.25vw,1.25rem)]">
+              <h2 className="hero-line-reveal text-sage-light font-light leading-relaxed max-w-[480px] font-sans border-l border-gold/10 pl-6 tracking-wide text-[clamp(1rem,1.25vw,1.25rem)]">
                 Experimente o epítome do luxo botânico. Guias curados para a flora mais rara, projetados para o conhecedor moderno.
               </h2>
             </div>
             
-            <div className="flex flex-col sm:flex-row gap-6 mt-6">
-              <button className="group flex min-w-[180px] cursor-pointer items-center justify-center rounded-sm h-14 px-8 border border-gold/40 hover:bg-gold/5 hover:border-gold transition-all duration-500 text-gold-light text-xs font-mono uppercase tracking-widest">
+            <div className="flex flex-col sm:flex-row gap-6 mt-6 hero-line-reveal">
+              <button className="magnetic-btn group flex min-w-[180px] cursor-pointer items-center justify-center rounded-sm h-14 px-8 border border-gold/40 hover:bg-gold/5 hover:border-gold transition-colors duration-300 text-gold-light text-xs font-mono uppercase tracking-widest">
                 <span className="mr-3">Explorar Galeria</span>
                 <span className="material-symbols-outlined text-[16px] group-hover:translate-x-1 transition-transform font-light">arrow_forward</span>
               </button>
-              <button className="flex min-w-[160px] cursor-pointer items-center justify-center rounded-sm h-14 px-8 text-sage hover:text-white transition-colors text-xs font-mono uppercase tracking-widest border-b border-transparent hover:border-gold/30">
+              <button className="magnetic-btn flex min-w-[160px] cursor-pointer items-center justify-center rounded-sm h-14 px-8 text-sage hover:text-white transition-colors text-xs font-mono uppercase tracking-widest border-b border-transparent hover:border-gold/30">
                 Concierge
               </button>
             </div>
 
-            <div className="mt-8 lg:mt-16 pt-8 border-t border-white/5">
+            <div className="mt-8 lg:mt-16 pt-8 border-t border-white/5 hero-line-reveal">
               <p className="text-[10px] text-gold/40 font-mono uppercase tracking-widest mb-6">Destaque Editorial</p>
               <div className="flex flex-wrap items-center gap-10 opacity-40 grayscale hover:grayscale-0 transition-all duration-700">
-                <span className="font-serif text-2xl italic text-white tracking-tighter">Vogue Living</span>
-                <span className="font-serif text-2xl font-bold text-white tracking-tighter">AD</span>
-                <span className="font-sans text-lg font-bold tracking-[0.2em] text-white">ELLE</span>
-                <span className="font-serif text-2xl text-white tracking-tight">Monocle</span>
+                <span className="font-serif text-2xl italic text-white tracking-tighter hover:text-gold transition-colors">Vogue Living</span>
+                <span className="font-serif text-2xl font-bold text-white tracking-tighter hover:text-gold transition-colors">AD</span>
+                <span className="font-sans text-lg font-bold tracking-[0.2em] text-white hover:text-gold transition-colors">ELLE</span>
+                <span className="font-serif text-2xl text-white tracking-tight hover:text-gold transition-colors">Monocle</span>
               </div>
             </div>
           </div>
@@ -59,16 +155,21 @@ const HeroSection: React.FC = () => {
           <div className="relative w-full lg:col-span-6 lg:col-start-7 xl:col-start-7 flex justify-center lg:justify-end group perspective-1000">
             <div className="relative w-full max-w-[500px] lg:max-w-full aspect-[4/5]">
                <div className="absolute inset-0 border border-gold/10 rounded-t-[10rem] rounded-b-sm translate-x-4 translate-y-4 z-0 transition-transform duration-1000 group-hover:translate-x-2 group-hover:translate-y-2"></div>
-               <div className="relative z-10 w-full h-full overflow-hidden rounded-t-[10rem] rounded-b-sm shadow-2xl shadow-black/80 border border-white/5 bg-forest-dark">
+               
+               {/* Wrapper para o efeito de Curtain Reveal */}
+               <div ref={imageWrapperRef} className="relative z-10 w-full h-full overflow-hidden rounded-t-[10rem] rounded-b-sm shadow-2xl shadow-black/80 border border-white/5 bg-forest-dark will-change-transform">
                   <div 
-                    className="w-full h-full bg-center bg-no-repeat bg-cover transform transition-transform duration-[2s] ease-out group-hover:scale-105" 
-                    style={{backgroundImage: `url('${HERO_IMAGE}")`, filter: 'brightness(0.85) contrast(1.05) saturate(0.9)'}}
+                    ref={imageRef}
+                    className="w-full h-[120%] bg-center bg-no-repeat bg-cover -mt-[10%] cursor-pointer will-change-transform" 
+                    style={{backgroundImage: `url('${HERO_IMAGE}')`, filter: 'brightness(0.85) contrast(1.05) saturate(0.9)'}}
+                    onClick={openHeroImage}
+                    title="Ver imagem original"
                   >
-                    <div className="absolute inset-0 bg-gradient-to-t from-forest-dark/90 via-transparent to-transparent"></div>
+                    <div className="absolute inset-0 bg-gradient-to-t from-forest-dark/90 via-transparent to-transparent pointer-events-none"></div>
                   </div>
                   
-                  <div className="absolute bottom-0 left-0 right-0 p-6 md:p-8 glass-panel border-t border-white/5 backdrop-blur-xl">
-                    <div className="flex items-end justify-between">
+                  <div className="absolute bottom-0 left-0 right-0 p-6 md:p-8 glass-panel border-t border-white/5 backdrop-blur-xl pointer-events-none z-20">
+                    <div className="flex items-end justify-between pointer-events-auto">
                       <div className="flex flex-col gap-2">
                         <span className="text-[10px] font-bold text-gold uppercase tracking-widest-xl">Espécime Raro</span>
                         <span className="text-3xl font-serif italic text-white tracking-tighter">Monstera Albo</span>
@@ -77,8 +178,12 @@ const HeroSection: React.FC = () => {
                           <span className="px-2 py-0.5 border border-white/10 text-[9px] text-white/60 uppercase tracking-widest rounded-sm">Interior</span>
                         </div>
                       </div>
-                      <button className="size-10 md:size-12 rounded-full border border-gold/30 text-gold hover:bg-gold hover:text-forest-dark transition-all duration-500 flex items-center justify-center shrink-0">
-                        <span className="material-symbols-outlined font-light text-xl">arrow_outward</span>
+                      <button 
+                        onClick={openHeroImage}
+                        className="magnetic-btn size-10 md:size-12 rounded-full border border-gold/30 text-gold hover:bg-gold hover:text-forest-dark transition-colors duration-500 flex items-center justify-center shrink-0"
+                        title="Ver Imagem Original"
+                      >
+                        <span className="material-symbols-outlined font-light text-xl">open_in_new</span>
                       </button>
                     </div>
                   </div>
@@ -90,7 +195,7 @@ const HeroSection: React.FC = () => {
       </div>
       
       {/* Footer Grid */}
-      <div className="mt-12 lg:mt-auto container">
+      <div className="mt-12 lg:mt-auto container hero-line-reveal">
         <div className="grid grid-cols-2 md:grid-cols-4 gap-6 py-8 border-t border-white/5">
           {[
             {icon: 'verified', title: 'Autenticidade', desc: 'Linhagem verificada.'},
@@ -99,7 +204,7 @@ const HeroSection: React.FC = () => {
             {icon: 'auto_stories', title: 'Arquivo', desc: 'Índice mestre.'}
           ].map((item, idx) => (
             <div key={idx} className="flex flex-col gap-3 p-4 hover:bg-white/5 transition-colors rounded-sm cursor-default group">
-              <span className="material-symbols-outlined text-gold/80 text-2xl font-light group-hover:scale-110 transition-transform origin-left">{item.icon}</span>
+              <span className="material-symbols-outlined text-gold/80 text-2xl font-light group-hover:scale-110 transition-transform origin-left duration-500">{item.icon}</span>
               <div>
                 <h3 className="font-mono text-gold-light text-[10px] font-bold uppercase tracking-widest mb-1">{item.title}</h3>
                 <p className="text-[10px] text-sage font-light leading-relaxed">{item.desc}</p>

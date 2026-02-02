@@ -11,7 +11,6 @@ interface PlantModalProps {
 const PlantModal: React.FC<PlantModalProps> = ({ plant, onClose }) => {
   const modalRef = useRef<HTMLDivElement>(null);
   
-  // Focus Trap Logic (Acessibilidade Fase 1)
   const handleKeyDown = useCallback((event: KeyboardEvent) => {
     if (event.key === 'Escape') {
       onClose();
@@ -41,10 +40,8 @@ const PlantModal: React.FC<PlantModalProps> = ({ plant, onClose }) => {
 
   useEffect(() => {
     document.addEventListener('keydown', handleKeyDown);
-    // Bloquear scroll ao abrir modal
     document.body.style.overflow = 'hidden';
     
-    // Focar no modal ao abrir
     if (modalRef.current) {
       const closeBtn = modalRef.current.querySelector('button');
       if (closeBtn) closeBtn.focus();
@@ -77,7 +74,7 @@ const PlantModal: React.FC<PlantModalProps> = ({ plant, onClose }) => {
         <Tooltip content="Fechar (Esc)" position="left">
           <button 
             onClick={onClose}
-            className="absolute top-4 right-4 z-20 w-10 h-10 rounded-full bg-white/20 backdrop-blur-sm flex items-center justify-center text-charcoal hover:bg-white transition-colors focus:outline-none focus:ring-2 focus:ring-gold"
+            className="absolute top-4 right-4 z-30 w-10 h-10 rounded-full bg-white/20 backdrop-blur-sm flex items-center justify-center text-charcoal hover:bg-white transition-colors focus:outline-none focus:ring-2 focus:ring-gold"
             aria-label="Close modal"
           >
             <span className="material-symbols-outlined">close</span>
@@ -85,17 +82,29 @@ const PlantModal: React.FC<PlantModalProps> = ({ plant, onClose }) => {
         </Tooltip>
 
         {/* Image Side */}
-        <div className="w-full md:w-1/2 relative h-64 md:h-auto overflow-hidden bg-gray-100">
-           {/* Fallback visual com background image para manter aspect ratio, ou img tag para SEO/Acessibilidade. 
-               Usando background para consistência com o design original, mas acessível via role img */}
+        <div className="w-full md:w-1/2 relative h-64 md:h-auto overflow-hidden bg-gray-100 group">
           <div 
             className="absolute inset-0 bg-cover bg-center transition-transform duration-700 hover:scale-105"
             style={{ backgroundImage: `url('${plant.imageUrl}')` }}
             role="img"
             aria-label={`Imagem de ${plant.name}`}
           ></div>
-          <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent md:bg-gradient-to-r"></div>
-          <div className="absolute bottom-6 left-6 text-white md:hidden">
+          <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent md:bg-gradient-to-r pointer-events-none"></div>
+          
+          <div className="absolute bottom-6 right-6 z-20">
+            <Tooltip content="Ver imagem original" position="left">
+              <a 
+                href={plant.imageUrl} 
+                target="_blank" 
+                rel="noopener noreferrer"
+                className="w-10 h-10 rounded-full bg-white/10 backdrop-blur-md flex items-center justify-center text-white hover:bg-white hover:text-charcoal transition-all border border-white/20"
+              >
+                <span className="material-symbols-outlined text-[20px]">open_in_new</span>
+              </a>
+            </Tooltip>
+          </div>
+
+          <div className="absolute bottom-6 left-6 text-white md:hidden z-10">
             <h2 className="text-3xl font-serif font-bold">{plant.name}</h2>
             <p className="font-serif italic opacity-90">{plant.scientificName}</p>
           </div>

@@ -13,11 +13,24 @@ export function useScrollVisibility({ threshold = 10 }: ScrollVisibilityOptions 
     const currentScrollY = window.scrollY;
     const lastScroll = lastScrollY.current;
 
+    // Proteção contra "Rubber Banding" (scroll negativo no iOS/Mac)
+    if (currentScrollY < 0) {
+      lastScrollY.current = 0;
+      ticking.current = false;
+      return;
+    }
+
+    // Lógica de Visibilidade:
+    // 1. Topo da página: Sempre visível
     if (currentScrollY <= threshold) {
       setIsVisible(true);
-    } else if (currentScrollY > lastScroll && currentScrollY > threshold) {
+    } 
+    // 2. Scroll Down: Ocultar (Focus Mode)
+    else if (currentScrollY > lastScroll && currentScrollY > threshold) {
       setIsVisible(false);
-    } else if (currentScrollY < lastScroll) {
+    } 
+    // 3. Scroll Up: Mostrar (Navigation Mode)
+    else if (currentScrollY < lastScroll) {
       setIsVisible(true);
     }
 

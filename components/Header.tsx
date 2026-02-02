@@ -1,5 +1,5 @@
-import React, { useMemo, useState, useCallback } from 'react';
-import { useScrollVisibility } from '../hooks/useScrollVisibility';
+import React, { useMemo, useState, useCallback, useEffect } from 'react';
+import { useScrollDirection } from '../hooks/useScrollDirection';
 import { Link, useLocation } from 'react-router-dom';
 import { NAVIGATION_LINKS } from '../constants';
 import Tooltip from './Tooltip';
@@ -43,16 +43,36 @@ const NavLinks: React.FC = () => {
 
 const Header: React.FC = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  const isVisible = useScrollVisibility({ threshold: 10 });
+  const [isAtTop, setIsAtTop] = useState(true);
+  
+  const scrollDirection = useScrollDirection();
   const location = useLocation();
   
-  const headerClasses = useMemo(() => {
-    const bgClass = isMobileMenuOpen ? 'bg-forest-dark' : 'bg-forest-dark/80 backdrop-blur-md';
-    // UX Rule: Force visibility if menu is open, otherwise follow scroll logic
-    const transformClass = (isVisible || isMobileMenuOpen) ? 'translate-y-0' : '-translate-y-full';
+  // Track if we are at the very top of the page for transparency styling
+  useEffect(() => {
+    const handleScroll = () => {
+      setIsAtTop(window.scrollY < 20);
+    };
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
 
-    return `fixed top-0 left-0 right-0 z-[60] transition-transform duration-300 ease-in-out border-b border-gold/10 ${bgClass} ${transformClass}`;
-  }, [isVisible, isMobileMenuOpen]);
+  const headerClasses = useMemo(() => {
+    // Styling states
+    const bgClass = (isAtTop && !isMobileMenuOpen) 
+      ? 'bg-transparent border-transparent' 
+      : 'bg-forest-dark/90 backdrop-blur-md border-gold/10 shadow-lg';
+      
+    // Visibility Logic:
+    // 1. Always visible if mobile menu is open
+    // 2. Always visible if at the top (scrollY = 0 area)
+    // 3. Visible if scrolling UP
+    // 4. Hidden if scrolling DOWN and NOT at top
+    const isVisible = isMobileMenuOpen || isAtTop || scrollDirection === 'up';
+    const transformClass = isVisible ? 'translate-y-0' : '-translate-y-full';
+
+    return `fixed top-0 left-0 right-0 z-[60] transition-all duration-300 ease-in-out border-b ${bgClass} ${transformClass}`;
+  }, [isAtTop, isMobileMenuOpen, scrollDirection]);
 
   const toggleMenu = useCallback(() => {
     setIsMobileMenuOpen(prev => {

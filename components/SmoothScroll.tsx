@@ -1,5 +1,5 @@
 import React, { useLayoutEffect, useRef } from 'react';
-import { ReactLenis } from '@studio-freight/react-lenis';
+import ReactLenis from '@studio-freight/react-lenis';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
@@ -13,24 +13,24 @@ const SmoothScroll: React.FC<SmoothScrollProps> = ({ children }) => {
   const lenisRef = useRef<any>(null);
 
   useLayoutEffect(() => {
-    // Safety check: Ensure the ref and the lenis instance exist
-    // This prevents "Cannot read properties of null" if the component is unmounted rapidly
-    // or if initialization is delayed.
-    if (!lenisRef.current || !lenisRef.current.lenis) return;
+    const lenis = lenisRef.current?.lenis;
+    if (!lenis) return;
 
-    const lenis = lenisRef.current.lenis;
+    // Sincronização Crítica:
+    // Fazemos o GSAP controlar o loop de atualização do Lenis.
+    // Isso garante que o ScrollTrigger e o Smooth Scroll estejam perfeitamente sincronizados no mesmo frame.
+    const update = (time: number) => {
+      lenis.raf(time * 1000);
+    };
 
-    // Synchronize GSAP ScrollTrigger with Lenis
-    lenis.on('scroll', ScrollTrigger.update);
+    // Adiciona o Lenis ao ticker do GSAP
+    gsap.ticker.add(update);
     
-    // Force a refresh to ensure start/end markers are calculated correctly after layout
-    ScrollTrigger.refresh();
+    // Desativa o "lag smoothing" do GSAP para evitar pulos no scroll ao trocar de aba ou em lags de CPU
+    gsap.ticker.lagSmoothing(0);
 
-    // Cleanup function
     return () => {
-      if (lenis) {
-        lenis.off('scroll', ScrollTrigger.update);
-      }
+      gsap.ticker.remove(update);
     };
   }, []);
 
@@ -38,6 +38,7 @@ const SmoothScroll: React.FC<SmoothScrollProps> = ({ children }) => {
     <ReactLenis
       ref={lenisRef}
       root
+      autoRaf={false} // IMPORTANTE: Desativamos o RAF nativo do Lenis para o GSAP controlar
       options={{
         duration: 1.2,
         easing: (t: number) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),

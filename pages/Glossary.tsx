@@ -4,6 +4,7 @@ import { PlantSpecimen } from '../types';
 import PlantCard from '../components/PlantCard';
 import PlantModal from '../components/PlantModal';
 import { useDebounce } from '../hooks/useDebounce';
+import SEO from '../components/SEO';
 
 const Glossary: React.FC = () => {
   const [searchTerm, setSearchTerm] = useState<string>('');
@@ -25,6 +26,7 @@ const Glossary: React.FC = () => {
 
   return (
     <section className="min-h-screen pt-32 pb-20 bg-[#F9F7F2]">
+      <SEO title="Glosário Botânico" description="Explore nossa enciclopédia viva de espécies raras e exóticas. Detalhes técnicos, rituais de cuidado e história biológica." />
       <div className="container px-6">
         
         {/* Header Glossary */}

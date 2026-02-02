@@ -1,6 +1,7 @@
 import React from 'react';
 import HeroSection from '../components/HeroSection';
 import LazyImage from '../components/LazyImage';
+import SEO from '../components/SEO';
 
 const IdeaSection = () => (
   <section className="py-32 px-6 bg-paper text-ink relative overflow-hidden">
@@ -55,7 +56,7 @@ const AboutMeSection = () => (
               <div className="absolute inset-0 bg-gradient-to-tr from-black/20 to-transparent z-10 pointer-events-none"></div>
               {/* Imagem Otimizada */}
               <LazyImage 
-                  src="https://images.unsplash.com/photo-1466692476868-aef1dfb1e735?q=80&w=1000&auto=format&fit=crop" 
+                  src="https://images.unsplash.com/photo-1466692476868-aef1dfb1e735" 
                   alt="Jardineiro trabalhando com plantas" 
                   className="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-1000 ease-out scale-105 group-hover:scale-100"
               />
@@ -118,6 +119,7 @@ const AboutMeSection = () => (
 const Home: React.FC = () => {
   return (
     <>
+      <SEO title="Saber Botânico" description="Onde o luxo encontra a botânica. Explore guias de cultivo, galeria de espécies raras e design biofílico." />
       <HeroSection />
       <IdeaSection />
       <AboutMeSection />

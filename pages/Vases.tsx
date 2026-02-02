@@ -2,10 +2,12 @@ import React from 'react';
 import { VASES_HERO } from '../constants';
 import MaterialsGrid from '../components/MaterialsGrid';
 import AnatomyDiagram from '../components/AnatomyDiagram';
+import SEO from '../components/SEO';
 
 const Vases: React.FC = () => {
   return (
     <div className="min-h-screen bg-paper text-ink">
+       <SEO title="Vasos e Estruturas" description="Guia sobre a arquitetura dos vasos e como a escolha do material impacta a saúde das raízes e o design do ambiente." />
        
        {/* 1. Hero Section - Full Width & Cinematic */}
        <section className="relative w-full min-h-[60vh] md:h-[70vh] flex items-center justify-center overflow-hidden bg-forest-dark py-20">

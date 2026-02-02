@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react';
 import { HashRouter, Routes, Route, useLocation } from 'react-router-dom';
+import { HelmetProvider } from 'react-helmet-async';
 import Header from './components/Header';
 import Footer from './components/Footer';
 
@@ -21,22 +22,24 @@ const ScrollToTop = () => {
 
 const App: React.FC = () => {
   return (
-    <HashRouter>
-      <div className="min-h-screen flex flex-col w-full overflow-x-hidden">
-        <ScrollToTop />
-        <Header />
-        <main className="flex-1 w-full">
-          <Routes>
-            <Route path="/" element={<Home />} />
-            <Route path="/glosario" element={<Glossary />} />
-            <Route path="/vasos" element={<Vases />} />
-            <Route path="/solo" element={<Soil />} />
-            <Route path="/cuidados" element={<Care />} />
-          </Routes>
-        </main>
-        <Footer />
-      </div>
-    </HashRouter>
+    <HelmetProvider>
+      <HashRouter>
+        <div className="min-h-screen flex flex-col w-full overflow-x-hidden">
+          <ScrollToTop />
+          <Header />
+          <main className="flex-1 w-full">
+            <Routes>
+              <Route path="/" element={<Home />} />
+              <Route path="/glosario" element={<Glossary />} />
+              <Route path="/vasos" element={<Vases />} />
+              <Route path="/solo" element={<Soil />} />
+              <Route path="/cuidados" element={<Care />} />
+            </Routes>
+          </main>
+          <Footer />
+        </div>
+      </HashRouter>
+    </HelmetProvider>
   );
 };
 

@@ -11,7 +11,7 @@ interface PlantModalProps {
 const PlantModal: React.FC<PlantModalProps> = ({ plant, onClose }) => {
   const modalRef = useRef<HTMLDivElement>(null);
   
-  // Focus Trap Logic (Acessibilidade Fase 1)
+  // Focus Trap Logic (Acessibilidade)
   const handleKeyDown = useCallback((event: KeyboardEvent) => {
     if (event.key === 'Escape') {
       onClose();
@@ -22,6 +22,9 @@ const PlantModal: React.FC<PlantModalProps> = ({ plant, onClose }) => {
       const focusableElements = modalRef.current.querySelectorAll(
         'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])'
       );
+      
+      if (focusableElements.length === 0) return;
+
       const firstElement = focusableElements[0] as HTMLElement;
       const lastElement = focusableElements[focusableElements.length - 1] as HTMLElement;
 
@@ -44,15 +47,21 @@ const PlantModal: React.FC<PlantModalProps> = ({ plant, onClose }) => {
     // Bloquear scroll ao abrir modal
     document.body.style.overflow = 'hidden';
     
-    // Focar no modal ao abrir
+    // Hygiene: Cleanup do timer para evitar vazamento de memória se o componente desmontar rápido
+    let timer: number | undefined;
+
+    // Focar no modal ao abrir (com leve delay para garantir montagem)
     if (modalRef.current) {
-      const closeBtn = modalRef.current.querySelector('button');
-      if (closeBtn) closeBtn.focus();
+      timer = window.setTimeout(() => {
+          const closeBtn = modalRef.current?.querySelector('button');
+          if (closeBtn) closeBtn.focus();
+      }, 50);
     }
 
     return () => {
       document.removeEventListener('keydown', handleKeyDown);
       document.body.style.overflow = '';
+      if (timer) clearTimeout(timer);
     };
   }, [handleKeyDown]);
 
@@ -86,8 +95,6 @@ const PlantModal: React.FC<PlantModalProps> = ({ plant, onClose }) => {
 
         {/* Image Side */}
         <div className="w-full md:w-1/2 relative h-64 md:h-auto overflow-hidden bg-gray-100">
-           {/* Fallback visual com background image para manter aspect ratio, ou img tag para SEO/Acessibilidade. 
-               Usando background para consistência com o design original, mas acessível via role img */}
           <div 
             className="absolute inset-0 bg-cover bg-center transition-transform duration-700 hover:scale-105"
             style={{ backgroundImage: `url('${plant.imageUrl}')` }}

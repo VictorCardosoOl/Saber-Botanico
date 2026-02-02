@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef, useEffect, useCallback } from 'react';
 import { PlantSpecimen } from '../types';
 import Tooltip from './Tooltip';
 
@@ -11,22 +11,30 @@ const PlantCard: React.FC<PlantCardProps> = ({ plant }) => {
   const [isTruncated, setIsTruncated] = useState(false);
   const textRef = useRef<HTMLParagraphElement>(null);
 
+  // Hygiene: Uso de ResizeObserver ao invés de window event listener para performance
   useEffect(() => {
-    const checkTruncation = () => {
-      if (textRef.current && !isExpanded) {
-        const { scrollHeight, clientHeight } = textRef.current;
+    const element = textRef.current;
+    if (!element) return;
+
+    const observer = new ResizeObserver((entries) => {
+      for (const entry of entries) {
+        // Verifica se o scrollHeight é maior que a altura do cliente + margem de erro
+        const { scrollHeight, clientHeight } = entry.target;
         setIsTruncated(scrollHeight > clientHeight + 1);
       }
+    });
+
+    observer.observe(element);
+
+    return () => {
+      observer.disconnect();
     };
-    checkTruncation();
-    window.addEventListener('resize', checkTruncation);
-    return () => window.removeEventListener('resize', checkTruncation);
   }, [plant.description, isExpanded]);
 
-  const toggleDescription = (e: React.MouseEvent) => {
+  const toggleDescription = useCallback((e: React.MouseEvent) => {
     e.stopPropagation();
-    setIsExpanded(!isExpanded);
-  };
+    setIsExpanded((prev) => !prev);
+  }, []);
 
   return (
     <div className="group flex flex-col h-full bg-white rounded-sm overflow-hidden shadow-sm hover:shadow-xl transition-all duration-500 ease-out border border-transparent hover:border-gold/10">
@@ -41,7 +49,10 @@ const PlantCard: React.FC<PlantCardProps> = ({ plant }) => {
 
             <div className="absolute top-4 right-4 opacity-0 group-hover:opacity-100 transition-opacity duration-500 z-20">
                 <Tooltip content="Visualização Rápida" position="left">
-                  <button className="w-9 h-9 rounded-full bg-white/90 backdrop-blur-sm flex items-center justify-center shadow-md hover:bg-gold hover:text-white text-gold-dark transition-all">
+                  <button 
+                    className="w-9 h-9 rounded-full bg-white/90 backdrop-blur-sm flex items-center justify-center shadow-md hover:bg-gold hover:text-white text-gold-dark transition-all"
+                    aria-label="Visualização Rápida"
+                  >
                       <span className="material-symbols-outlined text-[18px]">visibility</span>
                   </button>
                 </Tooltip>

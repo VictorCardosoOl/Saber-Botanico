@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from 'react';
+import React, { useMemo, useState, useCallback } from 'react';
 import { useScrollVisibility } from '../hooks/useScrollVisibility';
 import { Link, useLocation } from 'react-router-dom';
 import { NAVIGATION_LINKS } from '../constants';
@@ -20,15 +20,16 @@ const Logo: React.FC = () => (
 const NavLinks: React.FC = () => {
   const location = useLocation();
   
-  const getLinkClasses = (path: string): string => {
+  const getLinkClasses = useCallback((path: string): string => {
     const isActive = location.pathname === path;
-    const baseClasses = "text-xs tracking-[0.2em] font-medium uppercase transition-colors relative py-2";
-    const stateClasses = isActive 
-      ? "text-gold font-bold after:content-[''] after:absolute after:bottom-0 after:left-1/2 after:-translate-x-1/2 after:w-1 after:h-1 after:bg-gold after:rounded-full" 
-      : "text-gray-400 hover:text-gold";
     
-    return `${baseClasses} ${stateClasses}`;
-  };
+    return `
+      text-xs tracking-[0.2em] font-medium uppercase transition-colors relative py-2
+      ${isActive 
+        ? "text-gold font-bold after:content-[''] after:absolute after:bottom-0 after:left-1/2 after:-translate-x-1/2 after:w-1 after:h-1 after:bg-gold after:rounded-full" 
+        : "text-gray-400 hover:text-gold"}
+    `.trim().replace(/\s+/g, ' '); // Hygiene: Minimizar espaços extras
+  }, [location.pathname]);
 
   return (
     <nav className="flex items-center gap-8 xl:gap-12">
@@ -48,26 +49,27 @@ const Header: React.FC = () => {
   
   const headerClasses = useMemo(() => {
     const bgClass = isMobileMenuOpen ? 'bg-forest-dark' : 'bg-forest-dark/80 backdrop-blur-md';
-    return `fixed top-0 left-0 right-0 z-[60] transition-transform duration-300 ease-in-out border-b border-gold/10 ${bgClass} ${
-      isVisible ? 'translate-y-0' : '-translate-y-full'
-    }`;
+    const transformClass = isVisible ? 'translate-y-0' : '-translate-y-full';
+    
+    return `fixed top-0 left-0 right-0 z-[60] transition-transform duration-300 ease-in-out border-b border-gold/10 ${bgClass} ${transformClass}`;
   }, [isVisible, isMobileMenuOpen]);
 
-  const toggleMenu = () => {
-    const newState = !isMobileMenuOpen;
-    setIsMobileMenuOpen(newState);
-    document.body.style.overflow = newState ? 'hidden' : '';
-  };
+  const toggleMenu = useCallback(() => {
+    setIsMobileMenuOpen(prev => {
+      const newState = !prev;
+      document.body.style.overflow = newState ? 'hidden' : '';
+      return newState;
+    });
+  }, []);
 
-  const closeMenu = () => {
+  const closeMenu = useCallback(() => {
     setIsMobileMenuOpen(false);
     document.body.style.overflow = '';
-  };
+  }, []);
 
   return (
     <>
       <header className={headerClasses}>
-        {/* Container padronizado via Tailwind Config */}
         <div className="container h-20 flex items-center justify-between">
           <Logo />
 

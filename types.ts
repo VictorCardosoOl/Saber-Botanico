@@ -9,6 +9,11 @@ export interface PlantSpecimen {
   isRare?: boolean;
   isNew?: boolean;
   isHot?: boolean;
+  // Novos campos narrativos e funcionais
+  origin: string;
+  toxicity: 'Pet Safe' | 'Tóxica se ingerida' | 'Irritante ao toque';
+  careLevel: 'Iniciante' | 'Intermediário' | 'Expert';
+  curatorNote: string; // A nota do "Sommelier"
 }
 
 export interface RitualStep {
@@ -27,4 +32,13 @@ export interface NavItem {
 export interface SocialLink {
   platform: string;
   url: string;
+}
+
+export interface DiagnosticSymptom {
+  id: string;
+  title: string;
+  visualCue: string; // Ex: "Folhas Amarelas"
+  cause: string;
+  solution: string;
+  imageUrl: string;
 }

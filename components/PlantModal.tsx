@@ -11,7 +11,6 @@ interface PlantModalProps {
 const PlantModal: React.FC<PlantModalProps> = ({ plant, onClose }) => {
   const modalRef = useRef<HTMLDivElement>(null);
   
-  // Focus Trap Logic (Acessibilidade)
   const handleKeyDown = useCallback((event: KeyboardEvent) => {
     if (event.key === 'Escape') {
       onClose();
@@ -44,13 +43,10 @@ const PlantModal: React.FC<PlantModalProps> = ({ plant, onClose }) => {
 
   useEffect(() => {
     document.addEventListener('keydown', handleKeyDown);
-    // Bloquear scroll ao abrir modal
     document.body.style.overflow = 'hidden';
     
-    // Hygiene: Cleanup do timer para evitar vazamento de memória se o componente desmontar rápido
     let timer: number | undefined;
 
-    // Focar no modal ao abrir (com leve delay para garantir montagem)
     if (modalRef.current) {
       timer = window.setTimeout(() => {
           const closeBtn = modalRef.current?.querySelector('button');
@@ -81,7 +77,7 @@ const PlantModal: React.FC<PlantModalProps> = ({ plant, onClose }) => {
       
       <div 
         ref={modalRef}
-        className="relative w-full max-w-4xl bg-[#FDFBF7] rounded-xl shadow-2xl overflow-hidden flex flex-col md:flex-row animate-fade-in-up max-h-[90vh] md:max-h-[80vh]"
+        className="relative w-full max-w-5xl bg-[#FDFBF7] rounded-sm shadow-2xl overflow-hidden flex flex-col md:flex-row animate-fade-in-up max-h-[90vh] md:max-h-[85vh]"
       >
         <Tooltip content="Fechar (Esc)" position="left">
           <button 
@@ -94,91 +90,100 @@ const PlantModal: React.FC<PlantModalProps> = ({ plant, onClose }) => {
         </Tooltip>
 
         {/* Image Side */}
-        <div className="w-full md:w-1/2 relative h-64 md:h-auto overflow-hidden bg-gray-100">
+        <div className="w-full md:w-5/12 relative h-56 md:h-auto overflow-hidden bg-gray-100">
           <div 
             className="absolute inset-0 bg-cover bg-center transition-transform duration-700 hover:scale-105"
             style={{ backgroundImage: `url('${plant.imageUrl}')` }}
             role="img"
             aria-label={`Imagem de ${plant.name}`}
           ></div>
-          <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent md:bg-gradient-to-r"></div>
-          <div className="absolute bottom-6 left-6 text-white md:hidden">
-            <h2 className="text-3xl font-serif font-bold">{plant.name}</h2>
-            <p className="font-serif italic opacity-90">{plant.scientificName}</p>
+          <div className="absolute inset-0 bg-gradient-to-t from-forest-dark/80 via-transparent to-transparent"></div>
+          
+          <div className="absolute bottom-6 left-6 right-6 text-white">
+             <div className="flex items-center gap-2 mb-2 opacity-80">
+                <span className="material-symbols-outlined text-sm">public</span>
+                <span className="text-[10px] font-mono uppercase tracking-widest">{plant.origin}</span>
+             </div>
+             <h2 className="text-3xl md:text-4xl font-serif italic tracking-tighter leading-none mb-1">{plant.name}</h2>
+             <p className="text-xs font-mono uppercase tracking-widest opacity-60">{plant.scientificName}</p>
           </div>
         </div>
 
         {/* Content Side */}
-        <div className="w-full md:w-1/2 p-8 md:p-12 overflow-y-auto">
-          <div className="hidden md:block mb-8">
-            <h2 id="modal-title" className="text-4xl font-serif font-bold text-charcoal mb-2">{plant.name}</h2>
-            <p className="font-serif italic text-xl text-gold-dark">{plant.scientificName}</p>
+        <div className="w-full md:w-7/12 p-8 md:p-12 overflow-y-auto custom-scrollbar">
+          
+          {/* Header Metadata */}
+          <div className="flex flex-wrap items-center gap-4 mb-8 pb-8 border-b border-gold/10">
+             <div className="flex items-center gap-2 px-3 py-1 bg-gold/5 border border-gold/20 rounded-sm">
+                <span className="material-symbols-outlined text-gold-dark text-sm">verified_user</span>
+                <span className="text-[10px] font-mono font-bold uppercase tracking-widest text-gold-dark">
+                   Nível: {plant.careLevel}
+                </span>
+             </div>
+             
+             <div className={`flex items-center gap-2 px-3 py-1 rounded-sm border ${plant.toxicity === 'Pet Safe' ? 'bg-sage/10 border-sage/30 text-sage-dark' : 'bg-red-50 border-red-100 text-red-800'}`}>
+                <span className="material-symbols-outlined text-sm">
+                   {plant.toxicity === 'Pet Safe' ? 'pets' : 'warning'}
+                </span>
+                <span className="text-[10px] font-mono font-bold uppercase tracking-widest">
+                   {plant.toxicity}
+                </span>
+             </div>
           </div>
 
-          <div className="flex flex-wrap gap-2 mb-8">
-             {plant.isRare && (
-               <Tooltip content="Espécie de difícil propagação">
-                 <span className="px-3 py-1 bg-blue-100 text-[#4cb2e6] text-xs font-bold uppercase tracking-widest rounded-sm cursor-help">Raro</span>
-               </Tooltip>
-             )}
-             <Tooltip content="Ideal para ambientes internos">
-                <span className="px-3 py-1 bg-paper border border-gold/20 text-gold-dark text-xs font-bold uppercase tracking-widest rounded-sm cursor-help">Interior</span>
-             </Tooltip>
-          </div>
-
-          <div className="space-y-8">
+          <div className="space-y-10">
+            {/* Description & Curator Note */}
             <div>
-              <h3 className="font-mono text-xs uppercase tracking-[0.2em] text-gray-400 mb-3">Sobre o Espécime</h3>
-              <p className="font-alt text-lg leading-relaxed text-charcoal/80">
-                {plant.description} Esta espécie é valorizada não apenas por sua beleza estética, mas por sua história botânica única. Requer atenção aos detalhes e recompensa o jardineiro paciente com um crescimento vigoroso e folhagem exuberante.
+              <p className="font-sans text-lg font-light leading-loose text-charcoal/80 mb-8">
+                {plant.description}
               </p>
+              
+              <div className="bg-[#F2EFE9] p-6 relative border-l-2 border-gold/30">
+                 <span className="material-symbols-outlined absolute top-4 left-4 text-gold/20 text-4xl -z-10">format_quote</span>
+                 <p className="font-serif italic text-charcoal/90 text-lg leading-relaxed mb-3 relative z-10">
+                    "{plant.curatorNote}"
+                 </p>
+                 <p className="text-[9px] font-mono uppercase tracking-widest text-gold-dark text-right">— Notas do Sommelier</p>
+              </div>
             </div>
 
-            <div className="border-t border-gold/20 pt-8">
-              <h3 className="font-mono text-xs uppercase tracking-[0.2em] text-gray-400 mb-4">Necessidades de Cultivo</h3>
+            {/* Rituals Grid */}
+            <div>
+              <h3 className="font-mono text-[10px] uppercase tracking-[0.25em] text-gray-400 mb-6 flex items-center gap-4">
+                 <span className="w-8 h-px bg-gray-200"></span>
+                 Ritual de Cultivo
+                 <span className="w-8 h-px bg-gray-200"></span>
+              </h3>
               
-              <div className="grid grid-cols-1 gap-4">
-                <div className="flex items-start gap-4">
-                   <Tooltip content="Necessidade de Água">
-                     <div className="w-10 h-10 rounded-full bg-[#F2EFE9] flex items-center justify-center text-gold-dark shrink-0 cursor-help">
-                        <span className="material-symbols-outlined">water_drop</span>
-                     </div>
-                   </Tooltip>
-                   <div>
-                     <h4 className="font-bold text-charcoal font-serif">Rega</h4>
-                     <p className="text-sm text-gray-600 leading-relaxed">{careRitual.description} ({careRitual.frequency})</p>
+              <div className="grid grid-cols-2 gap-x-6 gap-y-8">
+                <div className="col-span-2 md:col-span-1">
+                   <div className="flex items-center gap-3 mb-2 text-gold-dark">
+                      <span className="material-symbols-outlined">water_drop</span>
+                      <h4 className="font-serif text-lg text-charcoal">Hidratação</h4>
                    </div>
+                   <p className="text-xs font-mono text-gray-500 uppercase tracking-wide mb-1">{careRitual.frequency}</p>
+                   <p className="text-sm text-gray-600 leading-relaxed font-light">{careRitual.description}</p>
                 </div>
 
-                <div className="flex items-start gap-4">
-                   <Tooltip content="Exposição Solar">
-                     <div className="w-10 h-10 rounded-full bg-[#F2EFE9] flex items-center justify-center text-gold-dark shrink-0 cursor-help">
-                        <span className="material-symbols-outlined">wb_sunny</span>
-                     </div>
-                   </Tooltip>
-                   <div>
-                     <h4 className="font-bold text-charcoal font-serif">Luz</h4>
-                     <p className="text-sm text-gray-600 leading-relaxed">Prefere luz indireta brilhante. Evite sol direto que pode queimar as folhas delicadas.</p>
+                <div className="col-span-2 md:col-span-1">
+                   <div className="flex items-center gap-3 mb-2 text-gold-dark">
+                      <span className="material-symbols-outlined">wb_twilight</span>
+                      <h4 className="font-serif text-lg text-charcoal">Iluminação</h4>
                    </div>
-                </div>
-
-                <div className="flex items-start gap-4">
-                   <Tooltip content="Temperatura Ideal">
-                     <div className="w-10 h-10 rounded-full bg-[#F2EFE9] flex items-center justify-center text-gold-dark shrink-0 cursor-help">
-                        <span className="material-symbols-outlined">thermostat</span>
-                     </div>
-                   </Tooltip>
-                   <div>
-                     <h4 className="font-bold text-charcoal font-serif">Clima</h4>
-                     <p className="text-sm text-gray-600 leading-relaxed">Manter entre 18°C e 26°C. Aprecia umidade elevada.</p>
-                   </div>
+                   <p className="text-xs font-mono text-gray-500 uppercase tracking-wide mb-1">Indireta / Filtrada</p>
+                   <p className="text-sm text-gray-600 leading-relaxed font-light">
+                      Luz brilhante mas difusa. Evite sol direto do meio-dia que pode causar queimaduras foliares.
+                   </p>
                 </div>
               </div>
             </div>
             
-            <button className="w-full py-4 mt-4 border border-gold text-gold-dark font-mono text-xs uppercase tracking-[0.2em] hover:bg-gold hover:text-white transition-all focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gold">
-              Discutir no Fórum
-            </button>
+            <div className="pt-6 mt-8 border-t border-gold/10 flex justify-between items-center">
+               <span className="text-2xl font-serif text-charcoal">{plant.price}</span>
+               <button className="gold-border-btn px-6 py-3 text-[10px] font-bold uppercase tracking-[0.2em] hover:bg-gold hover:text-white transition-all">
+                  Adicionar à Coleção
+               </button>
+            </div>
           </div>
         </div>
       </div>

@@ -33,7 +33,7 @@ const Footer: React.FC = () => {
 
       {/* --- 2. Background Typography --- */}
       <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-full text-center pointer-events-none select-none z-0 leading-none">
-        <span className="text-[18vw] font-serif font-bold text-premium-dark tracking-tighter mix-blend-color-dodge opacity-60 block translate-y-[20%]">
+        <span className="text-[22vw] font-serif font-bold text-premium-dark tracking-tighter mix-blend-color-dodge opacity-60 block translate-y-[5%]">
           SABER
         </span>
       </div>

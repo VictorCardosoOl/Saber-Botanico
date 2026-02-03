@@ -32,6 +32,12 @@ section {
   color: inherit;
 }
 
+/* Focus Ring Customizado (Acessibilidade + Design) */
+:focus-visible {
+  outline: 1px solid #D4AF37;
+  outline-offset: 4px;
+}
+
 /* Utilitários de Tipografia Fluida (Clamp) */
 .text-fluid-h1 {
   font-size: clamp(2.5rem, 5vw + 1rem, 5rem);

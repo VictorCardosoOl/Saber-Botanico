@@ -3,6 +3,7 @@ import { useScrollVisibility } from '../hooks/useScrollVisibility';
 import { Link, useLocation } from 'react-router-dom';
 import { NAVIGATION_LINKS } from '../constants';
 import Tooltip from './Tooltip';
+import { motion, useScroll, useSpring } from 'framer-motion';
 
 const Logo: React.FC = () => (
   <Link to="/" className="flex items-center gap-3 group shrink-0" aria-label="Saber Botânico Home">
@@ -44,6 +45,14 @@ const Header: React.FC = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const isVisible = useScrollVisibility({ threshold: 10 });
   const location = useLocation();
+  
+  // Scroll Progress Logic
+  const { scrollYProgress } = useScroll();
+  const scaleX = useSpring(scrollYProgress, {
+    stiffness: 100,
+    damping: 30,
+    restDelta: 0.001
+  });
   
   const headerClasses = useMemo(() => {
     // Usar fundo transparente no topo, e vidro fosco ao rolar
@@ -98,6 +107,14 @@ const Header: React.FC = () => {
             </div>
           </div>
         </div>
+        
+        {/* Reading Progress Bar - UX Detail */}
+        {!isMobileMenuOpen && (
+           <motion.div
+             className="absolute bottom-0 left-0 right-0 h-[1px] bg-gold origin-left"
+             style={{ scaleX }}
+           />
+        )}
       </header>
 
       {/* Mobile Menu Overlay */}

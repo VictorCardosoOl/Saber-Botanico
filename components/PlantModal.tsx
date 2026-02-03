@@ -2,6 +2,7 @@ import React, { useEffect, useCallback, useRef } from 'react';
 import { RITUALS } from '../constants';
 import { PlantSpecimen, RitualStep } from '../types';
 import Tooltip from './Tooltip';
+import { useToast } from '../context/ToastContext';
 
 interface PlantModalProps {
   plant: PlantSpecimen | null;
@@ -10,6 +11,7 @@ interface PlantModalProps {
 
 const PlantModal: React.FC<PlantModalProps> = ({ plant, onClose }) => {
   const modalRef = useRef<HTMLDivElement>(null);
+  const { addToast } = useToast();
   
   const handleKeyDown = useCallback((event: KeyboardEvent) => {
     if (event.key === 'Escape') {
@@ -60,6 +62,12 @@ const PlantModal: React.FC<PlantModalProps> = ({ plant, onClose }) => {
       if (timer) clearTimeout(timer);
     };
   }, [handleKeyDown]);
+
+  const handleAddToCollection = () => {
+    if (plant) {
+        addToast(`${plant.name} foi adicionada à sua coleção.`);
+    }
+  };
 
   if (!plant) return null;
 
@@ -180,7 +188,10 @@ const PlantModal: React.FC<PlantModalProps> = ({ plant, onClose }) => {
             
             <div className="pt-6 mt-8 border-t border-gold/10 flex justify-between items-center">
                <span className="text-2xl font-serif text-charcoal">{plant.price}</span>
-               <button className="gold-border-btn px-6 py-3 text-[10px] font-bold uppercase tracking-[0.2em] hover:bg-gold hover:text-white transition-all">
+               <button 
+                onClick={handleAddToCollection}
+                className="gold-border-btn px-6 py-3 text-[10px] font-bold uppercase tracking-[0.2em] border border-gold text-gold-dark hover:bg-gold hover:text-white transition-all"
+               >
                   Adicionar à Coleção
                </button>
             </div>

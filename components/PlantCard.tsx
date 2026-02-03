@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect, useCallback } from 'react';
 import { PlantSpecimen } from '../types';
-import { motion } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
 
 interface PlantCardProps {
   plant: PlantSpecimen;
@@ -8,20 +8,26 @@ interface PlantCardProps {
 
 const PlantCard: React.FC<PlantCardProps> = ({ plant }) => {
   const [isExpanded, setIsExpanded] = useState(false);
-  const [isTruncated, setIsTruncated] = useState(false);
+  const [needsTruncation, setNeedsTruncation] = useState(false);
   const textRef = useRef<HTMLParagraphElement>(null);
 
   useEffect(() => {
     const element = textRef.current;
     if (!element) return;
-    const observer = new ResizeObserver((entries) => {
-      for (const entry of entries) {
-        const { scrollHeight, clientHeight } = entry.target;
-        setIsTruncated(scrollHeight > clientHeight + 1);
-      }
-    });
-    observer.observe(element);
-    return () => observer.disconnect();
+    
+    // Verifica se o texto excede o limite de linhas (definido pelo line-clamp-2 inicial)
+    const checkTruncation = () => {
+        // Se estiver expandido, não precisamos re-verificar pois queremos manter o botão de "Reduzir"
+        if (isExpanded) return;
+        
+        if (element.scrollHeight > element.clientHeight) {
+            setNeedsTruncation(true);
+        }
+    };
+    
+    // Pequeno delay para garantir que o layout renderizou
+    const timer = setTimeout(checkTruncation, 50);
+    return () => clearTimeout(timer);
   }, [plant.description, isExpanded]);
 
   const toggleDescription = useCallback((e: React.MouseEvent) => {
@@ -31,8 +37,9 @@ const PlantCard: React.FC<PlantCardProps> = ({ plant }) => {
 
   return (
     <motion.div 
+      layout
       whileHover={{ y: -8 }}
-      transition={{ type: "spring", stiffness: 300, damping: 20 }}
+      transition={{ layout: { duration: 0.3, ease: "easeInOut" }, y: { duration: 0.2 } }}
       className="group flex flex-col h-full bg-transparent cursor-pointer"
     >
         {/* Image Area - Pure, no borders */}
@@ -58,7 +65,7 @@ const PlantCard: React.FC<PlantCardProps> = ({ plant }) => {
              
              {/* Hover Actions */}
              <div className="absolute bottom-6 left-6 opacity-0 group-hover:opacity-100 transition-all duration-500 translate-y-4 group-hover:translate-y-0">
-                <span className="text-white font-mono text-[9px] uppercase tracking-widest border-b border-white/50 pb-1">Ler Ficha Técnica</span>
+                <span className="text-white font-mono text-[9px] uppercase tracking-widest border-b border-white/50 pb-1">Ver Detalhes</span>
              </div>
         </div>
         
@@ -84,14 +91,37 @@ const PlantCard: React.FC<PlantCardProps> = ({ plant }) => {
               className="h-px bg-charcoal/10 mb-4"
             ></motion.div>
 
-            <div className="flex-grow relative">
-              <p 
+            <motion.div layout className="flex-grow relative">
+              <motion.p 
+                layout
                 ref={textRef}
-                className={`text-sm text-charcoal/60 font-sans leading-relaxed font-light transition-all duration-300 ${isExpanded ? '' : 'line-clamp-2'}`}
+                className={`text-sm text-charcoal/60 font-sans leading-relaxed font-light overflow-hidden ${isExpanded ? '' : 'line-clamp-2'}`}
               >
                   {plant.description}
-              </p>
-            </div>
+              </motion.p>
+              
+              <AnimatePresence>
+                {(needsTruncation || isExpanded) && (
+                   <motion.button
+                     layout
+                     initial={{ opacity: 0 }}
+                     animate={{ opacity: 1 }}
+                     exit={{ opacity: 0 }}
+                     onClick={toggleDescription}
+                     className="mt-3 text-[10px] font-mono uppercase tracking-widest text-gold-dark hover:text-gold flex items-center gap-1 group/btn"
+                   >
+                     <span>{isExpanded ? 'Reduzir' : 'Ler mais'}</span>
+                     <motion.span 
+                        animate={{ rotate: isExpanded ? 180 : 0 }}
+                        transition={{ duration: 0.3 }}
+                        className="material-symbols-outlined text-[14px]"
+                     >
+                        expand_more
+                     </motion.span>
+                   </motion.button>
+                )}
+              </AnimatePresence>
+            </motion.div>
         </div>
     </motion.div>
   );

@@ -39,15 +39,15 @@ const Footer: React.FC = () => {
       </div>
 
       {/* --- 3. Main Content --- */}
-      <div className="relative z-10 max-w-screen-2xl mx-auto px-6 md:px-12 pt-24 pb-12">
+      <div className="relative z-10 max-w-screen-2xl mx-auto px-6 md:px-12 pt-32 pb-24">
         
         {/* Top Border for Structure */}
-        <div className="w-full h-px bg-white/10 mb-12" />
+        <div className="w-full h-px bg-white/10 mb-16" />
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 lg:gap-0 lg:divide-x divide-white/5">
           
           {/* Col 1: Identity */}
-          <div className="flex flex-col justify-between pr-8 min-h-[200px]">
+          <div className="flex flex-col justify-between pr-8 min-h-[240px]">
             <div>
               <span className="text-[10px] uppercase tracking-[0.25em] text-stone-500 mb-4 block">
                 Est. {currentYear}
@@ -70,7 +70,7 @@ const Footer: React.FC = () => {
           </div>
 
           {/* Col 2: Location & CTA */}
-          <div className="flex flex-col justify-between lg:px-8 min-h-[200px]">
+          <div className="flex flex-col justify-between lg:px-8 min-h-[240px]">
             <div>
               <span className="text-[10px] uppercase tracking-[0.25em] text-stone-500 mb-6 block">
                 Estúdio
@@ -101,7 +101,7 @@ const Footer: React.FC = () => {
           </div>
 
           {/* Col 3: Social Links */}
-          <div className="flex flex-col lg:px-8 min-h-[200px]">
+          <div className="flex flex-col lg:px-8 min-h-[240px]">
             <span className="text-[10px] uppercase tracking-[0.25em] text-stone-500 mb-6 block">
               Conexão
             </span>
@@ -132,7 +132,7 @@ const Footer: React.FC = () => {
           </div>
 
           {/* Col 4: Menu & Credits */}
-          <div className="flex flex-col justify-between lg:pl-8 min-h-[200px]">
+          <div className="flex flex-col justify-between lg:pl-8 min-h-[240px]">
             <div>
               <span className="text-[10px] uppercase tracking-[0.25em] text-stone-500 mb-6 block">
                 Índice

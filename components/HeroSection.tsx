@@ -5,10 +5,13 @@ import { LUXURY_EASE } from './Animation';
 
 const HeroSection: React.FC = () => {
   const { scrollY } = useScroll();
-  // Paralaxe suave: O texto sobe mais rápido que a imagem
-  const yText = useTransform(scrollY, [0, 500], [0, 150]);
+  // Paralaxe suave: Ajustado de 150 para 100 para um movimento menos agressivo
+  const yText = useTransform(scrollY, [0, 500], [0, 100]);
   const yImage = useTransform(scrollY, [0, 500], [0, 50]);
   const opacityText = useTransform(scrollY, [0, 300], [1, 0]);
+  
+  // Efeito Zoom Out: A imagem começa levemente ampliada e reduz ao rolar (1.15 -> 1.0)
+  const scaleImage = useTransform(scrollY, [0, 500], [1.15, 1]);
 
   const containerVariants = {
     hidden: { opacity: 0 },
@@ -94,10 +97,10 @@ const HeroSection: React.FC = () => {
              
              {/* Main Image Container */}
              <div className="relative w-full h-full overflow-hidden rounded-t-[200px] rounded-b-[10px] shadow-2xl shadow-black/50">
-                <div 
-                  className="w-full h-full bg-cover bg-center transition-all duration-[2s] ease-out group-hover:scale-110 group-hover:brightness-90 group-hover:contrast-[1.1]"
-                  style={{ backgroundImage: `url('${HERO_IMAGE}')` }}
-                ></div>
+                <motion.div 
+                  className="w-full h-full bg-cover bg-center transition-all duration-[2s] ease-out group-hover:brightness-90 group-hover:contrast-[1.1]"
+                  style={{ backgroundImage: `url('${HERO_IMAGE}')`, scale: scaleImage }}
+                ></motion.div>
                 
                 {/* Texture Overlay on Image */}
                 <div className="absolute inset-0 bg-noise opacity-20 mix-blend-overlay"></div>

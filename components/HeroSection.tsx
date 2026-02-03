@@ -16,7 +16,9 @@ const HeroSection: React.FC = () => {
       opacity: 1,
       transition: {
         staggerChildren: 0.15,
-        delayChildren: 0.2
+        // Aumentado o delay para 1.2s para garantir que a imagem já tenha sido revelada
+        // antes do texto começar a aparecer, criando uma narrativa visual sequencial.
+        delayChildren: 1.2
       }
     }
   };
@@ -93,7 +95,7 @@ const HeroSection: React.FC = () => {
              {/* Main Image Container */}
              <div className="relative w-full h-full overflow-hidden rounded-t-[200px] rounded-b-[10px] shadow-2xl shadow-black/50">
                 <div 
-                  className="w-full h-full bg-cover bg-center grayscale-[20%] group-hover:grayscale-0 group-hover:scale-110 transition-all duration-[2s] ease-out"
+                  className="w-full h-full bg-cover bg-center transition-all duration-[2s] ease-out group-hover:scale-110 group-hover:brightness-90 group-hover:contrast-[1.1]"
                   style={{ backgroundImage: `url('${HERO_IMAGE}')` }}
                 ></div>
                 

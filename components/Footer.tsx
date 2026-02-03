@@ -1,117 +1,173 @@
 import React from 'react';
+import { 
+  ArrowUpRight, 
+  Instagram, 
+  Linkedin, 
+  Twitter, 
+  Globe, 
+  Mail,
+  Leaf
+} from 'lucide-react';
 import { Link } from 'react-router-dom';
-import { NAVIGATION_LINKS, SOCIAL_LINKS } from '../constants';
 
 const Footer: React.FC = () => {
   const currentYear = new Date().getFullYear();
 
   return (
-    <footer className="relative bg-[#080a08] text-[#E5E5E5] overflow-hidden pt-24 pb-8 border-t border-white/5">
-      {/* Background Noise Texture */}
-      <div className="absolute inset-0 bg-noise opacity-[0.05] pointer-events-none mix-blend-overlay"></div>
+    <footer className="relative bg-premium-black text-stone-400 overflow-hidden font-sans selection:bg-stone-700 selection:text-white border-t border-white/5">
       
-      {/* Container Principal */}
-      <div className="container relative z-10 px-6 md:px-12">
+      {/* --- 1. Texture Layer (Noise) --- */}
+      <div className="absolute inset-0 pointer-events-none opacity-[0.05] mix-blend-overlay z-0">
+        <svg className='w-full h-full'>
+            <filter id='noiseFilter'>
+                <feTurbulence 
+                    type='fractalNoise' 
+                    baseFrequency='0.8' 
+                    numOctaves='3' 
+                    stitchTiles='stitch'
+                />
+            </filter>
+            <rect width='100%' height='100%' filter='url(#noiseFilter)' />
+        </svg>
+      </div>
+
+      {/* --- 2. Background Typography --- */}
+      <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-full text-center pointer-events-none select-none z-0 leading-none">
+        <span className="text-[18vw] font-serif font-bold text-premium-dark tracking-tighter mix-blend-color-dodge opacity-60 block translate-y-[20%]">
+          SABER
+        </span>
+      </div>
+
+      {/* --- 3. Main Content --- */}
+      <div className="relative z-10 max-w-screen-2xl mx-auto px-6 md:px-12 pt-24 pb-12">
         
-        {/* Top Grid: Columns with separators */}
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-12 md:gap-0 mb-32 border-b border-white/10 pb-12 md:border-b-0 md:pb-0">
+        {/* Top Border for Structure */}
+        <div className="w-full h-px bg-white/10 mb-12" />
+
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 lg:gap-0 lg:divide-x divide-white/5">
           
-          {/* Col 1: Brand/Context */}
-          <div className="flex flex-col justify-between md:pr-12 md:border-r border-white/10 min-h-[160px]">
-             <div>
-               <span className="font-mono text-[10px] uppercase tracking-[0.2em] text-white/40 block mb-3">
-                 Saber Botânico | Vol. II
-               </span>
-               <h3 className="font-serif text-3xl leading-tight text-[#E5E5E5]">
-                 Enciclopédia <br/> Viva
-               </h3>
-             </div>
-             <p className="font-sans text-sm text-white/50 mt-8 md:mt-0">
-               {currentYear} © Edição Digital
-             </p>
+          {/* Col 1: Identity */}
+          <div className="flex flex-col justify-between pr-8 min-h-[200px]">
+            <div>
+              <span className="text-[10px] uppercase tracking-[0.25em] text-stone-500 mb-4 block">
+                Est. {currentYear}
+              </span>
+              <div className="flex items-center gap-3 mb-2">
+                 <Leaf className="w-6 h-6 text-gold" strokeWidth={1} />
+                 <h2 className="text-3xl md:text-4xl font-serif text-stone-100 leading-tight">
+                    Saber Botânico
+                 </h2>
+              </div>
+              <p className="font-serif italic text-lg text-stone-500 font-light">
+                Digital Arboretum
+              </p>
+            </div>
+            <div className="mt-8 md:mt-0">
+               <p className="text-xs text-stone-600 uppercase tracking-widest max-w-[200px]">
+                 Cultivando conhecimento, uma folha de cada vez.
+               </p>
+            </div>
           </div>
 
-          {/* Col 2: Call to Action / Location style */}
-          <div className="flex flex-col justify-between md:px-12 md:border-r border-white/10 min-h-[160px]">
-             <div>
-               <span className="font-serif text-2xl text-[#E5E5E5] block mb-2">
-                 Arquivo<br/>Principal
-               </span>
-             </div>
-             <Link to="/glosario" className="group flex items-center gap-2 text-[#E5E5E5] hover:text-gold transition-colors">
-               <span className="material-symbols-outlined text-4xl font-light group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform duration-500">
-                 arrow_outward
-               </span>
-             </Link>
+          {/* Col 2: Location & CTA */}
+          <div className="flex flex-col justify-between lg:px-8 min-h-[200px]">
+            <div>
+              <span className="text-[10px] uppercase tracking-[0.25em] text-stone-500 mb-6 block">
+                Estúdio
+              </span>
+              <address className="not-italic text-stone-300 leading-relaxed mb-6">
+                Av. Paulista, 1000<br />
+                São Paulo, SP — Brasil
+              </address>
+              <a 
+                href="mailto:contato@saberbotanico.com" 
+                className="group inline-flex items-center gap-2 text-stone-100 hover:text-white transition-colors duration-300"
+              >
+                <Mail className="w-4 h-4" />
+                <span className="border-b border-stone-700 group-hover:border-white pb-0.5 transition-all">
+                  contato@saberbotanico.com
+                </span>
+              </a>
+            </div>
+            
+            <a href="#/glosario" className="group mt-8 inline-flex items-center justify-between w-full py-4 border-t border-white/10 hover:bg-white/5 transition-colors cursor-pointer">
+              <span className="font-serif text-xl text-stone-200 group-hover:pl-2 transition-all duration-500">
+                Iniciar Coleção
+              </span>
+              <div className="bg-white/10 rounded-full p-2 group-hover:bg-gold group-hover:text-premium-black transition-all duration-300">
+                <ArrowUpRight className="w-5 h-5" />
+              </div>
+            </a>
           </div>
 
-          {/* Col 3: Socials (Centered in column visually) */}
-          <div className="flex flex-col justify-center items-start md:items-center md:px-12 md:border-r border-white/10 min-h-[160px]">
-             <div className="flex flex-col gap-6">
-               {SOCIAL_LINKS.map((social) => (
-                 <a 
-                   key={social.platform}
-                   href={social.url}
-                   target="_blank"
-                   rel="noopener noreferrer"
-                   className="group flex items-center gap-4 text-[#E5E5E5] hover:text-gold transition-colors"
-                 >
-                   <i className={`fa-brands fa-${social.platform.toLowerCase()} text-lg hidden`}></i> {/* Fallback if using FA */}
-                   <span className="font-mono text-xs uppercase tracking-[0.2em] opacity-60 group-hover:opacity-100 transition-opacity">
-                      {social.platform}
-                   </span>
-                 </a>
-               ))}
-             </div>
+          {/* Col 3: Social Links */}
+          <div className="flex flex-col lg:px-8 min-h-[200px]">
+            <span className="text-[10px] uppercase tracking-[0.25em] text-stone-500 mb-6 block">
+              Conexão
+            </span>
+            <ul className="space-y-4">
+              {[
+                { name: 'Instagram', icon: Instagram, url: '#' },
+                { name: 'Pinterest', icon: Linkedin, url: '#' }, // Using Linkedin icon as placeholder for Pinterest if needed, or stick to provided
+                { name: 'Twitter / X', icon: Twitter, url: '#' },
+                { name: 'Comunidade', icon: Globe, url: '#' },
+              ].map((item) => (
+                <li key={item.name}>
+                  <a 
+                    href={item.url}
+                    target="_blank"
+                    rel="noopener noreferrer" 
+                    className="flex items-center gap-4 group cursor-pointer"
+                  >
+                    <div className="p-2 border border-white/10 rounded-full group-hover:border-stone-500 transition-colors">
+                      <item.icon className="w-4 h-4 text-stone-500 group-hover:text-stone-100 transition-colors" />
+                    </div>
+                    <span className="text-sm font-medium text-stone-400 group-hover:text-white group-hover:translate-x-1 transition-all duration-300">
+                      {item.name}
+                    </span>
+                  </a>
+                </li>
+              ))}
+            </ul>
           </div>
 
-          {/* Col 4: Navigation Links */}
-          <div className="flex flex-col justify-between md:pl-12 min-h-[160px]">
-             <span className="font-mono text-[10px] uppercase tracking-[0.2em] text-white/40 block mb-6">
-               Diretrizes
-             </span>
-             <nav className="flex flex-col gap-3">
-               {NAVIGATION_LINKS.map((link) => (
-                 <Link 
-                   key={link.path} 
-                   to={link.path}
-                   className="font-sans text-lg text-[#E5E5E5] hover:text-gold hover:pl-2 transition-all duration-300"
-                 >
-                   {link.label}
-                 </Link>
-               ))}
-             </nav>
+          {/* Col 4: Menu & Credits */}
+          <div className="flex flex-col justify-between lg:pl-8 min-h-[200px]">
+            <div>
+              <span className="text-[10px] uppercase tracking-[0.25em] text-stone-500 mb-6 block">
+                Índice
+              </span>
+              <nav className="flex flex-col gap-3">
+                {[
+                    { label: 'Glosário', path: '/glosario' },
+                    { label: 'Vasos', path: '/vasos' },
+                    { label: 'Solo', path: '/solo' },
+                    { label: 'Rituais', path: '/cuidados' }
+                ].map((link) => (
+                  <Link 
+                    key={link.label} 
+                    to={link.path}
+                    className="text-lg text-stone-300 hover:text-white hover:translate-x-2 transition-transform duration-300 w-fit"
+                  >
+                    {link.label}
+                  </Link>
+                ))}
+              </nav>
+            </div>
+            
+            <div className="mt-12 pt-4 border-t border-white/10">
+               <div className="flex justify-between items-end">
+                 <p className="text-[10px] text-stone-600 uppercase tracking-wider">
+                   © {currentYear} Saber Botânico.
+                 </p>
+                 <span className="text-[10px] text-stone-700 hover:text-stone-500 cursor-pointer transition-colors">
+                   Privacidade & Termos
+                 </span>
+               </div>
+            </div>
           </div>
 
         </div>
-
-        {/* Massive Typography - "The Monster Effect" */}
-        <div className="relative w-full border-b border-white/10 mb-6 overflow-hidden">
-           <h1 className="font-serif text-[18vw] md:text-[21vw] leading-[0.75] text-[#E5E5E5] text-center tracking-tighter opacity-90 select-none mix-blend-lighten pointer-events-none transform translate-y-4 md:translate-y-8">
-             SABER
-           </h1>
-           {/* Decorative line above text visually simulating the line in reference */}
-           <div className="absolute top-0 left-1/2 -translate-x-1/2 w-24 h-1 bg-[#E5E5E5] mt-8 hidden md:block"></div>
-        </div>
-
-        {/* Bottom Bar: Legal & Secondary Info */}
-        <div className="flex flex-col md:flex-row justify-between items-center gap-4 pt-4 text-[10px] font-mono uppercase tracking-[0.1em] text-white/30">
-           <div className="flex gap-1 items-center">
-              <span className="material-symbols-outlined text-sm animate-spin-slow">spa</span>
-              <span>Design Biofílico</span>
-           </div>
-           
-           <div className="flex flex-wrap justify-center gap-6 md:gap-12">
-              <a href="#" className="hover:text-white transition-colors">Política de Privacidade</a>
-              <a href="#" className="hover:text-white transition-colors">Termos de Uso</a>
-              <a href="#" className="hover:text-white transition-colors">Créditos</a>
-           </div>
-
-           <div className="text-right">
-              <span>L'EFFET MONSTRE</span>
-           </div>
-        </div>
-
       </div>
     </footer>
   );

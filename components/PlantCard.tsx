@@ -1,5 +1,6 @@
 import React, { useState, useRef, useEffect, useCallback } from 'react';
 import { PlantSpecimen } from '../types';
+import { motion } from 'framer-motion';
 
 interface PlantCardProps {
   plant: PlantSpecimen;
@@ -29,11 +30,15 @@ const PlantCard: React.FC<PlantCardProps> = ({ plant }) => {
   }, []);
 
   return (
-    <div className="group flex flex-col h-full bg-transparent transition-all duration-500 ease-out cursor-pointer">
+    <motion.div 
+      whileHover={{ y: -8 }}
+      transition={{ type: "spring", stiffness: 300, damping: 20 }}
+      className="group flex flex-col h-full bg-transparent cursor-pointer"
+    >
         {/* Image Area - Pure, no borders */}
-        <div className="relative aspect-[3/4] overflow-hidden bg-gray-100 mb-6">
+        <div className="relative aspect-[3/4] overflow-hidden bg-gray-100 mb-6 shadow-sm group-hover:shadow-2xl transition-shadow duration-500 rounded-sm">
             <div 
-                className="w-full h-full bg-cover bg-center transition-transform duration-[1.5s] ease-out group-hover:scale-105 grayscale-[30%] group-hover:grayscale-0" 
+                className="w-full h-full bg-cover bg-center transition-transform duration-[1.5s] ease-out group-hover:scale-110 grayscale-[30%] group-hover:grayscale-0" 
                 style={{backgroundImage: `url('${plant.imageUrl}')`}}
             ></div>
             
@@ -43,7 +48,11 @@ const PlantCard: React.FC<PlantCardProps> = ({ plant }) => {
             {/* Rarity Tag - Minimalist */}
              {plant.isRare && (
                 <div className="absolute top-0 right-0 p-4">
-                     <span className="block w-2 h-2 bg-gold rounded-full shadow-[0_0_10px_rgba(212,175,55,0.8)]"></span>
+                     <motion.span 
+                        animate={{ boxShadow: ["0 0 0px rgba(212,175,55,0)", "0 0 10px rgba(212,175,55,0.8)", "0 0 0px rgba(212,175,55,0)"] }}
+                        transition={{ duration: 2, repeat: Infinity }}
+                        className="block w-2 h-2 bg-gold rounded-full"
+                     ></motion.span>
                 </div>
              )}
              
@@ -68,7 +77,12 @@ const PlantCard: React.FC<PlantCardProps> = ({ plant }) => {
               {plant.scientificName}
             </p>
 
-            <div className="w-8 h-px bg-charcoal/10 mb-4 group-hover:w-full group-hover:bg-gold/30 transition-all duration-700"></div>
+            <motion.div 
+              initial={{ width: 32 }}
+              whileHover={{ width: "100%", backgroundColor: "rgba(212, 175, 55, 0.3)" }}
+              transition={{ duration: 0.5 }}
+              className="h-px bg-charcoal/10 mb-4"
+            ></motion.div>
 
             <div className="flex-grow relative">
               <p 
@@ -79,7 +93,7 @@ const PlantCard: React.FC<PlantCardProps> = ({ plant }) => {
               </p>
             </div>
         </div>
-    </div>
+    </motion.div>
   );
 };
 

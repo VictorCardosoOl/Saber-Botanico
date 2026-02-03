@@ -65,6 +65,11 @@ export default {
           dark: '#6B7C72'
         },
         charcoal: '#262626',
+        premium: {
+          black: '#0c0a09', // stone-950 ajustado
+          dark: '#1c1917',  // stone-900
+          accent: '#d6d3d1', // stone-300
+        }
       },
       backgroundImage: {
         'luxury-gradient': 'linear-gradient(135deg, #051605 0%, #0F2F1E 100%)',

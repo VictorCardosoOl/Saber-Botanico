@@ -1,10 +1,29 @@
 /* Base styles - Plain CSS since we are using CDN */
-html, body {
+html {
+  /* Scroll Snap configuration for "Page by Page" feel */
+  scroll-behavior: smooth;
+  scroll-snap-type: y proximity; /* 'proximity' snaps nicely but doesn't trap the user like 'mandatory' */
   height: 100%;
+  overflow-y: scroll;
+}
+
+body {
+  width: 100%;
+  min-height: 100vh;
   overflow-x: hidden;
+  
+  /* Cores e Fontes */
+  background-color: #051605;
+  color: #F9F7F2;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-rendering: optimizeLegibility;
+}
+
+/* Garante que cada seção principal atraia o scroll */
+section {
+  scroll-snap-align: start;
+  scroll-margin-top: 0px;
 }
 
 /* Seleção de Texto Premium */

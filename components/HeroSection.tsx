@@ -3,107 +3,87 @@ import { HERO_IMAGE } from '../constants';
 
 const HeroSection: React.FC = () => {
   return (
-    // Usa min-h-[100svh] para lidar com a barra de endereço do mobile corretamente
-    <section id="hero" className="relative min-h-[100svh] w-full flex flex-col pt-24 pb-12 overflow-hidden bg-forest-dark justify-center">
+    <section id="hero" className="relative min-h-[100svh] w-full flex flex-col items-center justify-center pt-24 pb-12 overflow-hidden bg-forest-dark">
       {/* Background Elements */}
-      <div className="absolute inset-0 bg-noise pointer-events-none opacity-30 mix-blend-overlay"></div>
-      <div className="absolute -top-20 -right-20 w-[clamp(300px,40vw,600px)] h-[clamp(300px,40vw,600px)] bg-gold/5 rounded-full blur-[120px] pointer-events-none"></div>
+      <div className="absolute inset-0 bg-noise opacity-[0.03] mix-blend-overlay pointer-events-none z-20"></div>
       
-      <div className="container relative z-10 flex-1 flex flex-col justify-center">
-        <div className="flex flex-col-reverse lg:grid lg:grid-cols-12 gap-12 lg:gap-8 items-center h-full">
+      {/* Organic Light Blurs */}
+      <div className="absolute top-0 right-0 w-[50vw] h-[80vh] bg-gradient-to-b from-gold/5 to-transparent blur-[120px] pointer-events-none opacity-60"></div>
+      <div className="absolute bottom-0 left-0 w-[40vw] h-[60vh] bg-forest-light/10 blur-[100px] pointer-events-none"></div>
+
+      <div className="container relative z-10 h-full flex flex-col justify-center items-center">
+        
+        {/* Main Composition */}
+        <div className="relative w-full max-w-6xl mx-auto flex flex-col lg:flex-row items-center justify-center lg:justify-between gap-12 lg:gap-0 mt-8 lg:mt-0">
           
-          {/* Text Content */}
-          <div className="flex flex-col gap-10 lg:col-span-6 xl:col-span-5 z-10 animate-fade-in-up">
-            <div className="flex flex-col gap-6 text-left">
-              <div className="flex items-center gap-3 mb-2">
-                <div className="h-px w-8 bg-gold/60"></div>
-                <span className="text-gold text-[10px] font-mono uppercase tracking-widest-xl">Coleção Privada</span>
-              </div>
-              
-              {/* Tipografia Fluida via classe customizada no index.html */}
-              <h1 className="text-white text-fluid-h1 font-serif font-light tracking-tighter">
-                Cultivando <br/>
-                <span className="italic text-transparent bg-clip-text bg-gradient-to-r from-gold-light via-gold to-gold-dark pr-4">Arte Viva</span>
-              </h1>
-              
-              <h2 className="text-sage-light text-lg font-light leading-relaxed max-w-[480px] font-sans border-l border-gold/10 pl-6 tracking-wide">
-                Experimente o epítome do luxo botânico. Guias curados para a flora mais rara, projetados para o conhecedor moderno.
-              </h2>
-            </div>
-            
-            <div className="flex flex-col sm:flex-row gap-6 mt-6">
-              <button className="group flex min-w-[180px] cursor-pointer items-center justify-center rounded-sm h-14 px-8 border border-gold/40 hover:bg-gold/5 hover:border-gold transition-all duration-500 text-gold-light text-xs font-mono uppercase tracking-widest">
-                <span className="mr-3">Explorar Galeria</span>
-                <span className="material-symbols-outlined text-[16px] group-hover:translate-x-1 transition-transform font-light">arrow_forward</span>
-              </button>
-              <button className="flex min-w-[160px] cursor-pointer items-center justify-center rounded-sm h-14 px-8 text-sage hover:text-white transition-colors text-xs font-mono uppercase tracking-widest border-b border-transparent hover:border-gold/30">
-                Concierge
-              </button>
-            </div>
+          {/* Text Layer - Left but overlapping */}
+          <div className="relative z-20 lg:w-1/2 flex flex-col items-center lg:items-start text-center lg:text-left mix-blend-normal">
+             <div className="inline-flex items-center gap-3 mb-6 animate-fade-in-up" style={{ animationDelay: '0.1s' }}>
+                <span className="w-2 h-2 rounded-full border border-gold/50"></span>
+                <span className="text-gold/80 text-[10px] font-mono uppercase tracking-[0.3em]">Série Botânica N.01</span>
+             </div>
 
-            <div className="mt-8 lg:mt-16 pt-8 border-t border-white/5">
-              <p className="text-[10px] text-gold/40 font-mono uppercase tracking-widest mb-6">Destaque Editorial</p>
-              <div className="flex flex-wrap items-center gap-10 opacity-40 grayscale hover:grayscale-0 transition-all duration-700">
-                <span className="font-serif text-2xl italic text-white tracking-tighter">Vogue Living</span>
-                <span className="font-serif text-2xl font-bold text-white tracking-tighter">AD</span>
-                <span className="font-sans text-lg font-bold tracking-[0.2em] text-white">ELLE</span>
-                <span className="font-serif text-2xl text-white tracking-tight">Monocle</span>
-              </div>
-            </div>
+             <h1 className="font-serif text-[clamp(3.5rem,8vw,7rem)] leading-[0.9] text-paper tracking-tighter mb-8 animate-fade-in-up" style={{ animationDelay: '0.2s' }}>
+               Natureza <br/>
+               <span className="italic font-light text-gold-light opacity-90 ml-4 lg:ml-12 block transform lg:-translate-x-4">Esculpida</span>
+             </h1>
+
+             <p className="max-w-md font-sans text-sm md:text-base font-light text-sage-light leading-loose tracking-wide mb-10 animate-fade-in-up" style={{ animationDelay: '0.3s' }}>
+                Uma exploração digital da flora rara. Onde a ciência biológica encontra a estética do silêncio.
+             </p>
+
+             <div className="flex flex-col sm:flex-row gap-6 animate-fade-in-up" style={{ animationDelay: '0.4s' }}>
+                <button className="relative overflow-hidden group px-8 py-4 bg-transparent border border-paper/20 rounded-full hover:border-gold/50 transition-colors">
+                   <span className="relative z-10 text-[10px] font-mono uppercase tracking-widest text-paper group-hover:text-gold transition-colors">Entrar na Galeria</span>
+                   <div className="absolute inset-0 bg-white/5 transform translate-y-full group-hover:translate-y-0 transition-transform duration-500 ease-out"></div>
+                </button>
+             </div>
           </div>
 
-          {/* Hero Image - Grid Placement */}
-          <div className="relative w-full lg:col-span-6 lg:col-start-7 xl:col-start-7 flex justify-center lg:justify-end group perspective-1000">
-            <div className="relative w-full max-w-[500px] lg:max-w-full aspect-[4/5]">
-               <div className="absolute inset-0 border border-gold/10 rounded-t-[10rem] rounded-b-sm translate-x-4 translate-y-4 z-0 transition-transform duration-1000 group-hover:translate-x-2 group-hover:translate-y-2"></div>
-               <div className="relative z-10 w-full h-full overflow-hidden rounded-t-[10rem] rounded-b-sm shadow-2xl shadow-black/80 border border-white/5 bg-forest-dark">
-                  <div 
-                    className="w-full h-full bg-center bg-no-repeat bg-cover transform transition-transform duration-[2s] ease-out group-hover:scale-105" 
-                    style={{backgroundImage: `url("${HERO_IMAGE}")`, filter: 'brightness(0.85) contrast(1.05) saturate(0.9)'}}
-                  >
-                    <div className="absolute inset-0 bg-gradient-to-t from-forest-dark/90 via-transparent to-transparent"></div>
-                  </div>
-                  
-                  <div className="absolute bottom-0 left-0 right-0 p-6 md:p-8 glass-panel border-t border-white/5 backdrop-blur-xl">
-                    <div className="flex items-end justify-between">
-                      <div className="flex flex-col gap-2">
-                        <span className="text-[10px] font-bold text-gold uppercase tracking-widest-xl">Espécime Raro</span>
-                        <span className="text-3xl font-serif italic text-white tracking-tighter">Monstera Albo</span>
-                        <div className="flex gap-2 mt-1">
-                          <span className="px-2 py-0.5 border border-white/10 text-[9px] text-white/60 uppercase tracking-widest rounded-sm">Variegata</span>
-                          <span className="px-2 py-0.5 border border-white/10 text-[9px] text-white/60 uppercase tracking-widest rounded-sm">Interior</span>
-                        </div>
-                      </div>
-                      <button className="size-10 md:size-12 rounded-full border border-gold/30 text-gold hover:bg-gold hover:text-forest-dark transition-all duration-500 flex items-center justify-center shrink-0">
-                        <span className="material-symbols-outlined font-light text-xl">arrow_outward</span>
-                      </button>
-                    </div>
-                  </div>
-               </div>
-            </div>
+          {/* Image Layer - Right / Asymmetric */}
+          <div className="relative z-10 lg:absolute lg:right-0 lg:top-1/2 lg:-translate-y-1/2 w-full max-w-[400px] lg:max-w-[480px] aspect-[3/4] group">
+             {/* Decorative Lines */}
+             <div className="absolute -top-12 -right-12 w-full h-full border border-white/5 rounded-t-full rounded-b-full hidden lg:block animate-pulse-subtle"></div>
+             
+             {/* Main Image Container */}
+             <div className="relative w-full h-full overflow-hidden rounded-t-[200px] rounded-b-[10px] shadow-2xl shadow-black/50">
+                <div 
+                  className="w-full h-full bg-cover bg-center grayscale-[20%] group-hover:grayscale-0 group-hover:scale-110 transition-all duration-[2s] ease-out"
+                  style={{ backgroundImage: `url('${HERO_IMAGE}')` }}
+                ></div>
+                {/* Texture Overlay on Image */}
+                <div className="absolute inset-0 bg-noise opacity-20 mix-blend-overlay"></div>
+                <div className="absolute inset-0 bg-gradient-to-t from-forest-dark/80 to-transparent opacity-60"></div>
+                
+                {/* Floating Caption inside image */}
+                <div className="absolute bottom-8 left-0 w-full text-center">
+                   <p className="font-serif italic text-2xl text-white/90">Monstera Albo</p>
+                   <p className="font-mono text-[9px] uppercase tracking-widest text-white/50 mt-1">Variegata . 2024</p>
+                </div>
+             </div>
+
+             {/* Floating "Badge" Element */}
+             <div className="absolute -bottom-6 -left-6 lg:bottom-12 lg:-left-12 size-24 md:size-32 bg-forest-deep rounded-full border border-white/10 flex items-center justify-center backdrop-blur-md shadow-xl animate-spin-slow">
+                <svg className="w-full h-full p-2" viewBox="0 0 100 100">
+                   <path id="curve" d="M 50 50 m -37 0 a 37 37 0 1 1 74 0 a 37 37 0 1 1 -74 0" fill="transparent" />
+                   <text className="text-[10px] uppercase font-mono tracking-[0.3em] fill-gold-light">
+                      <textPath href="#curve">
+                         Curadoria . Botânica . Rituais .
+                      </textPath>
+                   </text>
+                </svg>
+                <span className="material-symbols-outlined absolute text-gold text-2xl">spa</span>
+             </div>
           </div>
 
         </div>
-      </div>
-      
-      {/* Footer Grid */}
-      <div className="mt-12 lg:mt-auto container">
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-6 py-8 border-t border-white/5">
-          {[
-            {icon: 'verified', title: 'Autenticidade', desc: 'Linhagem verificada.'},
-            {icon: 'water_drop', title: 'Hidratação', desc: 'Cronogramas de precisão.'},
-            {icon: 'wb_twilight', title: 'Iluminação', desc: 'Análises espectrais.'},
-            {icon: 'auto_stories', title: 'Arquivo', desc: 'Índice mestre.'}
-          ].map((item, idx) => (
-            <div key={idx} className="flex flex-col gap-3 p-4 hover:bg-white/5 transition-colors rounded-sm cursor-default group">
-              <span className="material-symbols-outlined text-gold/80 text-2xl font-light group-hover:scale-110 transition-transform origin-left">{item.icon}</span>
-              <div>
-                <h3 className="font-mono text-gold-light text-[10px] font-bold uppercase tracking-widest mb-1">{item.title}</h3>
-                <p className="text-[10px] text-sage font-light leading-relaxed">{item.desc}</p>
-              </div>
-            </div>
-          ))}
+
+        {/* Scroll Indicator */}
+        <div className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 opacity-40 mix-blend-difference animate-bounce">
+           <span className="text-[9px] font-mono uppercase tracking-widest text-paper">Explorar</span>
+           <span className="h-12 w-px bg-paper"></span>
         </div>
+
       </div>
     </section>
   );

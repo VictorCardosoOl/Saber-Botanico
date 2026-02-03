@@ -24,9 +24,10 @@ const App: React.FC = () => {
   return (
     <HelmetProvider>
       <HashRouter>
-        <div className="min-h-screen flex flex-col w-full overflow-x-hidden">
-          <ScrollToTop />
-          <Header />
+        <ScrollToTop />
+        <Header />
+        
+        <div className="w-full relative overflow-x-hidden min-h-screen flex flex-col bg-forest-dark">
           <main className="flex-1 w-full">
             <Routes>
               <Route path="/" element={<Home />} />
@@ -38,6 +39,7 @@ const App: React.FC = () => {
           </main>
           <Footer />
         </div>
+
       </HashRouter>
     </HelmetProvider>
   );

@@ -1,5 +1,5 @@
-import React, { useState, useMemo } from 'react';
-import { PLANTS } from '../constants';
+import React, { useState, useEffect } from 'react';
+import { PlantService } from '../services/plantService'; // Usando o Service
 import { PlantSpecimen } from '../types';
 import PlantCard from '../components/PlantCard';
 import PlantModal from '../components/PlantModal';
@@ -9,18 +9,18 @@ import { PageTransition, Reveal } from '../components/Animation';
 
 const Glossary: React.FC = () => {
   const [searchTerm, setSearchTerm] = useState<string>('');
+  const [plants, setPlants] = useState<PlantSpecimen[]>([]);
   const [selectedPlant, setSelectedPlant] = useState<PlantSpecimen | null>(null);
   
   const debouncedSearchTerm = useDebounce(searchTerm, 300);
 
-  const filteredPlants = useMemo(() => {
-    const term = debouncedSearchTerm.toLowerCase().trim();
-    if (!term) return PLANTS;
-    
-    return PLANTS.filter(plant => 
-      plant.name.toLowerCase().includes(term) ||
-      plant.scientificName.toLowerCase().includes(term)
-    );
+  // Efeito para busca via Service
+  useEffect(() => {
+    const fetchPlants = async () => {
+      const results = await PlantService.search(debouncedSearchTerm);
+      setPlants(results);
+    };
+    fetchPlants();
   }, [debouncedSearchTerm]);
 
   const handleCloseModal = () => setSelectedPlant(null);
@@ -68,23 +68,20 @@ const Glossary: React.FC = () => {
           </div>
           <div className="text-center mt-4">
              <span className="text-[9px] font-mono uppercase tracking-widest text-forest-dark/40">
-                {filteredPlants.length} Espécimes Encontrados
+                {plants.length} Espécimes Encontrados
              </span>
           </div>
         </Reveal>
 
         {/* Grid */}
-        {filteredPlants.length > 0 ? (
+        {plants.length > 0 ? (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-8 gap-y-16">
-            {filteredPlants.map((plant, index) => (
+            {plants.map((plant, index) => (
               <Reveal key={plant.id} delay={index * 0.05}>
-                  <button 
-                    onClick={() => setSelectedPlant(plant)} 
-                    className="cursor-pointer focus:outline-none focus:ring-2 focus:ring-gold/20 rounded-sm text-left block w-full p-0 border-none bg-transparent group perspective-1000"
-                    aria-label={`Ver detalhes de ${plant.name}`}
-                  >
-                    <PlantCard plant={plant} />
-                  </button>
+                  {/* PlantCard agora gerencia seu próprio onClick via Stretched Link, mas mantemos o wrapper para layout */}
+                  <div className="h-full">
+                    <PlantCard plant={plant} onClick={() => setSelectedPlant(plant)} />
+                  </div>
               </Reveal>
             ))}
           </div>

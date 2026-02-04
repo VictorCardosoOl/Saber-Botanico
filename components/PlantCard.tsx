@@ -1,4 +1,4 @@
-import React, { useState, useCallback, KeyboardEvent } from 'react';
+import React, { useState, useCallback } from 'react';
 import { PlantSpecimen } from '../types';
 import { motion, AnimatePresence } from 'framer-motion';
 import LazyImage from './LazyImage';
@@ -11,19 +11,12 @@ interface PlantCardProps {
 const PlantCard: React.FC<PlantCardProps> = ({ plant, onClick }) => {
   const [isExpanded, setIsExpanded] = useState(false);
 
-  // Previne a propagação e recálculos desnecessários
   const toggleDescription = useCallback((e: React.MouseEvent | React.KeyboardEvent) => {
+    // Stop propagation vital para não disparar o click do card (stretched link)
     e.stopPropagation();
+    e.preventDefault(); 
     setIsExpanded((prev) => !prev);
   }, []);
-
-  // Handler para navegação por teclado (Acessibilidade WAI-ARIA)
-  const handleKeyDown = useCallback((e: KeyboardEvent) => {
-    if (e.key === 'Enter' || e.key === ' ') {
-      e.preventDefault();
-      onClick?.();
-    }
-  }, [onClick]);
 
   return (
     <motion.article 
@@ -32,20 +25,17 @@ const PlantCard: React.FC<PlantCardProps> = ({ plant, onClick }) => {
       animate={{ opacity: 1 }}
       whileHover={{ y: -4 }} 
       transition={{ layout: { duration: 0.3 }, y: { duration: 0.2 } }}
-      className="group flex flex-col h-full bg-transparent cursor-pointer relative focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold focus-visible:rounded-sm"
-      onClick={onClick}
-      onKeyDown={handleKeyDown}
-      role="button"
-      tabIndex={0}
-      aria-label={`Ver detalhes de ${plant.name}`}
+      className="group flex flex-col h-full bg-transparent relative rounded-sm"
     >
-        {/* Visual Container */}
+        {/* 
+           IMAGEM
+           Nota: Removemos o onClick daqui. A interação agora é via o Título (Stretched Link).
+        */}
         <div className="relative aspect-[3/4] overflow-hidden bg-gray-100 mb-6 shadow-sm group-hover:shadow-2xl transition-shadow duration-500 rounded-sm">
-            
             <div className="w-full h-full relative">
                <LazyImage 
                  src={plant.imageUrl} 
-                 alt={`Exemplar de ${plant.name}`}
+                 alt="" // Alt vazio pois o contexto é dado pelo texto do card
                  className="w-full h-full object-cover transition-transform duration-[1.5s] ease-out group-hover:scale-105 grayscale-[10%] group-hover:grayscale-0"
                />
             </div>
@@ -55,24 +45,35 @@ const PlantCard: React.FC<PlantCardProps> = ({ plant, onClick }) => {
              {plant.isRare && (
                 <div className="absolute top-0 right-0 p-4 z-10" title="Espécie Rara">
                      <div className="block w-2 h-2 bg-gold rounded-full shadow-[0_0_10px_rgba(197,160,40,0.8)] animate-pulse"></div>
-                     <span className="sr-only">Item Raro</span>
                 </div>
              )}
              
-             <div className="absolute bottom-6 left-6 opacity-0 group-hover:opacity-100 transition-all duration-500 translate-y-4 group-hover:translate-y-0 z-10">
+             <div className="absolute bottom-6 left-6 opacity-0 group-hover:opacity-100 transition-all duration-500 translate-y-4 group-hover:translate-y-0 z-10 pointer-events-none">
                 <span className="text-white font-mono text-[9px] uppercase tracking-widest border-b border-white/50 pb-1">Ver Detalhes</span>
              </div>
         </div>
         
-        {/* Content Info */}
+        {/* INFO CONTAINER */}
         <div className="flex flex-col flex-1 relative px-2">
             <header className="flex justify-between items-baseline mb-2">
                <span className="font-mono text-[10px] text-gray-400 uppercase tracking-widest">Nº {plant.id.padStart(3, '0')}</span>
                <span className="font-mono text-[10px] text-gold-dark font-bold tracking-widest">{plant.price}</span>
             </header>
             
-            <h3 className="text-3xl font-serif font-medium text-charcoal leading-none tracking-tight mb-1 group-hover:text-gold-dark transition-colors duration-300">
-              {plant.name}
+            {/* 
+                CORREÇÃO DE A11Y E UX:
+                Transformamos o Título em um botão/link que estende sua área clicável 
+                para cobrir o card todo (exceto outros botões interativos).
+                Isso usa a técnica ::after { absolute inset-0 }
+            */}
+            <h3>
+              <button 
+                onClick={onClick}
+                className="text-3xl font-serif font-medium text-charcoal leading-none tracking-tight mb-1 group-hover:text-gold-dark transition-colors duration-300 text-left w-full focus:outline-none focus:underline after:absolute after:inset-0 after:z-0"
+                aria-label={`Ver detalhes de ${plant.name}`}
+              >
+                {plant.name}
+              </button>
             </h3>
             
             <p className="text-xs italic text-sage-dark font-serif tracking-wide mb-4 opacity-60 group-hover:opacity-100 transition-opacity">
@@ -95,13 +96,8 @@ const PlantCard: React.FC<PlantCardProps> = ({ plant, onClick }) => {
                      initial={{ opacity: 0 }}
                      animate={{ opacity: 1 }}
                      onClick={toggleDescription}
-                     onKeyDown={(e) => {
-                       if(e.key === 'Enter' || e.key === ' ') {
-                         e.stopPropagation(); 
-                         toggleDescription(e);
-                       }
-                     }}
-                     className="mt-3 text-[10px] font-mono uppercase tracking-widest text-gold-dark hover:text-gold flex items-center gap-1 group/btn focus:outline-none focus:underline"
+                     // Z-Index relativo para ficar ACIMA do stretched link do card
+                     className="relative z-10 mt-3 text-[10px] font-mono uppercase tracking-widest text-gold-dark hover:text-gold flex items-center gap-1 group/btn focus:outline-none focus:ring-2 focus:ring-gold rounded-sm px-1 -ml-1"
                      aria-expanded={isExpanded}
                      aria-label={isExpanded ? "Reduzir descrição" : "Ler descrição completa"}
                    >

@@ -1,9 +1,21 @@
-import React from 'react';
-import { PLANTS, ARCHIVE_HERO } from '../constants';
+import React, { useEffect, useState } from 'react';
+import { ARCHIVE_HERO } from '../constants';
+import { PlantService } from '../services/plantService';
+import { PlantSpecimen } from '../types';
 import Tooltip from './Tooltip';
 import PlantCard from './PlantCard';
 
 const ArchiveSection: React.FC = () => {
+  const [featuredPlants, setFeaturedPlants] = useState<PlantSpecimen[]>([]);
+
+  useEffect(() => {
+    const loadPlants = async () => {
+        const data = await PlantService.getFeatured(3);
+        setFeaturedPlants(data);
+    };
+    loadPlants();
+  }, []);
+
   return (
     <section id="archive" className="relative flex flex-col items-center w-full py-24 bg-[#F9F7F2] overflow-hidden">
       <div className="absolute inset-0 w-full h-full overflow-hidden -z-10 pointer-events-none opacity-40">
@@ -56,7 +68,7 @@ const ArchiveSection: React.FC = () => {
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {PLANTS.slice(0, 3).map((plant) => (
+            {featuredPlants.map((plant) => (
                 <div key={plant.id} className="h-full">
                     <PlantCard plant={plant} />
                 </div>

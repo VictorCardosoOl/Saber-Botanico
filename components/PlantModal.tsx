@@ -1,8 +1,9 @@
-import React, { useEffect, useCallback, useRef } from 'react';
+import React, { useCallback, useEffect } from 'react';
 import { RITUALS } from '../constants';
 import { PlantSpecimen, RitualStep } from '../types';
 import Tooltip from './Tooltip';
 import { useCollection } from '../context/CollectionContext';
+import { useFocusTrap } from '../hooks/useFocusTrap';
 
 interface PlantModalProps {
   plant: PlantSpecimen | null;
@@ -10,58 +11,18 @@ interface PlantModalProps {
 }
 
 const PlantModal: React.FC<PlantModalProps> = ({ plant, onClose }) => {
-  const modalRef = useRef<HTMLDivElement>(null);
+  // Hook customizado para gerenciar foco e scroll lock
+  const modalRef = useFocusTrap(!!plant);
   const { addToCollection, removeFromCollection, hasInCollection } = useCollection();
   
-  const handleKeyDown = useCallback((event: KeyboardEvent) => {
-    if (event.key === 'Escape') {
-      onClose();
-      return;
-    }
-
-    if (event.key === 'Tab' && modalRef.current) {
-      const focusableElements = modalRef.current.querySelectorAll(
-        'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])'
-      );
-      
-      if (focusableElements.length === 0) return;
-
-      const firstElement = focusableElements[0] as HTMLElement;
-      const lastElement = focusableElements[focusableElements.length - 1] as HTMLElement;
-
-      if (event.shiftKey) {
-        if (document.activeElement === firstElement) {
-          lastElement.focus();
-          event.preventDefault();
-        }
-      } else {
-        if (document.activeElement === lastElement) {
-          firstElement.focus();
-          event.preventDefault();
-        }
-      }
-    }
-  }, [onClose]);
-
+  // Handler para fechar com ESC
   useEffect(() => {
-    document.addEventListener('keydown', handleKeyDown);
-    document.body.style.overflow = 'hidden';
-    
-    let timer: number | undefined;
-
-    if (modalRef.current) {
-      timer = window.setTimeout(() => {
-          const closeBtn = modalRef.current?.querySelector('button');
-          if (closeBtn) closeBtn.focus();
-      }, 50);
-    }
-
-    return () => {
-      document.removeEventListener('keydown', handleKeyDown);
-      document.body.style.overflow = '';
-      if (timer) clearTimeout(timer);
+    const handleEsc = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') onClose();
     };
-  }, [handleKeyDown]);
+    window.addEventListener('keydown', handleEsc);
+    return () => window.removeEventListener('keydown', handleEsc);
+  }, [onClose]);
 
   if (!plant) return null;
 
@@ -80,7 +41,12 @@ const PlantModal: React.FC<PlantModalProps> = ({ plant, onClose }) => {
   ) || RITUALS[2];
 
   return (
-    <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 sm:p-6" role="dialog" aria-modal="true" aria-labelledby="modal-title">
+    <div 
+      className="fixed inset-0 z-[100] flex items-center justify-center p-4 sm:p-6" 
+      role="dialog" 
+      aria-modal="true" 
+      aria-labelledby="modal-title"
+    >
       <div 
         className="absolute inset-0 bg-forest-dark/90 backdrop-blur-md transition-opacity" 
         onClick={onClose}
@@ -89,7 +55,8 @@ const PlantModal: React.FC<PlantModalProps> = ({ plant, onClose }) => {
       
       <div 
         ref={modalRef}
-        className="relative w-full max-w-5xl bg-[#FDFBF7] rounded-sm shadow-2xl overflow-hidden flex flex-col md:flex-row animate-fade-in-up max-h-[90vh] md:max-h-[85vh]"
+        className="relative w-full max-w-5xl bg-[#FDFBF7] rounded-sm shadow-2xl overflow-hidden flex flex-col md:flex-row animate-fade-in-up max-h-[90vh] md:max-h-[85vh] focus:outline-none"
+        tabIndex={-1}
       >
         <Tooltip content="Fechar (Esc)" position="left">
           <button 
@@ -110,7 +77,6 @@ const PlantModal: React.FC<PlantModalProps> = ({ plant, onClose }) => {
           />
           <div className="absolute inset-0 bg-gradient-to-t from-forest-dark/80 via-transparent to-transparent pointer-events-none"></div>
           
-          {/* --- NOVO FEATURE: LINK DIRETO PARA IMAGEM --- */}
           <Tooltip content="Ver Imagem Original" position="right">
             <a 
                 href={plant.imageUrl} 
@@ -128,7 +94,7 @@ const PlantModal: React.FC<PlantModalProps> = ({ plant, onClose }) => {
                 <span className="material-symbols-outlined text-sm">public</span>
                 <span className="text-[10px] font-mono uppercase tracking-widest">{plant.origin}</span>
              </div>
-             <h2 className="text-3xl md:text-4xl font-serif italic tracking-tighter leading-none mb-1">{plant.name}</h2>
+             <h2 id="modal-title" className="text-3xl md:text-4xl font-serif italic tracking-tighter leading-none mb-1">{plant.name}</h2>
              <p className="text-xs font-mono uppercase tracking-widest opacity-60">{plant.scientificName}</p>
           </div>
         </div>

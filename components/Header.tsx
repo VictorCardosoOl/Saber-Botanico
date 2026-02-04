@@ -5,6 +5,7 @@ import { NAVIGATION_LINKS } from '../constants';
 import Tooltip from './Tooltip';
 import { motion, AnimatePresence } from 'framer-motion';
 
+// Componentes extraídos para evitar re-declaração no render
 const Logo: React.FC = () => (
   <Link to="/" className="flex items-center gap-4 group shrink-0 z-50">
     <div className="relative flex items-center justify-center size-10 border border-white/10 rounded-full bg-white/[0.02] backdrop-blur-sm group-hover:border-gold/30 transition-colors duration-500">
@@ -42,11 +43,12 @@ const Header: React.FC = () => {
   const location = useLocation();
   
   const headerClasses = useMemo(() => {
-    const isScrolled = window.scrollY > 20;
-    // Glassmorphism refinado: Borda inferior muito sutil apenas ao rolar
+    const isScrolled = typeof window !== 'undefined' ? window.scrollY > 20 : false;
+    
+    // Glassmorphism refinado
     const bgClass = isMobileMenuOpen 
       ? 'bg-forest-dark' 
-      : (isScrolled ? 'bg-forest-dark/70 backdrop-blur-xl border-b border-white/[0.03]' : 'bg-transparent border-transparent');
+      : (isVisible && isScrolled ? 'bg-forest-dark/70 backdrop-blur-xl border-b border-white/[0.03]' : 'bg-transparent border-transparent');
     
     return `fixed top-0 left-0 right-0 z-[60] transition-all duration-700 ease-[cubic-bezier(0.22,1,0.36,1)] px-6 md:px-12 py-4 ${bgClass} ${isVisible ? 'translate-y-0' : '-translate-y-full'}`;
   }, [isVisible, isMobileMenuOpen]);
@@ -75,6 +77,7 @@ const Header: React.FC = () => {
               <button 
                 className="text-gold-light p-2 focus:outline-none group" 
                 onClick={toggleMenu}
+                aria-label={isMobileMenuOpen ? "Fechar Menu" : "Abrir Menu"}
               >
                 <div className="flex flex-col gap-1.5 items-end">
                     <span className={`block h-px bg-current transition-all duration-500 ${isMobileMenuOpen ? 'w-6 rotate-45 translate-y-2 bg-gold' : 'w-8 bg-white/70 group-hover:w-6'}`}></span>
@@ -87,7 +90,7 @@ const Header: React.FC = () => {
         </div>
       </header>
 
-      {/* Mobile Menu Overlay - Full Screen with Typography */}
+      {/* Mobile Menu Overlay */}
       <AnimatePresence>
         {isMobileMenuOpen && (
           <motion.div 

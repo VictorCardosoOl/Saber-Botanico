@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect, useCallback } from 'react';
+import React, { useState, useCallback } from 'react';
 import { PlantSpecimen } from '../types';
 import { motion, AnimatePresence } from 'framer-motion';
 
@@ -8,27 +8,6 @@ interface PlantCardProps {
 
 const PlantCard: React.FC<PlantCardProps> = ({ plant }) => {
   const [isExpanded, setIsExpanded] = useState(false);
-  const [needsTruncation, setNeedsTruncation] = useState(false);
-  const textRef = useRef<HTMLParagraphElement>(null);
-
-  useEffect(() => {
-    const element = textRef.current;
-    if (!element) return;
-    
-    // Verifica se o texto excede o limite de linhas (definido pelo line-clamp-2 inicial)
-    const checkTruncation = () => {
-        // Se estiver expandido, não precisamos re-verificar pois queremos manter o botão de "Reduzir"
-        if (isExpanded) return;
-        
-        if (element.scrollHeight > element.clientHeight) {
-            setNeedsTruncation(true);
-        }
-    };
-    
-    // Pequeno delay para garantir que o layout renderizou
-    const timer = setTimeout(checkTruncation, 50);
-    return () => clearTimeout(timer);
-  }, [plant.description, isExpanded]);
 
   const toggleDescription = useCallback((e: React.MouseEvent) => {
     e.stopPropagation();
@@ -56,7 +35,7 @@ const PlantCard: React.FC<PlantCardProps> = ({ plant }) => {
              {plant.isRare && (
                 <div className="absolute top-0 right-0 p-4">
                      <motion.span 
-                        animate={{ boxShadow: ["0 0 0px rgba(212,175,55,0)", "0 0 10px rgba(212,175,55,0.8)", "0 0 0px rgba(212,175,55,0)"] }}
+                        animate={{ boxShadow: ["0 0 0px rgba(197, 160, 40, 0)", "0 0 10px rgba(197, 160, 40, 0.8)", "0 0 0px rgba(197, 160, 40, 0)"] }}
                         transition={{ duration: 2, repeat: Infinity }}
                         className="block w-2 h-2 bg-gold rounded-full"
                      ></motion.span>
@@ -86,27 +65,24 @@ const PlantCard: React.FC<PlantCardProps> = ({ plant }) => {
 
             <motion.div 
               initial={{ width: 32 }}
-              whileHover={{ width: "100%", backgroundColor: "rgba(212, 175, 55, 0.3)" }}
+              whileHover={{ width: "100%", backgroundColor: "rgba(197, 160, 40, 0.3)" }}
               transition={{ duration: 0.5 }}
               className="h-px bg-charcoal/10 mb-4"
             ></motion.div>
 
-            <motion.div layout className="flex-grow relative">
+            <motion.div layout className="flex-grow relative group/desc">
               <motion.p 
                 layout
-                ref={textRef}
-                className={`text-sm text-charcoal/60 font-sans leading-relaxed font-light overflow-hidden ${isExpanded ? '' : 'line-clamp-2'}`}
+                className={`text-sm text-charcoal/60 font-sans leading-relaxed font-light overflow-hidden transition-all duration-300 ${isExpanded ? '' : 'line-clamp-2'}`}
               >
                   {plant.description}
               </motion.p>
               
               <AnimatePresence>
-                {(needsTruncation || isExpanded) && (
                    <motion.button
                      layout
                      initial={{ opacity: 0 }}
                      animate={{ opacity: 1 }}
-                     exit={{ opacity: 0 }}
                      onClick={toggleDescription}
                      className="mt-3 text-[10px] font-mono uppercase tracking-widest text-gold-dark hover:text-gold flex items-center gap-1 group/btn"
                    >
@@ -119,7 +95,6 @@ const PlantCard: React.FC<PlantCardProps> = ({ plant }) => {
                         expand_more
                      </motion.span>
                    </motion.button>
-                )}
               </AnimatePresence>
             </motion.div>
         </div>

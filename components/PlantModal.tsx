@@ -2,7 +2,7 @@ import React, { useEffect, useCallback, useRef } from 'react';
 import { RITUALS } from '../constants';
 import { PlantSpecimen, RitualStep } from '../types';
 import Tooltip from './Tooltip';
-import { useToast } from '../context/ToastContext';
+import { useCollection } from '../context/CollectionContext';
 
 interface PlantModalProps {
   plant: PlantSpecimen | null;
@@ -11,7 +11,7 @@ interface PlantModalProps {
 
 const PlantModal: React.FC<PlantModalProps> = ({ plant, onClose }) => {
   const modalRef = useRef<HTMLDivElement>(null);
-  const { addToast } = useToast();
+  const { addToCollection, removeFromCollection, hasInCollection } = useCollection();
   
   const handleKeyDown = useCallback((event: KeyboardEvent) => {
     if (event.key === 'Escape') {
@@ -63,13 +63,17 @@ const PlantModal: React.FC<PlantModalProps> = ({ plant, onClose }) => {
     };
   }, [handleKeyDown]);
 
-  const handleAddToCollection = () => {
-    if (plant) {
-        addToast(`${plant.name} foi adicionada à sua coleção.`);
+  if (!plant) return null;
+
+  const isCollected = hasInCollection(plant.id);
+
+  const handleCollectionToggle = () => {
+    if (isCollected) {
+        removeFromCollection(plant.id);
+    } else {
+        addToCollection(plant.id, plant.name);
     }
   };
-
-  if (!plant) return null;
 
   const careRitual: RitualStep = RITUALS.find(r => 
     plant.isRare ? r.id === 'arid' : r.id === 'tropical'
@@ -189,10 +193,21 @@ const PlantModal: React.FC<PlantModalProps> = ({ plant, onClose }) => {
             <div className="pt-6 mt-8 border-t border-gold/10 flex justify-between items-center">
                <span className="text-2xl font-serif text-charcoal">{plant.price}</span>
                <button 
-                onClick={handleAddToCollection}
-                className="gold-border-btn px-6 py-3 text-[10px] font-bold uppercase tracking-[0.2em] border border-gold text-gold-dark hover:bg-gold hover:text-white transition-all duration-300 hover:shadow-lg hover:-translate-y-1 active:scale-95"
+                onClick={handleCollectionToggle}
+                className={`px-6 py-3 text-[10px] font-bold uppercase tracking-[0.2em] border transition-all duration-300 hover:shadow-lg hover:-translate-y-1 active:scale-95 flex items-center gap-2 ${
+                    isCollected 
+                    ? 'bg-gold border-gold text-white hover:bg-gold-dark' 
+                    : 'bg-transparent border-gold text-gold-dark hover:bg-gold hover:text-white'
+                }`}
                >
-                  Adicionar à Coleção
+                  {isCollected ? (
+                      <>
+                        <span className="material-symbols-outlined text-sm">check</span>
+                        Na Coleção
+                      </>
+                  ) : (
+                      'Adicionar à Coleção'
+                  )}
                </button>
             </div>
           </div>

@@ -5,6 +5,8 @@ import { AnimatePresence, motion } from 'framer-motion';
 import Header from './components/Header';
 import Footer from './components/Footer';
 import { ToastProvider } from './context/ToastContext';
+import { CollectionProvider } from './context/CollectionContext';
+import SmoothScroll from './components/SmoothScroll';
 
 // Pages
 import Home from './pages/Home';
@@ -17,6 +19,9 @@ import Care from './pages/Care';
 const ScrollToTop = () => {
   const { pathname } = useLocation();
   useEffect(() => {
+    // Lenis handles scrolling, but manual reset is good for route changes.
+    // However, with Lenis, we might rely on its own scrollTo, but window.scrollTo
+    // is intercepted by Lenis in root mode usually.
     window.scrollTo(0, 0);
   }, [pathname]);
   return null;
@@ -73,21 +78,25 @@ const BackToTop = () => {
 const App: React.FC = () => {
   return (
     <HelmetProvider>
-      <ToastProvider>
-        <HashRouter>
-          <ScrollToTop />
-          <Header />
-          
-          <div className="w-full relative overflow-x-hidden min-h-screen flex flex-col bg-forest-dark">
-            <main className="flex-1 w-full">
-              <AnimatedRoutes />
-            </main>
-            <Footer />
-            <BackToTop />
-          </div>
+      <SmoothScroll>
+        <ToastProvider>
+          <CollectionProvider>
+            <HashRouter>
+              <ScrollToTop />
+              <Header />
+              
+              <div className="w-full relative overflow-x-hidden min-h-screen flex flex-col bg-forest-dark">
+                <main className="flex-1 w-full">
+                  <AnimatedRoutes />
+                </main>
+                <Footer />
+                <BackToTop />
+              </div>
 
-        </HashRouter>
-      </ToastProvider>
+            </HashRouter>
+          </CollectionProvider>
+        </ToastProvider>
+      </SmoothScroll>
     </HelmetProvider>
   );
 };

@@ -53,11 +53,11 @@ export default {
       },
       colors: {
         gold: {
-          DEFAULT: '#D4AF37',
+          DEFAULT: '#C5A028', // Ajustado para melhor contraste (Original: #D4AF37)
           light: '#E6D8AD',
-          dark: '#997B20',
+          dark: '#8A6D15',   // Escurecido para textos sobre fundo claro (Original: #997B20)
           dim: '#B59530',
-          subtle: 'rgba(212, 175, 55, 0.1)'
+          subtle: 'rgba(197, 160, 40, 0.1)'
         },
         forest: {
           DEFAULT: '#0F2F1E',

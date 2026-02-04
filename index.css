@@ -1,10 +1,29 @@
 /* Base styles - Plain CSS since we are using CDN */
 html {
   /* Scroll Snap configuration for "Page by Page" feel */
-  scroll-behavior: smooth;
-  scroll-snap-type: y proximity; /* 'proximity' snaps nicely but doesn't trap the user like 'mandatory' */
+  scroll-behavior: initial; /* Reset smooth behavior so Lenis can take over */
   height: 100%;
-  overflow-y: scroll;
+}
+
+/* Lenis CSS Reset */
+html.lenis, html.lenis body {
+  height: auto;
+}
+
+.lenis.lenis-smooth {
+  scroll-behavior: auto !important;
+}
+
+.lenis.lenis-smooth [data-lenis-prevent] {
+  overscroll-behavior: contain;
+}
+
+.lenis.lenis-stopped {
+  overflow: hidden;
+}
+
+.lenis.lenis-scrolling iframe {
+  pointer-events: none;
 }
 
 body {
@@ -22,7 +41,6 @@ body {
 
 /* Garante que cada seção principal atraia o scroll */
 section {
-  scroll-snap-align: start;
   scroll-margin-top: 0px;
 }
 

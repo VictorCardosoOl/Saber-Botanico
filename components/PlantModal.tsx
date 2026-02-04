@@ -102,7 +102,7 @@ const PlantModal: React.FC<PlantModalProps> = ({ plant, onClose }) => {
         </Tooltip>
 
         <div className="w-full md:w-5/12 relative h-56 md:h-auto overflow-hidden bg-gray-100 group">
-          {/* Tag Img Semântica para Acessibilidade e Links Diretos */}
+          {/* Imagem Principal */}
           <img 
             src={plant.imageUrl} 
             alt={plant.name}
@@ -110,16 +110,18 @@ const PlantModal: React.FC<PlantModalProps> = ({ plant, onClose }) => {
           />
           <div className="absolute inset-0 bg-gradient-to-t from-forest-dark/80 via-transparent to-transparent pointer-events-none"></div>
           
-          {/* Botão de Link Direto da Imagem */}
-          <a 
-            href={plant.imageUrl} 
-            target="_blank" 
-            rel="noopener noreferrer"
-            className="absolute top-4 left-4 z-20 w-8 h-8 rounded-full bg-white/10 backdrop-blur-sm flex items-center justify-center text-white hover:bg-white hover:text-charcoal transition-all opacity-0 group-hover:opacity-100"
-            title="Abrir imagem original"
-          >
-            <span className="material-symbols-outlined text-sm">open_in_new</span>
-          </a>
+          {/* --- NOVO FEATURE: LINK DIRETO PARA IMAGEM --- */}
+          <Tooltip content="Ver Imagem Original" position="right">
+            <a 
+                href={plant.imageUrl} 
+                target="_blank" 
+                rel="noopener noreferrer"
+                className="absolute top-4 left-4 z-20 w-10 h-10 rounded-full bg-white/10 backdrop-blur-md border border-white/20 flex items-center justify-center text-white hover:bg-white hover:text-forest-dark transition-all duration-300 hover:scale-110"
+                aria-label="Abrir imagem original em nova aba"
+            >
+                <span className="material-symbols-outlined text-lg">open_in_new</span>
+            </a>
+          </Tooltip>
 
           <div className="absolute bottom-6 left-6 right-6 text-white pointer-events-none">
              <div className="flex items-center gap-2 mb-2 opacity-80">
@@ -131,7 +133,7 @@ const PlantModal: React.FC<PlantModalProps> = ({ plant, onClose }) => {
           </div>
         </div>
 
-        <div className="w-full md:w-7/12 p-8 md:p-12 overflow-y-auto custom-scrollbar">
+        <div className="w-full md:w-7/12 p-8 md:p-12 overflow-y-auto custom-scrollbar bg-paper">
           
           <div className="flex flex-wrap items-center gap-4 mb-8 pb-8 border-b border-gold/10">
              <div className="flex items-center gap-2 px-3 py-1 bg-gold/5 border border-gold/20 rounded-sm">
@@ -153,7 +155,7 @@ const PlantModal: React.FC<PlantModalProps> = ({ plant, onClose }) => {
 
           <div className="space-y-10">
             <div>
-              <p className="font-sans text-lg font-light leading-loose text-charcoal/80 mb-8">
+              <p className="font-sans text-lg font-light leading-loose text-charcoal/80 mb-8 text-justify">
                 {plant.description}
               </p>
               

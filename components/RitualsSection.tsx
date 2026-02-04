@@ -1,142 +1,135 @@
 import React from 'react';
 import { RITUALS, CARE_HERO } from '../constants';
+import { motion } from 'framer-motion';
+import { Reveal } from './Animation';
 
 const RitualsSection: React.FC = () => {
   return (
-    <section id="rituals" className="relative bg-paper text-charcoal font-sans min-h-screen overflow-hidden">
-      {/* Background Image Header */}
-      <div className="relative h-[45vh] md:h-[55vh] w-full overflow-hidden">
+    <section id="rituals" className="relative bg-forest-dark text-paper font-sans min-h-screen overflow-hidden">
+      
+      {/* Editorial Header */}
+      <div className="relative h-[60vh] w-full overflow-hidden flex items-center">
         <div 
-          className="absolute inset-0 bg-cover bg-center" 
+          className="absolute inset-0 bg-cover bg-center opacity-40 mix-blend-luminosity" 
           style={{ backgroundImage: `url('${CARE_HERO}')` }}
         ></div>
-        <div className="absolute inset-0 bg-gradient-to-b from-black/50 via-transparent to-paper"></div>
+        <div className="absolute inset-0 bg-gradient-to-r from-forest-dark via-forest-dark/80 to-transparent"></div>
         
-        <div className="container absolute bottom-0 left-0 right-0 p-6 md:p-12 lg:p-24 flex flex-col justify-end h-full z-10">
-            <div className="flex items-center gap-3 text-white/90 font-mono text-[10px] uppercase tracking-widest mb-6">
-                <span className="w-2 h-2 rounded-full border border-white bg-transparent"></span>
-                <span>Módulo 02: Manutenção</span>
-            </div>
-            <h1 className="text-fluid-h2 font-serif font-light text-white leading-none drop-shadow-md tracking-tighter">
-                Rituais de Luminosidade & <br/><span className="italic text-gold-light font-medium">Hidratação</span>
-            </h1>
+        <div className="container relative z-10 px-6">
+            <Reveal>
+                <div className="flex items-center gap-3 text-gold/80 font-mono text-[10px] uppercase tracking-widest mb-6">
+                    <span className="w-12 h-px bg-gold/50"></span>
+                    <span>Módulo 02: Manutenção</span>
+                </div>
+                <h1 className="text-fluid-h1 font-serif font-light text-white leading-[0.9] tracking-tighter max-w-4xl">
+                    Rituais de <br/>
+                    <span className="italic text-gold ml-20">Preservação</span>
+                </h1>
+            </Reveal>
         </div>
       </div>
 
-      <div className="container relative z-10 py-20 md:py-32 flex flex-col gap-32">
+      <div className="container relative z-10 py-24 md:py-32 flex flex-col gap-40 px-6">
         
-        {/* Intro */}
-        <div className="flex flex-col md:flex-row justify-between items-end gap-12 pb-12 border-b border-gold/10">
-            <p className="text-charcoal/80 font-serif text-2xl max-w-3xl leading-relaxed">
-                Instruções de calibração de precisão para iluminação atmosférica e níveis de umidade. <span className="text-sage italic">A observação diária é a ferramenta mais valiosa do curador.</span>
-            </p>
-            <button className="group flex items-center justify-center gap-3 px-8 py-4 border border-charcoal/5 hover:border-gold transition-all duration-300 bg-white hover:bg-[#F2EFE9] shadow-sm hover:shadow-md hover:-translate-y-0.5 active:scale-95 whitespace-nowrap">
-                <span className="font-mono text-[10px] uppercase tracking-widest text-gray-500 group-hover:text-gold">Salvar Guia</span>
-                <span className="material-symbols-outlined text-sm text-gray-400 group-hover:text-gold font-light">download</span>
-            </button>
-        </div>
-
-        {/* Luminosity Chart */}
-        <div className="flex flex-col gap-12">
-            <div className="flex flex-col sm:flex-row sm:items-baseline justify-between gap-6">
-                <div className="flex items-center gap-6">
-                    <div className="size-16 border border-gold/20 rounded-full flex items-center justify-center bg-gold/5 shrink-0 text-gold-dark">
-                        <span className="material-symbols-outlined text-3xl font-thin">light_mode</span>
-                    </div>
-                    <div>
-                        <span className="font-mono text-[10px] uppercase tracking-widest text-gold-dark mb-1 block">Fator Essencial</span>
-                        <h2 className="text-4xl font-serif font-light text-charcoal tracking-tight">Espectro de Luz</h2>
-                    </div>
+        {/* LUMINOSITY INSTRUMENT PANEL */}
+        <div className="flex flex-col gap-16">
+            <Reveal className="flex justify-between items-end border-b border-white/10 pb-6">
+                <div>
+                    <span className="font-mono text-[10px] uppercase tracking-widest text-gold-dark mb-2 block">Parâmetro 01</span>
+                    <h2 className="text-4xl font-serif font-light text-white tracking-tight">Espectro de Luz</h2>
                 </div>
-                <span className="font-mono text-[10px] text-gray-400 uppercase tracking-widest border border-gray-200 px-3 py-1 rounded-full">Unidade: Foot-Candles (FC)</span>
-            </div>
+                <div className="hidden md:block">
+                     <span className="font-mono text-[10px] text-white/30 uppercase border border-white/10 px-3 py-1 rounded-full">Output: Foot-Candles (FC)</span>
+                </div>
+            </Reveal>
 
             <div className="grid lg:grid-cols-12 gap-12">
-                {/* Chart Visual */}
-                <div className="lg:col-span-8 bg-white p-10 border border-gray-100 shadow-sm rounded-sm relative overflow-hidden">
-                    <div className="flex justify-between items-end mb-16">
-                        <h3 className="font-mono text-[10px] uppercase tracking-widest text-gray-400">Análise de Espectro</h3>
+                {/* Chart Visual - Dark Mode UI */}
+                <div className="lg:col-span-8 bg-white/[0.02] border border-white/5 p-8 md:p-12 relative overflow-hidden backdrop-blur-sm">
+                    {/* Background Grid Lines */}
+                    <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.02)_1px,transparent_1px)] bg-[size:20px_20px]"></div>
+
+                    <div className="relative z-10 flex justify-between items-end mb-20">
+                        <h3 className="font-mono text-[10px] uppercase tracking-widest text-white/40">Análise de Fótons</h3>
                         <div className="text-right">
-                            <div className="text-4xl font-serif text-gold-dark">800 - 2000</div>
-                            <div className="text-[9px] font-mono text-gray-400 uppercase tracking-widest mt-1">Faixa Alvo (Lux)</div>
+                            <div className="text-5xl font-serif text-gold tabular-nums">1.2k</div>
+                            <div className="text-[9px] font-mono text-white/30 uppercase tracking-widest mt-1">Lúmens Ideais</div>
                         </div>
                     </div>
                     
-                    <div className="relative py-8 px-4">
-                         {/* Spectrum Line */}
-                        <div className="h-px w-full bg-gradient-to-r from-charcoal/10 via-gold to-charcoal/10 relative">
-                             <div className="absolute top-1/2 left-[60%] -translate-y-1/2 w-3 h-3 bg-gold rounded-full shadow-[0_0_20px_rgba(212,175,55,0.8)] border border-white"></div>
+                    <div className="relative py-8">
+                         {/* Gradient Spectrum Bar */}
+                        <div className="h-px w-full bg-gradient-to-r from-white/5 via-gold to-white/5 relative mb-2">
+                             <motion.div 
+                                initial={{ left: '0%' }}
+                                whileInView={{ left: '60%' }}
+                                transition={{ duration: 2, ease: "easeOut" }}
+                                className="absolute top-1/2 -translate-y-1/2 w-2 h-2 bg-gold rounded-full shadow-[0_0_15px_rgba(212,175,55,1)]"
+                             ></motion.div>
                         </div>
-                        
-                        <div className="flex justify-between mt-8 text-center px-4">
-                            {['Sombra', 'Luz Indireta', 'Luz Filtrada', 'Sol Pleno'].map((label, i) => (
-                                <div key={i} className={`flex flex-col items-center ${i === 2 ? 'opacity-100' : 'opacity-40'}`}>
-                                     <div className="w-px h-4 bg-charcoal/20 mb-3"></div>
-                                     <span className={`font-mono text-[9px] uppercase tracking-widest ${i === 2 ? 'text-gold-dark font-bold' : 'text-charcoal'}`}>{label}</span>
-                                </div>
-                            ))}
+                        <div className="flex justify-between w-full text-[9px] font-mono uppercase text-white/20 tracking-widest">
+                            <span>0 FC</span>
+                            <span>500 FC</span>
+                            <span>1000 FC</span>
+                            <span>2000 FC+</span>
                         </div>
                     </div>
                     
-                     <div className="mt-12 pt-8 border-t border-dashed border-gray-100">
-                        <p className="font-serif italic text-lg text-gray-400 text-center max-w-lg mx-auto leading-relaxed">
-                            "O posicionamento ideal imita a luz solar filtrada de uma copa de floresta — difusa, consistente e suave."
-                        </p>
+                    <div className="grid grid-cols-4 gap-4 mt-12 text-center">
+                        {['Sombra', 'Indireta', 'Filtrada', 'Pleno'].map((label, i) => (
+                            <div key={i} className={`pt-4 border-t ${i === 2 ? 'border-gold text-gold' : 'border-white/10 text-white/30'}`}>
+                                 <span className="font-mono text-[9px] uppercase tracking-widest block">{label}</span>
+                            </div>
+                        ))}
                     </div>
                 </div>
 
-                {/* Legend */}
+                {/* Legend Cards */}
                 <div className="lg:col-span-4 flex flex-col gap-4">
                      {[
-                         {zone: 'Zona A: Direta', icon: 'wb_sunny', desc: 'Radiação solar não filtrada. Necessária para espécies áridas.'},
-                         {zone: 'Zona B: Indireta', icon: 'filter_drama', desc: 'O padrão ouro. A luz passa através de uma cortina transparente.', active: true},
-                         {zone: 'Zona C: Baixa', icon: 'bedtime', desc: 'Iluminação ambiente longe das janelas.'}
+                         {zone: 'Zona A: Direta', desc: 'Radiação solar plena. Apenas para Cactáceas e suculentas adaptadas.'},
+                         {zone: 'Zona B: Indireta', desc: 'O padrão ouro. Luz refletida ou difusa, ideal para 90% da coleção.', active: true},
+                         {zone: 'Zona C: Penumbra', desc: 'Luz residual. Adequada para Zamioculcas e Sansevierias.'}
                      ].map((item, idx) => (
-                         <div key={idx} className={`p-8 border transition-all duration-500 group rounded-sm hover:translate-x-1 ${item.active ? 'bg-[#FDFBF7] border-gold/40' : 'bg-white border-transparent hover:border-gold/20 shadow-sm'}`}>
-                             <div className="flex items-start justify-between mb-3">
-                                <h4 className={`font-mono text-[10px] uppercase tracking-widest ${item.active ? 'text-gold-dark font-bold' : 'text-charcoal/60'}`}>{item.zone}</h4>
-                                <span className={`material-symbols-outlined text-lg ${item.active ? 'text-gold' : 'text-gray-300'}`}>{item.icon}</span>
+                         <div key={idx} className={`p-6 border transition-all duration-500 group ${item.active ? 'bg-white/[0.03] border-gold/30' : 'bg-transparent border-white/5 hover:border-white/20'}`}>
+                             <div className="flex items-center gap-3 mb-2">
+                                <span className={`w-1.5 h-1.5 rounded-full ${item.active ? 'bg-gold' : 'bg-white/10'}`}></span>
+                                <h4 className={`font-mono text-[10px] uppercase tracking-widest ${item.active ? 'text-white' : 'text-white/50'}`}>{item.zone}</h4>
                              </div>
-                             <p className="text-sm font-light text-charcoal/80 leading-relaxed">{item.desc}</p>
+                             <p className="text-sm font-light text-white/60 leading-relaxed pl-5">{item.desc}</p>
                          </div>
                      ))}
                 </div>
             </div>
         </div>
 
-        {/* Hydration Rituals */}
+        {/* HYDRATION SYSTEM */}
         <div className="flex flex-col gap-12">
-             <div className="flex items-end justify-between border-b border-gold/10 pb-6">
-                <div className="flex items-center gap-6">
-                    <div className="size-16 border border-gold/20 rounded-full flex items-center justify-center bg-gold/5 shrink-0 text-gold-dark">
-                        <span className="material-symbols-outlined text-3xl font-thin">water_drop</span>
-                    </div>
-                    <div>
-                        <span className="font-mono text-[10px] uppercase tracking-widest text-gold-dark mb-1 block">Fator Vital</span>
-                        <h2 className="text-4xl font-serif font-light text-charcoal tracking-tight">Hidratação</h2>
-                    </div>
+             <Reveal className="flex items-end justify-between border-b border-white/10 pb-6">
+                <div>
+                    <span className="font-mono text-[10px] uppercase tracking-widest text-gold-dark mb-2 block">Parâmetro 02</span>
+                    <h2 className="text-4xl font-serif font-light text-white tracking-tight">Ciclos Hídricos</h2>
                 </div>
-            </div>
+            </Reveal>
 
-            <div className="grid md:grid-cols-3 gap-8">
+            <div className="grid md:grid-cols-3 gap-px bg-white/10 border border-white/10">
                 {RITUALS.map((ritual, idx) => (
-                    <div key={ritual.id} className={`group relative p-10 transition-all duration-700 flex flex-col rounded-sm border ${idx === 1 ? 'bg-[#FDFBF7] border-gold/30' : 'bg-white border-gray-100 hover:border-gold/20 hover:shadow-lg'}`}>
-                         <div className="mb-8 flex justify-between items-start">
-                            <span className={`font-mono text-[9px] uppercase tracking-widest px-2 py-1 border ${idx === 1 ? 'text-gold-dark border-gold/30' : 'text-gray-400 border-gray-200'}`}>
-                                {['Baixa', 'Média', 'Alta'][idx]} Frequência
+                    <div key={ritual.id} className="group relative p-10 bg-forest-dark hover:bg-white/[0.02] transition-colors duration-500 flex flex-col">
+                         <div className="mb-8 flex justify-between items-start opacity-50 group-hover:opacity-100 transition-opacity">
+                            <span className="font-mono text-[10px] uppercase tracking-widest text-gold-dark">
+                                0{idx + 1}
                             </span>
-                            <span className="material-symbols-outlined text-3xl text-gold/20 group-hover:text-gold/50 transition-colors">{ritual.icon}</span>
+                            <span className="material-symbols-outlined text-2xl text-white">{ritual.icon}</span>
                          </div>
                          
-                         <h3 className="text-2xl font-serif mb-6 text-charcoal group-hover:text-gold-dark transition-colors">{ritual.title}</h3>
+                         <h3 className="text-2xl font-serif mb-6 text-paper">{ritual.title}</h3>
                          
-                         <p className="text-sm font-light text-gray-500 leading-loose mb-10 flex-grow border-l border-gray-100 pl-4 group-hover:border-gold/30 transition-colors">
+                         <p className="text-sm font-light text-white/50 leading-loose mb-10 flex-grow">
                              {ritual.description}
                          </p>
                          
-                         <div className="mt-auto flex items-center justify-between border-t border-gray-50 pt-6 group-hover:border-gold/10">
-                            <span className={`font-mono text-[10px] uppercase tracking-widest ${idx === 1 ? 'text-gold-dark' : 'text-gray-400'}`}>{ritual.frequency}</span>
-                            <span className="material-symbols-outlined text-lg text-gold-dark opacity-0 group-hover:opacity-100 transition-opacity -translate-x-2 group-hover:translate-x-0">arrow_right_alt</span>
+                         <div className="mt-auto pt-6 border-t border-white/5 flex justify-between items-center">
+                            <span className="font-mono text-[10px] uppercase tracking-widest text-gold">{ritual.frequency}</span>
                          </div>
                     </div>
                 ))}

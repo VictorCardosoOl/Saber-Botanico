@@ -1,62 +1,74 @@
 import React from 'react';
 import { VASE_TERRACOTTA, VASE_CERAMIC, VASE_TECH } from '../constants';
+import { motion } from 'framer-motion';
+import LazyImage from './LazyImage';
 
 const MaterialsGrid: React.FC = () => {
   const materials = [
     {
       title: 'Terracota',
-      subtitle: 'O Clássico',
-      desc: 'Barro cozido não esmaltado. Permite que a água e o ar passem pelas paredes, criando um ambiente respirável.',
+      subtitle: 'Respiração Natural',
+      desc: 'A porosidade da argila não esmaltada permite a troca gasosa vital. Essencial para espécies que exigem secagem rápida.',
       image: VASE_TERRACOTTA,
-      features: ['Ideal para Cactos', 'Secagem Rápida']
+      code: 'MAT-01'
     },
     {
-      title: 'Cerâmica',
-      subtitle: 'Estético',
-      desc: 'Barro selado com vidro fundido. Retém a umidade consistentemente e oferece variedade estética infinita.',
+      title: 'Cerâmica Esmaltada',
+      subtitle: 'Retenção Hídrica',
+      desc: 'O vidro fundido sela a umidade. Ideal para tropicais sedentas que habitam o sub-bosque úmido.',
       image: VASE_CERAMIC,
-      features: ['Ideal para Tropicais', 'Retenção Média']
+      code: 'MAT-02'
     },
     {
-      title: 'Compósito',
-      subtitle: 'Moderno',
-      desc: 'Polímeros, fibra de vidro ou concreto leve. Durabilidade extrema e peso reduzido para grandes espécimes.',
+      title: 'Geopolímero',
+      subtitle: 'Engenharia Moderna',
+      desc: 'Compósitos leves e inertes. Oferecem isolamento térmico superior para raízes sensíveis a flutuações.',
       image: VASE_TECH,
-      features: ['Uso Misto', 'Alta Resistência']
+      code: 'MAT-03'
     }
   ];
 
   return (
     <div className="mb-40">
-       <div className="flex items-center justify-between mb-16">
-          <h3 className="text-4xl font-serif text-ink tracking-tight">Matéria Prima</h3>
-          <span className="hidden md:block h-px flex-1 bg-ink/10 mx-12"></span>
-          <span className="font-mono text-[10px] uppercase tracking-widest text-gold-dark">Seletor de Materiais</span>
+       <div className="flex items-end justify-between mb-20 border-b border-white/10 pb-8">
+          <div>
+            <span className="font-mono text-[10px] uppercase tracking-widest text-gold-dark mb-2 block">Catálogo de Materiais</span>
+            <h3 className="text-4xl font-serif text-paper tracking-tight">Matéria & Função</h3>
+          </div>
+          <div className="hidden md:block text-right">
+             <span className="font-mono text-[10px] text-white/40 uppercase tracking-widest">Seletor Técnico v2.0</span>
+          </div>
        </div>
 
-       <div className="grid grid-cols-1 md:grid-cols-3 gap-px bg-gray-200 border border-gray-200">
+       <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           {materials.map((item, idx) => (
-            <div key={idx} className="group relative bg-white hover:bg-[#FDFBF7] transition-all duration-700 p-12 flex flex-col h-full">
-               <div className="h-56 relative overflow-hidden mb-8 grayscale group-hover:grayscale-0 transition-all duration-1000">
-                  <div className="absolute inset-0 bg-cover bg-center transform group-hover:scale-110 transition-transform duration-[1.5s]" style={{ backgroundImage: `url('${item.image}')` }}></div>
+            <motion.div 
+                key={idx} 
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.8, delay: idx * 0.1 }}
+                viewport={{ once: true }}
+                className="group relative flex flex-col"
+            >
+               <div className="aspect-[4/5] relative overflow-hidden mb-8 bg-white/5 border border-white/5 rounded-sm">
+                  <div className="absolute inset-0 bg-cover bg-center transition-transform duration-[1.5s] ease-out group-hover:scale-110 opacity-60 group-hover:opacity-100" style={{ backgroundImage: `url('${item.image}')` }}></div>
+                  
+                  {/* Overlay Técnico */}
+                  <div className="absolute inset-0 p-6 flex flex-col justify-between opacity-0 group-hover:opacity-100 transition-opacity duration-500 bg-gradient-to-t from-forest-dark/90 via-transparent to-transparent">
+                     <div className="flex justify-between items-start">
+                        <span className="font-mono text-[9px] text-white/60 border border-white/20 px-2 py-1">{item.code}</span>
+                     </div>
+                  </div>
                </div>
-               <div className="flex-1">
-                  <span className="font-mono text-[9px] uppercase tracking-widest text-gold-dark mb-2 block">{item.subtitle}</span>
-                  <h4 className="font-serif text-3xl mb-4 text-ink">{item.title}</h4>
-                  <p className="text-sm font-light text-ink/60 leading-relaxed mb-8">
+
+               <div className="flex-1 border-l border-gold/20 pl-6 group-hover:border-gold transition-colors duration-500">
+                  <h4 className="font-serif text-2xl mb-2 text-paper group-hover:text-gold transition-colors">{item.title}</h4>
+                  <span className="font-mono text-[10px] uppercase tracking-widest text-white/40 mb-4 block">{item.subtitle}</span>
+                  <p className="text-sm font-light text-white/60 leading-relaxed max-w-xs">
                      {item.desc}
                   </p>
                </div>
-               <div className="pt-6 border-t border-ink/5">
-                  <ul className="space-y-3">
-                     {item.features.map((feature, fIdx) => (
-                       <li key={fIdx} className="flex items-center gap-3 text-xs font-mono uppercase text-ink/50 tracking-wide">
-                          <span className="w-1 h-1 rounded-full bg-gold"></span> {feature}
-                       </li>
-                     ))}
-                  </ul>
-               </div>
-            </div>
+            </motion.div>
           ))}
        </div>
     </div>

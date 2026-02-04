@@ -1,137 +1,120 @@
 import React from 'react';
 import { SOIL_IMAGE_MAIN, SOIL_IMAGE_SMALL_1, SOIL_IMAGE_SMALL_2 } from '../constants';
 import LazyImage from './LazyImage';
+import { motion } from 'framer-motion';
+import { Reveal, StaggerContainer, LUXURY_EASE } from './Animation';
 
 const SoilSection: React.FC = () => {
   return (
-    <section id="soil" className="relative w-full bg-paper text-ink font-sans py-24 md:py-32 overflow-hidden">
-      <div className="absolute inset-0 bg-linen opacity-40 pointer-events-none"></div>
+    <section id="soil" className="relative w-full bg-paper text-forest-dark font-sans py-24 md:py-40 overflow-hidden">
+      {/* Texture Layer */}
+      <div className="absolute inset-0 opacity-[0.4] pointer-events-none bg-[url('https://www.transparenttextures.com/patterns/cream-paper.png')] mix-blend-multiply"></div>
       
-      <div className="container relative z-10">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-8 mb-24 relative items-center">
-          
-          <div className="absolute -left-20 -top-20 opacity-[0.02] pointer-events-none select-none">
-            <span className="material-symbols-outlined text-[20rem] md:text-[40rem] font-thin text-ink">local_florist</span>
+      <div className="container relative z-10 px-6">
+        
+        {/* Header Editorial */}
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 mb-32 items-end">
+          <div className="lg:col-span-8 relative">
+            <Reveal>
+                <span className="font-mono text-[10px] uppercase tracking-[0.4em] text-gold-dark/80 block mb-6">Ciência da Terra</span>
+                <h2 className="font-serif text-fluid-h1 text-forest-dark tracking-tighter leading-[0.85]">
+                  Alquimia do <br/>
+                  <span className="italic text-gold-dark opacity-90 ml-12">Substrato</span>
+                </h2>
+            </Reveal>
           </div>
-
-          <div className="lg:col-span-5 flex flex-col justify-center relative z-10">
-            <div className="mb-8 flex items-center gap-4">
-              <span className="h-px w-8 bg-gold-dark"></span>
-              <span className="font-mono text-[10px] uppercase tracking-widest-xl text-gold-dark">O Guia do Curador</span>
-            </div>
-            
-            <h2 className="font-serif text-fluid-h1 text-ink mb-10 tracking-tighter leading-none">
-              A Arte do <br/>
-              <span className="text-sage italic font-light ml-2">Solo & Argila</span>
-            </h2>
-            
-            <div className="pl-6 border-l border-gold/30 mb-12">
-              <p className="font-serif text-2xl md:text-3xl leading-tight text-ink/90 italic">
-                "Plantar um jardim é acreditar no amanhã."
-              </p>
-              <span className="text-xs font-mono uppercase tracking-widest text-gold-dark mt-4 block">— Provérbio Botânico</span>
-            </div>
-
-            <div className="flex flex-col gap-1 opacity-60">
-              <p className="font-serif italic text-xl text-gold-dark rotate-1 w-max origin-left">Fig. 1: Preparação</p>
-              <p className="font-mono text-[9px] uppercase tracking-widest text-ink">Est. 2024 — Vida Botânica</p>
-            </div>
-          </div>
-
-          <div className="lg:col-span-7 relative mt-16 lg:mt-0">
-             <div className="grid grid-cols-12 grid-rows-12 aspect-[4/5] md:aspect-square lg:aspect-[4/3] w-full">
-                
-                {/* Main Image */}
-                <div className="col-start-4 col-span-9 row-start-1 row-span-10 z-10 bg-ink p-1 shadow-2xl transform rotate-1 transition-transform hover:rotate-0 duration-1000 ease-out">
-                  <div className="w-full h-full relative overflow-hidden">
-                    <LazyImage 
-                      src={SOIL_IMAGE_MAIN} 
-                      alt="Preparo do Solo"
-                      className="w-full h-full object-cover sepia-[0.15] contrast-[1.1]"
-                    />
-                  </div>
-                </div>
-                
-                {/* Overlay Image 1 */}
-                <div className="col-start-2 col-span-5 row-start-7 row-span-6 z-20 shadow-xl border-[6px] border-paper transform -rotate-2 group transition-transform hover:rotate-0 duration-700 ease-out">
-                  <div className="w-full h-full relative">
-                      <LazyImage 
-                        src={SOIL_IMAGE_SMALL_1} 
-                        alt="Detalhes Terracota"
-                        className="w-full h-full object-cover grayscale transition duration-1000 group-hover:grayscale-0"
-                      />
-                  </div>
-                  <div className="hidden md:block absolute -bottom-10 -right-4 font-serif italic text-3xl text-ink whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity duration-700">Detalhes em Terracota</div>
-                </div>
-                
-                {/* Overlay Image 2 (Small) */}
-                <div className="col-start-1 col-span-3 row-start-2 row-span-3 z-30 shadow-lg border border-gold/30 bg-paper p-1 rotate-3 hover:rotate-0 transition-transform duration-500">
-                  <div className="w-full h-full relative">
-                      <LazyImage 
-                         src={SOIL_IMAGE_SMALL_2} 
-                         alt="Amostra de Textura"
-                         className="w-full h-full object-cover"
-                      />
-                  </div>
-                  <div className="absolute -top-3 -right-3 size-6 rounded-full bg-gold-dark text-paper flex items-center justify-center font-serif font-bold text-xs shadow-md z-10">03</div>
-                </div>
-
-                <div className="hidden md:block absolute bottom-4 right-0 z-30 opacity-40">
-                   <span className="material-symbols-outlined text-gold-dark text-5xl font-thin -rotate-45">arrow_back</span>
-                </div>
-
-             </div>
+          <div className="lg:col-span-4 border-l border-gold/30 pl-8 pb-2">
+            <Reveal delay={0.2}>
+                <p className="font-alt text-2xl leading-tight text-forest-dark/80 italic mb-4">
+                  "A saúde visível da folha é apenas um reflexo da saúde invisível da raiz."
+                </p>
+                <span className="text-[10px] font-mono uppercase tracking-widest text-gold-dark">— Axioma Botânico</span>
+            </Reveal>
           </div>
         </div>
 
-        <div className="max-w-7xl mx-auto mb-32 relative">
-          <div className="flex items-center justify-center gap-6 mb-16 opacity-30">
-            <span className="h-px w-32 bg-ink"></span>
-            <span className="material-symbols-outlined text-gold-dark text-xl">filter_vintage</span>
-            <span className="h-px w-32 bg-ink"></span>
-          </div>
-          
-          <div className="columns-1 md:columns-2 gap-16 space-y-12 text-justify">
-            <p className="font-serif text-2xl leading-relaxed text-ink/90 first-letter:text-7xl first-letter:float-left first-letter:mr-4 first-letter:font-serif first-letter:text-gold-dark first-letter:leading-[0.8]">
-              Dominar a fundação de plantas saudáveis começa não com a folha, mas com a raiz. Descubra a sinergia perfeita entre textura do solo, escolha do vaso e drenagem. É um ritual de aterramento — literal e metaforicamente.
-            </p>
-            
-            <div className="break-inside-avoid p-8 bg-sage/5 border-l-2 border-sage relative">
-              <span className="material-symbols-outlined absolute -top-4 -left-4 bg-paper p-1 text-sage text-2xl">format_quote</span>
-              <p className="font-serif italic text-xl text-ink/80 text-center mb-4 leading-relaxed">
-                "Sempre esterilize vasos antigos antes de reutilizá-los. Um vaso limpo é a tela para uma nova vida."
-              </p>
-              <p className="text-center font-mono text-[9px] font-bold tracking-widest uppercase text-gold-dark">— Nota do Curador</p>
-            </div>
-            
-            <p className="font-sans text-lg font-light leading-loose text-ink/70">
-              O vaso é mais que um recipiente; é o lar onde seu companheiro botânico reside. Escolher terracota não esmaltada permite que as raízes respirem, absorvendo o excesso de umidade, enquanto cerâmicas esmaltadas mantêm a umidade próxima. O curador atento equilibra estética com função, entendendo que o próprio solo é um ecossistema vivo que requer aeração e respeito.
-            </p>
-          </div>
-        </div>
-
-        <div className="border-t border-b border-ink/5 py-24 bg-[#FDFBF7] relative overflow-hidden">
-            <div className="text-center mb-20 relative z-10">
-                <span className="font-mono text-[10px] uppercase tracking-widest text-gold-dark block mb-4">Metodologia</span>
-                <h3 className="font-serif text-fluid-h2 text-ink tracking-tight">A Arte da Preparação</h3>
-            </div>
-            
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-px bg-gold/10 relative max-w-7xl mx-auto border border-gold/10">
-                {['A Fundação de Drenagem', 'A Alquimia do Substrato', 'O Toque Final'].map((step, idx) => (
-                    <div key={idx} className="group relative bg-paper p-12 hover:bg-white transition-colors duration-500">
-                         <div className="mb-8 text-gold-dark opacity-30 group-hover:opacity-100 transition-opacity">
-                            <span className="font-serif text-4xl italic">{(['I', 'II', 'III'])[idx]}.</span>
+        {/* Asymmetrical Gallery */}
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 mb-40 relative">
+             <div className="lg:col-span-7 relative h-[60vh] lg:h-[80vh]">
+                <Reveal className="w-full h-full">
+                    <div className="relative w-full h-full overflow-hidden bg-forest-dark group">
+                        <LazyImage 
+                          src={SOIL_IMAGE_MAIN} 
+                          alt="Preparo do Solo"
+                          className="w-full h-full object-cover sepia-[0.2] opacity-90 transition-transform duration-[2s] group-hover:scale-105"
+                        />
+                        <div className="absolute top-8 left-8 border border-white/20 px-4 py-2 bg-white/5 backdrop-blur-md">
+                            <span className="text-white font-mono text-[10px] uppercase tracking-widest">Fig 1.1 — Aeração</span>
                         </div>
-                        <h4 className="font-serif text-2xl text-ink mb-6 group-hover:text-gold-dark transition-colors">{step}</h4>
-                        <p className="font-sans text-sm text-ink/60 leading-relaxed group-hover:text-ink/80 transition-colors">
-                            {idx === 0 && "Comece com uma camada deliberada de argila expandida. Este estrato oculto é a garantia contra a estagnação hídrica."}
-                            {idx === 1 && "Misture solo para vasos com perlita e casca de pinus. A aeração é o segredo para raízes que respiram livremente."}
-                            {idx === 2 && "Regue abundantemente até que o fluxo saia limpo. O assentamento do solo é o primeiro suspiro da planta em seu novo lar."}
+                    </div>
+                </Reveal>
+                
+                {/* Floating Element */}
+                <motion.div 
+                    initial={{ y: 50, opacity: 0 }}
+                    whileInView={{ y: 0, opacity: 1 }}
+                    transition={{ duration: 1.5, ease: LUXURY_EASE, delay: 0.3 }}
+                    viewport={{ once: true }}
+                    className="absolute -bottom-12 -right-12 w-64 h-64 hidden lg:block z-20 p-2 bg-paper shadow-2xl rotate-3"
+                >
+                    <LazyImage 
+                        src={SOIL_IMAGE_SMALL_1} 
+                        alt="Textura detalhada"
+                        className="w-full h-full object-cover grayscale contrast-125"
+                    />
+                </motion.div>
+             </div>
+
+             <div className="lg:col-span-5 flex flex-col justify-center lg:pl-16 pt-16 lg:pt-0">
+                <StaggerContainer className="space-y-12">
+                    <motion.div variants={{ hidden: { opacity: 0, y: 20 }, visible: { opacity: 1, y: 0, transition: { duration: 0.8 } } }}>
+                        <span className="text-6xl text-gold-dark/20 font-serif block mb-4">01.</span>
+                        <h3 className="text-3xl font-serif text-forest-dark mb-4">A Fundação de Drenagem</h3>
+                        <p className="font-sans text-forest-dark/70 leading-loose text-justify font-light">
+                            O erro primário do cultivador iniciante é negligenciar o fluxo. Comece com uma camada deliberada de argila expandida ou rocha vulcânica. Este estrato oculto é a apólice de seguro contra a hipóxia radicular (falta de oxigênio).
                         </p>
+                    </motion.div>
+
+                    <motion.div variants={{ hidden: { opacity: 0, y: 20 }, visible: { opacity: 1, y: 0, transition: { duration: 0.8 } } }}>
+                        <span className="text-6xl text-gold-dark/20 font-serif block mb-4">02.</span>
+                        <h3 className="text-3xl font-serif text-forest-dark mb-4">A Mistura Aérea</h3>
+                        <p className="font-sans text-forest-dark/70 leading-loose text-justify font-light">
+                            Solo compacto é o inimigo. Busque a "porosidade perfeita": 40% Turfa ou Fibra de Coco, 30% Perlita para aeração e 30% Húmus para nutrição lenta. A raiz deve navegar pelo solo, não lutar contra ele.
+                        </p>
+                    </motion.div>
+                </StaggerContainer>
+             </div>
+        </div>
+
+        {/* Horizontal Scroll / Metodologia */}
+        <div className="border-t border-forest-dark/5 pt-24">
+            <div className="flex flex-col md:flex-row justify-between items-end mb-16">
+                 <h3 className="text-fluid-h2 font-serif text-forest-dark">Componentes</h3>
+                 <span className="font-mono text-[10px] text-forest-dark/50 uppercase tracking-widest">Matéria Prima Essencial</span>
+            </div>
+            
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-px bg-forest-dark/10 border border-forest-dark/10">
+                {[
+                    { title: 'Perlita', desc: 'Vidro vulcânico expandido. Cria bolsas de ar vitais.', img: SOIL_IMAGE_SMALL_2 },
+                    { title: 'Casca de Pinus', desc: 'Matéria orgânica estrutural. Simula o chão da floresta.', img: 'https://images.unsplash.com/photo-1542601906990-b4d3fb778b09?auto=format&fit=crop&q=80&w=800' },
+                    { title: 'Carvão Ativado', desc: 'Filtro natural. Previne odores e acúmulo de toxinas.', img: 'https://images.unsplash.com/photo-1550583724-b2692b85b150?auto=format&fit=crop&q=80&w=800' }
+                ].map((item, idx) => (
+                    <div key={idx} className="group relative bg-paper h-[400px] flex flex-col justify-end p-8 overflow-hidden hover:bg-[#F2EFE9] transition-colors duration-500">
+                        <div className="absolute inset-0 opacity-0 group-hover:opacity-10 transition-opacity duration-700">
+                             <LazyImage src={item.img} alt={item.title} className="w-full h-full object-cover grayscale" />
+                        </div>
+                        <div className="relative z-10">
+                            <span className="text-[10px] font-mono uppercase tracking-widest text-gold-dark mb-2 block">0{idx + 1}</span>
+                            <h4 className="font-serif text-3xl text-forest-dark mb-4">{item.title}</h4>
+                            <p className="font-sans text-sm text-forest-dark/60 font-light leading-relaxed border-t border-forest-dark/10 pt-4">
+                                {item.desc}
+                            </p>
+                        </div>
                     </div>
                 ))}
             </div>
         </div>
+
       </div>
     </section>
   );

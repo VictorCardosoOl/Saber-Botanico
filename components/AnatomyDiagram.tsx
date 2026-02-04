@@ -2,71 +2,77 @@ import React from 'react';
 
 const AnatomyDiagram: React.FC = () => {
   return (
-    <div className="bg-forest-deep text-paper p-10 md:p-20 rounded-sm relative overflow-hidden shadow-2xl">
-        <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/graphy.png')] opacity-5"></div>
+    <div className="relative border border-white/10 p-8 md:p-16 rounded-sm bg-forest-dark overflow-hidden">
+        {/* Grid Background */}
+        <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.03)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.03)_1px,transparent_1px)] bg-[size:40px_40px] pointer-events-none"></div>
         
-        <div className="relative z-10 flex flex-col lg:flex-row gap-20 items-center">
-            <div className="flex-1">
-                <span className="text-gold font-mono text-[10px] uppercase tracking-widest-xl mb-6 block">Engenharia Botânica</span>
-                <h2 className="text-5xl md:text-6xl font-serif text-white mb-8 tracking-tighter">Anatomia do<br/>Plantio Perfeito</h2>
-                <p className="font-sans font-light text-lg text-white/60 leading-loose mb-12 max-w-md">
-                    Um vaso saudável é um ecossistema em camadas. Negligenciar a base é convidar o desastre fúngico.
+        <div className="relative z-10 grid grid-cols-1 lg:grid-cols-2 gap-20 items-center">
+            
+            {/* Text Side */}
+            <div>
+                <div className="inline-block px-3 py-1 border border-gold/30 rounded-full mb-8 bg-gold/5">
+                    <span className="text-gold font-mono text-[10px] uppercase tracking-widest block">Engenharia de Sistemas</span>
+                </div>
+                
+                <h2 className="text-5xl md:text-6xl font-serif text-paper mb-10 tracking-tighter leading-none">
+                    Corte Transversal <br/>
+                    <span className="text-white/20 italic">do Ecossistema</span>
+                </h2>
+                
+                <p className="font-sans font-light text-lg text-white/60 leading-loose mb-12 max-w-md border-l border-white/10 pl-6">
+                    A estratificação correta do vaso simula o lençol freático natural. Cada camada desempenha uma função hidráulica específica.
                 </p>
                 
-                <div className="grid gap-6">
+                <div className="space-y-8">
                     {[
-                        { label: 'Zona da Raiz', val: '60%', desc: 'Expansão e absorção de nutrientes.' },
-                        { label: 'Zona de Tampão', val: '20%', desc: 'Margem de segurança contra compactação.' },
-                        { label: 'Zona de Drenagem', val: '20%', desc: 'Camada crítica para fluxo de água.' }
+                        { label: 'Zona Superior', func: 'Troca Gasosa', detail: 'Evaporação superficial e oxigenação.' },
+                        { label: 'Núcleo Radicular', func: 'Nutrição', detail: 'Onde ocorre a troca catiônica (CTC).' },
+                        { label: 'Base Drenante', func: 'Escoamento', detail: 'Prevenção de estagnação hídrica.' }
                     ].map((stat, idx) => (
-                        <div key={idx} className="flex items-center gap-6 group cursor-default">
-                            <span className="font-serif text-3xl text-gold/80 w-16 group-hover:text-gold transition-colors">{stat.val}</span>
-                            <div className="h-px bg-white/10 flex-1 group-hover:bg-gold/30 transition-colors"></div>
-                            <div className="w-48">
-                                <h5 className="font-mono text-[10px] uppercase tracking-widest text-white mb-1">{stat.label}</h5>
-                                <p className="text-[10px] text-white/40">{stat.desc}</p>
+                        <div key={idx} className="flex gap-6 group">
+                            <span className="font-mono text-xl text-gold/40 group-hover:text-gold transition-colors">0{idx + 1}</span>
+                            <div>
+                                <h5 className="font-serif text-xl text-paper mb-1">{stat.label}</h5>
+                                <div className="flex items-center gap-2">
+                                    <span className="text-[10px] font-mono uppercase tracking-widest text-gold-dark">{stat.func}</span>
+                                    <span className="w-1 h-1 bg-white/20 rounded-full"></span>
+                                    <span className="text-xs text-white/40">{stat.detail}</span>
+                                </div>
                             </div>
                         </div>
                     ))}
                 </div>
             </div>
 
-            {/* Diagram Visual - Technical Look */}
-            <div className="flex-1 w-full max-w-md">
-                <div className="relative border border-white/20 h-[550px] w-full rounded-b-[6rem] p-4 flex flex-col justify-end backdrop-blur-sm bg-white/[0.02]">
-                    
-                    {/* Arrows/Labels */}
-                    <div className="absolute -right-4 md:-right-16 top-24 flex items-center gap-3">
-                        <span className="w-8 md:w-12 h-px bg-gold/50"></span>
-                        <span className="font-mono text-[9px] uppercase text-gold tracking-widest">Borda (2cm)</span>
-                    </div>
+            {/* Visual Diagram - Blueprint Style */}
+            <div className="relative w-full aspect-[3/4] md:aspect-square flex items-center justify-center">
+                 {/* Container Shape */}
+                 <div className="relative w-64 h-96 border-2 border-white/20 border-t-0 rounded-b-[4rem] backdrop-blur-sm bg-white/[0.01] overflow-hidden group">
+                      
+                      {/* Layer 3: Soil */}
+                      <div className="absolute top-0 w-full h-[60%] bg-[#8B5E3C] opacity-20 border-b border-white/10 group-hover:opacity-30 transition-opacity">
+                         <div className="absolute inset-0 flex items-center justify-center">
+                            <span className="font-mono text-[10px] text-white/30 tracking-widest rotate-90 md:rotate-0">SUBSTRATO</span>
+                         </div>
+                      </div>
 
-                    {/* Layers */}
-                    <div className="w-full flex-1 border-t border-dashed border-white/10 bg-gradient-to-b from-transparent to-[#4a3b32]/30 relative group overflow-hidden">
-                        <div className="absolute inset-0 flex items-center justify-center text-white/10 font-serif text-5xl opacity-0 group-hover:opacity-100 transition-opacity select-none tracking-tighter italic">Flora</div>
-                    </div>
-                    
-                    <div className="w-full h-40 border-t border-dashed border-white/10 bg-[#5d4a3c]/40 flex items-center justify-center relative hover:bg-[#5d4a3c]/60 transition-colors cursor-help">
-                        <span className="font-mono text-[10px] uppercase tracking-widest text-white/60">Substrato Orgânico</span>
-                        <div className="absolute left-4 top-4 text-[9px] text-white/30 font-serif italic">III.</div>
-                    </div>
-                    
-                    <div className="w-full h-8 border-t border-dashed border-white/10 bg-white/10 flex items-center justify-center relative hover:bg-white/20 transition-colors">
-                        <span className="font-mono text-[9px] uppercase tracking-widest text-white/60">Manta</span>
-                        <div className="absolute left-4 top-2 text-[9px] text-white/30 font-serif italic">II.</div>
-                    </div>
-                    
-                    <div className="w-full h-24 border-t border-dashed border-white/10 bg-stone-500/30 rounded-b-[5rem] flex items-center justify-center relative hover:bg-stone-500/50 transition-colors">
-                         <span className="font-mono text-[10px] uppercase tracking-widest text-white/60">Argila Expandida</span>
-                         <div className="absolute left-4 top-4 text-[9px] text-white/30 font-serif italic">I.</div>
-                         {/* Hole */}
-                         <div className="absolute bottom-0 w-6 h-3 bg-forest-deep rounded-t-full border-t border-white/20 mb-3"></div>
-                    </div>
+                      {/* Layer 2: Filter */}
+                      <div className="absolute bottom-[20%] w-full h-[5%] bg-white/10 border-y border-white/5 border-dashed"></div>
 
-                </div>
-                <div className="text-center mt-8">
-                    <p className="font-mono text-[9px] uppercase tracking-widest text-white/40">Fig 2.1 - Corte Transversal Ideal</p>
-                </div>
+                      {/* Layer 1: Drainage */}
+                      <div className="absolute bottom-0 w-full h-[20%] bg-stone-500/20 group-hover:bg-stone-500/30 transition-colors">
+                         <div className="absolute inset-0 flex items-center justify-center">
+                            <span className="font-mono text-[10px] text-white/30 tracking-widest rotate-90 md:rotate-0">ARGILA</span>
+                         </div>
+                      </div>
+
+                      {/* Water Level Indicator (Animated) */}
+                      <div className="absolute bottom-0 w-full h-2 bg-blue-400/50 animate-pulse"></div>
+                 </div>
+
+                 {/* Callout Lines */}
+                 <div className="absolute top-20 right-10 md:right-20 w-12 h-px bg-white/20"></div>
+                 <div className="absolute bottom-10 left-10 md:left-20 w-12 h-px bg-white/20"></div>
             </div>
         </div>
     </div>

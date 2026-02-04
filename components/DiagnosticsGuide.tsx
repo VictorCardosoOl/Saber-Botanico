@@ -4,46 +4,53 @@ import { motion, AnimatePresence } from 'framer-motion';
 
 const DiagnosticsGuide: React.FC = () => {
   const [activeId, setActiveId] = useState<string>(DIAGNOSTICS[0].id);
-
   const activeDiagnostic = DIAGNOSTICS.find(d => d.id === activeId) || DIAGNOSTICS[0];
 
   return (
-    <section className="py-24 bg-paper relative overflow-hidden">
+    <section className="py-32 bg-forest-deep relative overflow-hidden text-paper">
       <div className="container relative z-10 px-6">
-        <div className="text-center max-w-3xl mx-auto mb-16">
-           <span className="text-gold-dark font-mono text-[10px] uppercase tracking-widest-xl block mb-4">Clínica Visual</span>
-           <h2 className="text-fluid-h2 font-serif text-charcoal mb-6">Diagnóstico Interativo</h2>
-           <p className="text-charcoal/60 font-light leading-relaxed">
-              As plantas se comunicam através de sinais visuais. Selecione o sintoma que você observa para receber a prescrição do curador.
-           </p>
+        
+        <div className="flex flex-col md:flex-row justify-between items-end mb-20 border-b border-white/10 pb-8">
+           <div className="max-w-2xl">
+              <span className="text-gold font-mono text-[10px] uppercase tracking-widest-xl block mb-4">Clínica Botânica</span>
+              <h2 className="text-5xl font-serif text-white mb-6 tracking-tight">Diagnóstico Visual</h2>
+              <p className="text-white/60 font-light leading-relaxed">
+                 As plantas se comunicam através de sinais silenciosos. Identifique o sintoma para acessar o protocolo de recuperação.
+              </p>
+           </div>
+           <div className="hidden md:block">
+              <span className="material-symbols-outlined text-4xl text-white/10">local_hospital</span>
+           </div>
         </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-start">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-20">
             
-            {/* Sidebar Menu - Symptoms */}
-            <div className="lg:col-span-4 flex flex-col gap-3">
-                <h3 className="font-mono text-xs uppercase tracking-widest text-charcoal/40 mb-4 px-2">Sintomas Observados</h3>
-                {DIAGNOSTICS.map((item) => (
-                    <button
-                        key={item.id}
-                        onClick={() => setActiveId(item.id)}
-                        className={`text-left px-6 py-4 rounded-sm border transition-all duration-300 flex items-center justify-between group ${
-                            activeId === item.id 
-                            ? 'bg-white border-gold/40 shadow-md translate-x-2' 
-                            : 'bg-transparent border-transparent hover:bg-white/50 hover:border-charcoal/5'
-                        }`}
-                    >
-                        <span className={`font-serif text-lg ${activeId === item.id ? 'text-charcoal' : 'text-charcoal/60'}`}>
-                            {item.title}
-                        </span>
-                        <span className={`text-xs font-mono uppercase tracking-wider ${activeId === item.id ? 'text-gold-dark' : 'text-charcoal/40'}`}>
-                            {activeId === item.id ? 'Selecionado' : 'Ver'}
-                        </span>
-                    </button>
-                ))}
+            {/* Sidebar / Menu */}
+            <div className="lg:col-span-4 flex flex-col">
+                <h3 className="font-mono text-[10px] uppercase tracking-widest text-white/30 mb-6 pl-4 border-l border-white/10">Sintomatologia</h3>
+                <div className="space-y-2">
+                    {DIAGNOSTICS.map((item) => (
+                        <button
+                            key={item.id}
+                            onClick={() => setActiveId(item.id)}
+                            className={`w-full text-left px-6 py-5 border-l-2 transition-all duration-300 flex items-center justify-between group ${
+                                activeId === item.id 
+                                ? 'border-gold bg-white/[0.03]' 
+                                : 'border-white/10 hover:border-white/30 hover:bg-white/[0.01]'
+                            }`}
+                        >
+                            <span className={`font-serif text-lg tracking-wide ${activeId === item.id ? 'text-white' : 'text-white/50 group-hover:text-white/80'}`}>
+                                {item.title}
+                            </span>
+                            {activeId === item.id && (
+                                <span className="material-symbols-outlined text-gold text-sm animate-pulse">arrow_right</span>
+                            )}
+                        </button>
+                    ))}
+                </div>
             </div>
 
-            {/* Active Content Area */}
+            {/* Active Content Area - Card Style */}
             <div className="lg:col-span-8">
                 <AnimatePresence mode="wait">
                     <motion.div
@@ -51,43 +58,49 @@ const DiagnosticsGuide: React.FC = () => {
                         initial={{ opacity: 0, x: 20 }}
                         animate={{ opacity: 1, x: 0 }}
                         exit={{ opacity: 0, x: -20 }}
-                        transition={{ duration: 0.4, ease: "easeOut" }}
-                        className="bg-white rounded-sm shadow-xl border border-gold/10 overflow-hidden flex flex-col md:flex-row"
+                        transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
+                        className="bg-paper text-forest-dark rounded-sm overflow-hidden flex flex-col md:flex-row shadow-[0_0_50px_rgba(0,0,0,0.5)]"
                     >
                         {/* Image */}
-                        <div className="w-full md:w-5/12 h-64 md:h-auto relative bg-gray-100">
+                        <div className="w-full md:w-5/12 h-64 md:h-auto relative bg-gray-200">
                              <div 
-                                className="absolute inset-0 bg-cover bg-center"
+                                className="absolute inset-0 bg-cover bg-center grayscale contrast-125"
                                 style={{ backgroundImage: `url('${activeDiagnostic.imageUrl}')` }}
                              ></div>
-                             <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent md:bg-gradient-to-r"></div>
+                             <div className="absolute inset-0 bg-forest-dark/20 mix-blend-multiply"></div>
                              
-                             <div className="absolute bottom-6 left-6 text-white">
-                                <span className="inline-block px-2 py-1 border border-white/30 text-[10px] font-mono font-bold uppercase tracking-widest rounded-sm mb-2 backdrop-blur-sm">
-                                    Sinal Clínico
+                             <div className="absolute top-6 left-6 right-6 flex justify-between items-start">
+                                <span className="inline-block px-2 py-1 bg-white/90 text-[9px] font-mono font-bold uppercase tracking-widest text-forest-dark backdrop-blur-sm">
+                                    Fig. {activeDiagnostic.id}
                                 </span>
-                                <p className="font-serif text-2xl italic">{activeDiagnostic.visualCue}</p>
                              </div>
                         </div>
 
                         {/* Text Content */}
-                        <div className="w-full md:w-7/12 p-8 md:p-12 flex flex-col justify-center">
-                            <div className="mb-8">
-                                <h4 className="flex items-center gap-2 text-[10px] font-mono uppercase tracking-widest text-gold-dark mb-3">
-                                    <span className="material-symbols-outlined text-sm">search</span>
-                                    Causa Provável
+                        <div className="w-full md:w-7/12 p-10 md:p-16 flex flex-col justify-center bg-paper relative">
+                            <div className="absolute top-0 right-0 p-10 opacity-5 pointer-events-none">
+                                <span className="material-symbols-outlined text-9xl">medical_services</span>
+                            </div>
+
+                            <div className="mb-10 relative z-10">
+                                <h4 className="font-mono text-[10px] uppercase tracking-widest text-gold-dark mb-2">
+                                    Manifestação Visual
                                 </h4>
-                                <p className="text-lg font-serif text-charcoal leading-relaxed">
+                                <p className="text-3xl font-serif text-forest-dark italic mb-6">
+                                    "{activeDiagnostic.visualCue}"
+                                </p>
+                                <p className="text-sm font-sans text-forest-dark/70 leading-relaxed border-l border-gold/30 pl-4">
+                                    <strong className="text-forest-dark block text-xs uppercase tracking-wide mb-1">Diagnóstico:</strong>
                                     {activeDiagnostic.cause}
                                 </p>
                             </div>
 
-                            <div className="bg-[#F9F7F2] p-6 rounded-sm border-l-2 border-sage">
-                                <h4 className="flex items-center gap-2 text-[10px] font-mono uppercase tracking-widest text-sage-dark mb-3">
-                                    <span className="material-symbols-outlined text-sm">healing</span>
-                                    Prescrição do Curador
+                            <div className="bg-forest-light/5 p-6 border border-forest-dark/5 relative z-10">
+                                <h4 className="flex items-center gap-2 text-[10px] font-mono uppercase tracking-widest text-forest-dark mb-3">
+                                    <span className="w-2 h-2 rounded-full bg-gold"></span>
+                                    Protocolo de Correção
                                 </h4>
-                                <p className="text-sm font-light text-charcoal/80 leading-loose">
+                                <p className="text-base font-light text-forest-dark leading-loose">
                                     {activeDiagnostic.solution}
                                 </p>
                             </div>
@@ -96,12 +109,6 @@ const DiagnosticsGuide: React.FC = () => {
                 </AnimatePresence>
             </div>
 
-        </div>
-        
-        <div className="mt-16 text-center">
-           <p className="font-serif italic text-charcoal/40 text-lg">
-              "A cura começa com a observação meticulosa."
-           </p>
         </div>
       </div>
     </section>

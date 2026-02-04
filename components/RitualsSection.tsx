@@ -30,7 +30,7 @@ const RitualsSection: React.FC = () => {
             <p className="text-charcoal/80 font-serif text-2xl max-w-3xl leading-relaxed">
                 Instruções de calibração de precisão para iluminação atmosférica e níveis de umidade. <span className="text-sage italic">A observação diária é a ferramenta mais valiosa do curador.</span>
             </p>
-            <button className="group flex items-center justify-center gap-3 px-8 py-4 border border-charcoal/5 hover:border-gold transition-all bg-white hover:bg-[#F2EFE9] shadow-sm whitespace-nowrap">
+            <button className="group flex items-center justify-center gap-3 px-8 py-4 border border-charcoal/5 hover:border-gold transition-all duration-300 bg-white hover:bg-[#F2EFE9] shadow-sm hover:shadow-md hover:-translate-y-0.5 active:scale-95 whitespace-nowrap">
                 <span className="font-mono text-[10px] uppercase tracking-widest text-gray-500 group-hover:text-gold">Salvar Guia</span>
                 <span className="material-symbols-outlined text-sm text-gray-400 group-hover:text-gold font-light">download</span>
             </button>

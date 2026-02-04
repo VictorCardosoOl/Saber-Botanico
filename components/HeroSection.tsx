@@ -77,7 +77,7 @@ const HeroSection: React.FC = () => {
              </motion.p>
 
              <motion.div variants={itemVariants} className="flex flex-col sm:flex-row gap-6">
-                <button className="relative overflow-hidden group px-8 py-4 bg-transparent border border-paper/20 rounded-full hover:border-gold/50 transition-colors">
+                <button className="relative overflow-hidden group px-8 py-4 bg-transparent border border-paper/20 rounded-full hover:border-gold/50 transition-all duration-300 active:scale-95">
                    <span className="relative z-10 text-[10px] font-mono uppercase tracking-widest text-paper group-hover:text-gold transition-colors">Entrar na Galeria</span>
                    <div className="absolute inset-0 bg-white/5 transform translate-y-full group-hover:translate-y-0 transition-transform duration-500 ease-out"></div>
                 </button>

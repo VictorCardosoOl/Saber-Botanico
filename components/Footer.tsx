@@ -90,7 +90,7 @@ const Footer: React.FC = () => {
               </a>
             </div>
             
-            <a href="#/glosario" className="group mt-8 inline-flex items-center justify-between w-full py-4 border-t border-white/10 hover:bg-white/5 transition-colors cursor-pointer">
+            <a href="#/glosario" className="group mt-8 inline-flex items-center justify-between w-full py-4 border-t border-white/10 hover:bg-white/5 transition-colors cursor-pointer active:scale-[0.99] duration-200">
               <span className="font-serif text-xl text-stone-200 group-hover:pl-2 transition-all duration-500">
                 Iniciar Coleção
               </span>
@@ -119,7 +119,7 @@ const Footer: React.FC = () => {
                     rel="noopener noreferrer" 
                     className="flex items-center gap-4 group cursor-pointer"
                   >
-                    <div className="p-2 border border-white/10 rounded-full group-hover:border-stone-500 transition-colors">
+                    <div className="p-2 border border-white/10 rounded-full group-hover:border-stone-500 transition-all duration-300 group-hover:scale-110 group-hover:bg-white/5">
                       <item.icon className="w-4 h-4 text-stone-500 group-hover:text-stone-100 transition-colors" />
                     </div>
                     <span className="text-sm font-medium text-stone-400 group-hover:text-white group-hover:translate-x-1 transition-all duration-300">

@@ -90,7 +90,7 @@ const PlantModal: React.FC<PlantModalProps> = ({ plant, onClose }) => {
         <Tooltip content="Fechar (Esc)" position="left">
           <button 
             onClick={onClose}
-            className="absolute top-4 right-4 z-20 w-10 h-10 rounded-full bg-white/20 backdrop-blur-sm flex items-center justify-center text-charcoal hover:bg-white transition-colors focus:outline-none focus:ring-2 focus:ring-gold"
+            className="absolute top-4 right-4 z-20 w-10 h-10 rounded-full bg-white/20 backdrop-blur-sm flex items-center justify-center text-charcoal hover:bg-white transition-all duration-300 hover:rotate-90 hover:scale-110 focus:outline-none focus:ring-2 focus:ring-gold"
             aria-label="Close modal"
           >
             <span className="material-symbols-outlined">close</span>
@@ -190,7 +190,7 @@ const PlantModal: React.FC<PlantModalProps> = ({ plant, onClose }) => {
                <span className="text-2xl font-serif text-charcoal">{plant.price}</span>
                <button 
                 onClick={handleAddToCollection}
-                className="gold-border-btn px-6 py-3 text-[10px] font-bold uppercase tracking-[0.2em] border border-gold text-gold-dark hover:bg-gold hover:text-white transition-all"
+                className="gold-border-btn px-6 py-3 text-[10px] font-bold uppercase tracking-[0.2em] border border-gold text-gold-dark hover:bg-gold hover:text-white transition-all duration-300 hover:shadow-lg hover:-translate-y-1 active:scale-95"
                >
                   Adicionar à Coleção
                </button>

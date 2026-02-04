@@ -4,140 +4,123 @@ import { motion, useScroll, useTransform } from 'framer-motion';
 import { LUXURY_EASE } from './Animation';
 
 const HeroSection: React.FC = () => {
-  // Otimização: useTransform leve apenas para elementos chave
   const { scrollY } = useScroll();
   
-  const yText = useTransform(scrollY, [0, 500], [0, 100]);
-  const yImage = useTransform(scrollY, [0, 500], [0, 50]);
-  const opacityText = useTransform(scrollY, [0, 300], [1, 0]);
-  const scaleImage = useTransform(scrollY, [0, 500], [1.15, 1]);
-
-  const containerVariants = {
-    hidden: { opacity: 0 },
-    visible: {
-      opacity: 1,
-      transition: {
-        staggerChildren: 0.15,
-        delayChildren: 0.5 // Reduzido delay inicial para LCP melhor
-      }
-    }
-  };
-
-  const itemVariants = {
-    hidden: { y: 60, opacity: 0 },
-    visible: { 
-      y: 0, 
-      opacity: 1, 
-      transition: { duration: 1, ease: LUXURY_EASE } 
-    }
-  };
+  // Parallax refinado
+  const yText = useTransform(scrollY, [0, 800], [0, 200]);
+  const yImage = useTransform(scrollY, [0, 800], [0, 100]);
+  const opacityText = useTransform(scrollY, [0, 400], [1, 0]);
+  const scaleImage = useTransform(scrollY, [0, 800], [1.1, 1]);
 
   return (
-    <section id="hero" className="relative min-h-[100svh] w-full flex flex-col items-center justify-center pt-24 pb-12 overflow-hidden bg-forest-dark">
-      {/* Otimização: CSS Puro ao invés de SVG Filter ou JS Animation para o Noise */}
-      <div className="absolute inset-0 bg-noise opacity-[0.03] mix-blend-overlay pointer-events-none z-20"></div>
+    <section id="hero" className="relative h-[100svh] w-full flex flex-col justify-center overflow-hidden bg-forest-dark">
       
-      {/* PERFORMANCE FIX: CSS Animation (GPU) instead of Framer Motion JS Loop */}
-      <div className="absolute top-0 right-0 w-[50vw] h-[80vh] bg-gradient-to-b from-gold/5 to-transparent blur-[80px] md:blur-[120px] pointer-events-none animate-blob-pulse" />
-      
-      <div className="absolute bottom-0 left-0 w-[40vw] h-[60vh] bg-forest-light/10 blur-[100px] pointer-events-none"></div>
+      {/* Background Ambience */}
+      <div className="absolute top-0 right-0 w-[60vw] h-[80vh] bg-gold/5 blur-[150px] rounded-full pointer-events-none animate-blob-pulse" />
+      <div className="absolute bottom-0 left-0 w-[40vw] h-[60vh] bg-forest-light/10 blur-[120px] rounded-full pointer-events-none"></div>
 
-      <div className="container relative z-10 h-full flex flex-col justify-center items-center">
+      <div className="container relative z-10 h-full flex flex-col justify-center">
         
-        <div className="relative w-full max-w-screen-2xl mx-auto flex flex-col lg:flex-row items-center justify-center lg:justify-between gap-12 lg:gap-0 mt-8 lg:mt-0">
+        <div className="relative w-full h-full flex flex-col lg:flex-row items-center justify-center">
           
-          <motion.div 
-            style={{ y: yText, opacity: opacityText }}
-            variants={containerVariants}
-            initial="hidden"
-            animate="visible"
-            className="relative z-20 lg:w-1/2 flex flex-col items-center lg:items-start text-center lg:text-left mix-blend-normal"
-          >
-             <motion.div variants={itemVariants} className="inline-flex items-center gap-3 mb-6">
-                <span className="w-2 h-2 rounded-full border border-gold/50"></span>
-                <span className="text-gold/80 text-[10px] font-mono uppercase tracking-[0.3em]">Série Botânica N.01</span>
-             </motion.div>
+          {/* Editorial Layout: Text Overlapping Image */}
+          <div className="relative w-full lg:h-[80vh] flex items-center justify-center lg:justify-start">
+            
+            {/* Background Image Container with Cinematic Aspect Ratio */}
+            <motion.div 
+              style={{ y: yImage, scale: scaleImage }}
+              initial={{ clipPath: "inset(100% 0 0 0)" }}
+              animate={{ clipPath: "inset(0% 0 0 0)" }}
+              transition={{ duration: 1.5, ease: LUXURY_EASE, delay: 0.2 }}
+              className="absolute lg:right-0 top-1/2 -translate-y-1/2 w-full lg:w-[65%] h-[60vh] lg:h-[85%] z-0"
+            >
+               <div className="relative w-full h-full overflow-hidden">
+                  <img 
+                    src={HERO_IMAGE}
+                    alt="Monstera Albo Variegata"
+                    className="w-full h-full object-cover opacity-80 filter contrast-[1.1] desaturate-[0.2]"
+                  />
+                  {/* Gradient Overlay for Text Readability */}
+                  <div className="absolute inset-0 bg-gradient-to-l from-forest-dark/20 via-forest-dark/40 to-forest-dark/90"></div>
+                  <div className="absolute inset-0 bg-[#382E18] mix-blend-color opacity-30"></div> {/* Sepia Tone */}
+               </div>
+               
+               {/* Decorative Lines */}
+               <div className="absolute -left-12 top-12 bottom-12 w-px bg-white/10 hidden lg:block"></div>
+               <div className="absolute -bottom-12 left-12 right-12 h-px bg-white/10 hidden lg:block"></div>
+            </motion.div>
 
-             <motion.h1 variants={itemVariants} className="font-serif text-[clamp(3.5rem,8vw,8rem)] leading-[0.9] text-paper tracking-tighter mb-8 will-change-transform">
-               Natureza <br/>
-               <span className="italic font-light text-gold-light opacity-90 ml-4 lg:ml-12 block transform lg:-translate-x-4">Esculpida</span>
-             </motion.h1>
-
-             <motion.p variants={itemVariants} className="max-w-xl font-sans text-sm md:text-lg font-light text-sage-light leading-loose tracking-wide mb-10">
-                Uma exploração digital da flora rara. Onde a ciência biológica encontra a estética do silêncio.
-             </motion.p>
-
-             <motion.div variants={itemVariants} className="flex flex-col sm:flex-row gap-6">
-                <button className="relative overflow-hidden group px-8 py-4 bg-transparent border border-paper/20 rounded-full hover:border-gold/50 transition-all duration-300 active:scale-95">
-                   <span className="relative z-10 text-[10px] font-mono uppercase tracking-widest text-paper group-hover:text-gold transition-colors">Entrar na Galeria</span>
-                   <div className="absolute inset-0 bg-white/5 transform translate-y-full group-hover:translate-y-0 transition-transform duration-500 ease-out"></div>
-                </button>
-             </motion.div>
-          </motion.div>
-
-          <motion.div 
-            style={{ y: yImage }}
-            initial={{ opacity: 0, scale: 1.1, filter: "blur(10px)" }}
-            animate={{ opacity: 1, scale: 1, filter: "blur(0px)" }}
-            transition={{ duration: 1.5, ease: LUXURY_EASE, delay: 0.2 }}
-            className="relative z-10 lg:absolute lg:right-0 lg:top-1/2 lg:-translate-y-1/2 w-full max-w-[400px] lg:max-w-[550px] aspect-[3/4] group perspective-1000 will-change-transform"
-          >
-             <div className="absolute -top-12 -right-12 w-full h-full border border-white/5 rounded-t-full rounded-b-full hidden lg:block animate-pulse-subtle"></div>
-             
-             <div className="relative w-full h-full overflow-hidden rounded-t-[200px] rounded-b-[10px] shadow-2xl shadow-black/50">
-                <motion.img 
-                  src={HERO_IMAGE}
-                  alt="Exemplar de Monstera Albo Variegata"
-                  className="w-full h-full object-cover transition-all duration-[2s] ease-out group-hover:brightness-90 group-hover:contrast-[1.1]"
-                  style={{ scale: scaleImage }}
-                />
-                
-                <div className="absolute inset-0 bg-noise opacity-20 mix-blend-overlay pointer-events-none"></div>
-                <div className="absolute inset-0 bg-gradient-to-t from-forest-dark/80 to-transparent opacity-60 pointer-events-none"></div>
-                
-                <motion.div 
+            {/* Typography Layer - Overlapping */}
+            <motion.div 
+              style={{ y: yText, opacity: opacityText }}
+              className="relative z-10 lg:pl-12 max-w-4xl mix-blend-hard-light"
+            >
+               <motion.div 
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: 1, duration: 1 }}
-                  className="absolute bottom-8 left-0 w-full text-center"
-                >
-                   <p className="font-serif italic text-2xl text-white/90">Monstera Albo</p>
-                   <p className="font-mono text-[9px] uppercase tracking-widest text-white/50 mt-1">Variegata . 2024</p>
-                </motion.div>
-             </div>
+                  transition={{ duration: 1, delay: 1 }}
+                  className="flex items-center gap-4 mb-8"
+               >
+                  <span className="h-px w-12 bg-gold"></span>
+                  <span className="text-gold text-[10px] font-mono uppercase tracking-[0.4em]">Edição Limitada</span>
+               </motion.div>
 
-             <motion.div 
-                initial={{ opacity: 0, scale: 0 }}
-                animate={{ opacity: 1, scale: 1 }}
-                transition={{ delay: 0.8, duration: 0.8, type: "spring" }}
-                className="absolute -bottom-6 -left-6 lg:bottom-12 lg:-left-12 size-24 md:size-32 bg-forest-deep rounded-full border border-white/10 flex items-center justify-center backdrop-blur-md shadow-xl animate-spin-slow"
-             >
-                <svg className="w-full h-full p-2" viewBox="0 0 100 100">
-                   <path id="curve" d="M 50 50 m -37 0 a 37 37 0 1 1 74 0 a 37 37 0 1 1 -74 0" fill="transparent" />
-                   <text className="text-[10px] uppercase font-mono tracking-[0.3em] fill-gold-light">
-                      <textPath href="#curve">
-                         Curadoria . Botânica . Rituais .
-                      </textPath>
-                   </text>
-                </svg>
-                <span className="material-symbols-outlined absolute text-gold text-2xl">spa</span>
-             </motion.div>
-          </motion.div>
+               <div className="overflow-hidden">
+                 <motion.h1 
+                    initial={{ y: "100%" }}
+                    animate={{ y: 0 }}
+                    transition={{ duration: 1.2, ease: LUXURY_EASE, delay: 0.5 }}
+                    className="font-serif text-[clamp(4rem,10vw,9.5rem)] leading-[0.85] text-paper tracking-tighter"
+                 >
+                   Botânica
+                 </motion.h1>
+               </div>
+               
+               <div className="overflow-hidden mb-8 md:mb-12">
+                 <motion.h1 
+                    initial={{ y: "100%" }}
+                    animate={{ y: 0 }}
+                    transition={{ duration: 1.2, ease: LUXURY_EASE, delay: 0.65 }}
+                    className="font-serif text-[clamp(4rem,10vw,9.5rem)] leading-[0.85] text-transparent bg-clip-text bg-gradient-to-r from-gold-light to-gold-dark tracking-tighter italic pr-4"
+                 >
+                   Esculpida
+                 </motion.h1>
+               </div>
+
+               <motion.p 
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  transition={{ duration: 1.5, delay: 1.2 }}
+                  className="max-w-md font-sans text-sm md:text-base font-light text-paper/70 leading-loose tracking-wide ml-2 md:ml-24 border-l border-white/20 pl-6"
+               >
+                  Uma exploração digital da flora rara. Onde a ciência biológica encontra a estética do silêncio. Curadoria por especialistas para colecionadores exigentes.
+               </motion.p>
+            </motion.div>
+          </div>
 
         </div>
 
+        {/* Bottom Elements */}
         <motion.div 
           initial={{ opacity: 0 }}
-          animate={{ opacity: 0.4 }}
-          transition={{ delay: 1.5, duration: 1 }}
-          className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 mix-blend-difference"
+          animate={{ opacity: 1 }}
+          transition={{ delay: 2, duration: 1.5 }}
+          className="absolute bottom-12 left-0 w-full flex justify-between items-end px-6 lg:px-12 pointer-events-none mix-blend-difference"
         >
-           <span className="text-[9px] font-mono uppercase tracking-widest text-paper">Explorar</span>
-           <motion.span 
-             animate={{ height: [40, 60, 40] }}
-             transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
-             className="w-px bg-paper"
-           ></motion.span>
+           <div className="hidden md:block">
+              <span className="block text-[10px] font-mono uppercase tracking-widest text-paper/50 mb-1">Coordenadas</span>
+              <span className="block text-xs font-mono text-paper">23°33'S 46°38'W</span>
+           </div>
+
+           <div className="flex flex-col items-center gap-4 absolute left-1/2 -translate-x-1/2">
+              <span className="text-[9px] font-mono uppercase tracking-[0.3em] text-paper/60">Scroll</span>
+              <div className="w-px h-16 bg-gradient-to-b from-paper to-transparent"></div>
+           </div>
+
+           <div className="hidden md:block text-right">
+              <span className="block text-[10px] font-mono uppercase tracking-widest text-paper/50 mb-1">Volume</span>
+              <span className="block text-xs font-mono text-paper">No. 01 — 2024</span>
+           </div>
         </motion.div>
 
       </div>

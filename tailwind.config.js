@@ -6,14 +6,13 @@ export default {
   ],
   darkMode: 'class',
   theme: {
-    // Definindo breakpoints mais amplos para monitores modernos
     screens: {
       'sm': '640px',
       'md': '768px',
       'lg': '1024px',
       'xl': '1280px',
-      '2xl': '1536px', // Aumentado de 1440px para padrão mais largo
-      '3xl': '1920px', // Adicionado suporte nativo a Full HD+
+      '2xl': '1536px',
+      '3xl': '1920px',
     },
     container: {
       center: true,
@@ -22,17 +21,16 @@ export default {
         sm: '2rem',
         lg: '3rem',
         xl: '4rem',
-        '2xl': '5rem', // Padding proporcional
-        '3xl': '6rem',
+        '2xl': '5rem',
+        '3xl': '8rem',
       },
-      // Configuração explícita para permitir que o container cresça
       screens: {
         'sm': '640px',
         'md': '768px',
         'lg': '1024px',
         'xl': '1280px',
         '2xl': '1536px',
-        '3xl': '1800px', // O conteúdo agora vai até 1800px de largura
+        '3xl': '1920px',
       }
     },
     extend: {
@@ -43,60 +41,64 @@ export default {
         mono: ['Space Mono', 'monospace'],
       },
       letterSpacing: {
-        tighter: '-0.04em',
-        tight: '-0.02em',
+        tighter: '-0.05em',
+        tight: '-0.03em',
         normal: '0em',
         wide: '0.025em',
         wider: '0.05em',
-        widest: '0.2em',
-        'widest-xl': '0.3em',
+        widest: '0.25em', // Aumentado para títulos pequenos
+        'widest-xl': '0.4em', // Estilo editorial extremo
       },
       colors: {
         gold: {
-          DEFAULT: '#C5A028', // Ajustado para melhor contraste (Original: #D4AF37)
-          light: '#E6D8AD',
-          dark: '#8A6D15',   // Escurecido para textos sobre fundo claro (Original: #997B20)
-          dim: '#B59530',
-          subtle: 'rgba(197, 160, 40, 0.1)'
+          DEFAULT: '#CFB783', // Champagne Gold (Menos amarelo, mais sofisticado)
+          light: '#EBE2CD',   // Off-white gold
+          dark: '#8F7A48',    // Bronze antigo
+          dim: '#9E8C60',
+          subtle: 'rgba(207, 183, 131, 0.1)'
         },
         forest: {
-          DEFAULT: '#0F2F1E',
-          dark: '#051605',
-          light: '#1A3C2B',
-          deep: '#020B02'
+          DEFAULT: '#142118',
+          dark: '#0A0F0D', // Quase preto, com tom verde imperceptível
+          light: '#233329',
+          deep: '#050806'
         },
-        paper: '#F9F7F2',
-        ink: '#1A1A1A',
+        paper: '#F5F2EB', // Warm white, textura de papel art
+        ink: '#1C1C1C',
         sage: {
-          DEFAULT: '#8FA196',
-          light: '#AABCB1',
-          dark: '#6B7C72'
+          DEFAULT: '#949D90',
+          light: '#BCC4B9',
+          dark: '#5C6659'
         },
-        charcoal: '#262626',
+        charcoal: '#242424',
         premium: {
-          black: '#0c0a09', // stone-950 ajustado
-          dark: '#1c1917',  // stone-900
-          accent: '#d6d3d1', // stone-300
+          black: '#080808', 
+          dark: '#121212',
+          accent: '#A1A1AA', 
         }
       },
       backgroundImage: {
-        'luxury-gradient': 'linear-gradient(135deg, #051605 0%, #0F2F1E 100%)',
-        'noise': "url('data:image/svg+xml,%3Csvg viewBox=%220 0 200 200%22 xmlns=%22http://www.w3.org/2000/svg%22%3E%3Cfilter id=%22noiseFilter%22%3E%3CfeTurbulence type=%22fractalNoise%22 baseFrequency=%220.8%22 numOctaves=%223%22 stitchTiles=%22stitch%22/%3E%3C/filter%3E%3Crect width=%22100%25%22 height=%22100%25%22 filter=%22url(%23noiseFilter)%22 opacity=%220.04%22/%3E%3C/svg%3E')",
-        'linen': "repeating-linear-gradient(0deg, transparent, transparent 2px, #E8E6DE 2px, #E8E6DE 3px), repeating-linear-gradient(90deg, transparent, transparent 2px, #E8E6DE 2px, #E8E6DE 3px)",
+        'luxury-gradient': 'linear-gradient(180deg, rgba(10,15,13,0) 0%, #0A0F0D 100%)',
+        'noise': "url('data:image/svg+xml,%3Csvg viewBox=%220 0 200 200%22 xmlns=%22http://www.w3.org/2000/svg%22%3E%3Cfilter id=%22noiseFilter%22%3E%3CfeTurbulence type=%22fractalNoise%22 baseFrequency=%220.7%22 numOctaves=%223%22 stitchTiles=%22stitch%22/%3E%3C/filter%3E%3Crect width=%22100%25%22 height=%22100%25%22 filter=%22url(%23noiseFilter)%22 opacity=%220.06%22/%3E%3C/svg%3E')",
       },
       animation: {
-        'spin-slow': 'spin 12s linear infinite',
-        'fade-in-up': 'fadeInUp 1s cubic-bezier(0.16, 1, 0.3, 1) forwards',
-        'pulse-subtle': 'pulseSubtle 4s ease-in-out infinite',
+        'spin-slow': 'spin 20s linear infinite',
+        'fade-in-up': 'fadeInUp 1.2s cubic-bezier(0.22, 1, 0.36, 1) forwards',
+        'pulse-subtle': 'pulseSubtle 6s ease-in-out infinite',
+        'float': 'float 8s ease-in-out infinite',
       },
       keyframes: {
         fadeInUp: {
-          '0%': { opacity: '0', transform: 'translateY(40px)' },
+          '0%': { opacity: '0', transform: 'translateY(60px)' },
           '100%': { opacity: '1', transform: 'translateY(0)' },
         },
         pulseSubtle: {
           '0%, 100%': { opacity: '1' },
-          '50%': { opacity: '0.8' },
+          '50%': { opacity: '0.6' },
+        },
+        float: {
+          '0%, 100%': { transform: 'translateY(0)' },
+          '50%': { transform: 'translateY(-10px)' },
         }
       }
     }

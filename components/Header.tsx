@@ -3,16 +3,15 @@ import { useScrollVisibility } from '../hooks/useScrollVisibility';
 import { Link, useLocation } from 'react-router-dom';
 import { NAVIGATION_LINKS } from '../constants';
 import Tooltip from './Tooltip';
-import { motion, useScroll, useSpring } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
 
 const Logo: React.FC = () => (
-  <Link to="/" className="flex items-center gap-3 group shrink-0" aria-label="Saber Botânico Home">
-    <div className="relative flex items-center justify-center size-8">
-      <span className="material-symbols-outlined text-[24px] text-gold group-hover:rotate-180 transition-transform duration-700">spa</span>
+  <Link to="/" className="flex items-center gap-4 group shrink-0 z-50">
+    <div className="relative flex items-center justify-center size-10 border border-white/10 rounded-full bg-white/[0.02] backdrop-blur-sm group-hover:border-gold/30 transition-colors duration-500">
+      <span className="material-symbols-outlined text-[20px] text-gold group-hover:rotate-180 transition-transform duration-[1.5s] ease-[cubic-bezier(0.22,1,0.36,1)]">spa</span>
     </div>
     <div className="flex flex-col">
-      <h2 className="text-lg font-bold leading-none tracking-[0.1em] font-serif text-paper uppercase">Saber</h2>
-      <span className="text-[0.5rem] uppercase tracking-[0.3em] text-gold/80 mt-0.5">Botânico</span>
+      <h2 className="text-lg font-serif font-medium leading-none tracking-[0.05em] text-paper group-hover:text-gold transition-colors duration-500">Saber</h2>
     </div>
   </Link>
 );
@@ -20,29 +19,19 @@ const Logo: React.FC = () => (
 const NavLinks: React.FC = () => {
   const location = useLocation();
   
-  const getLinkClasses = useCallback((path: string): string => {
-    const isActive = location.pathname === path;
-    return `
-      text-[10px] tracking-[0.25em] font-mono uppercase transition-colors duration-500 relative py-2 inline-block
-      ${isActive ? "text-gold" : "text-white/60 hover:text-white"}
-      before:content-[''] before:absolute before:bottom-0 before:left-0 before:w-full before:h-px before:bg-gold before:scale-x-0 hover:before:scale-x-100 before:transition-transform before:duration-500 before:origin-right hover:before:origin-left
-      ${isActive ? "before:scale-x-100" : ""}
-    `.trim().replace(/\s+/g, ' ');
-  }, [location.pathname]);
-
   return (
-    <nav className="flex items-center gap-8 xl:gap-12">
-      {NAVIGATION_LINKS.map((link) => (
-        <Link key={link.path} to={link.path}>
-          <motion.span 
-            className={getLinkClasses(link.path)}
-            whileHover={{ scale: 1.1, textShadow: "0 0 8px rgba(212, 175, 55, 0.4)" }}
-            transition={{ type: "spring", stiffness: 400, damping: 17 }}
-          >
-            {link.label}
-          </motion.span>
-        </Link>
-      ))}
+    <nav className="flex items-center gap-10 xl:gap-16">
+      {NAVIGATION_LINKS.map((link) => {
+        const isActive = location.pathname === link.path;
+        return (
+          <Link key={link.path} to={link.path} className="relative group py-4">
+            <span className={`text-[10px] tracking-[0.2em] font-mono uppercase transition-all duration-500 ${isActive ? "text-gold" : "text-white/50 group-hover:text-white"}`}>
+              {link.label}
+            </span>
+            <span className={`absolute bottom-3 left-1/2 -translate-x-1/2 w-1 h-1 rounded-full bg-gold transition-all duration-500 ${isActive ? "opacity-100 scale-100" : "opacity-0 scale-0 group-hover:opacity-50 group-hover:scale-75"}`}></span>
+          </Link>
+        );
+      })}
     </nav>
   );
 };
@@ -52,34 +41,18 @@ const Header: React.FC = () => {
   const isVisible = useScrollVisibility({ threshold: 10 });
   const location = useLocation();
   
-  // Scroll Progress Logic
-  const { scrollYProgress } = useScroll();
-  const scaleX = useSpring(scrollYProgress, {
-    stiffness: 100,
-    damping: 30,
-    restDelta: 0.001
-  });
-  
   const headerClasses = useMemo(() => {
-    // Usar fundo transparente no topo, e vidro fosco ao rolar
-    const bgClass = isMobileMenuOpen ? 'bg-forest-dark' : (window.scrollY > 50 ? 'bg-forest-dark/80 backdrop-blur-md border-b border-white/5' : 'bg-transparent border-transparent');
-    const transformClass = isVisible ? 'translate-y-0' : '-translate-y-full';
+    const isScrolled = window.scrollY > 20;
+    // Glassmorphism refinado: Borda inferior muito sutil apenas ao rolar
+    const bgClass = isMobileMenuOpen 
+      ? 'bg-forest-dark' 
+      : (isScrolled ? 'bg-forest-dark/70 backdrop-blur-xl border-b border-white/[0.03]' : 'bg-transparent border-transparent');
     
-    return `fixed top-0 left-0 right-0 z-[60] transition-all duration-500 ease-in-out px-4 md:px-8 py-4 ${bgClass} ${transformClass}`;
+    return `fixed top-0 left-0 right-0 z-[60] transition-all duration-700 ease-[cubic-bezier(0.22,1,0.36,1)] px-6 md:px-12 py-4 ${bgClass} ${isVisible ? 'translate-y-0' : '-translate-y-full'}`;
   }, [isVisible, isMobileMenuOpen]);
 
-  const toggleMenu = useCallback(() => {
-    setIsMobileMenuOpen(prev => {
-      const newState = !prev;
-      document.body.style.overflow = newState ? 'hidden' : '';
-      return newState;
-    });
-  }, []);
-
-  const closeMenu = useCallback(() => {
-    setIsMobileMenuOpen(false);
-    document.body.style.overflow = '';
-  }, []);
+  const toggleMenu = useCallback(() => setIsMobileMenuOpen(prev => !prev), []);
+  const closeMenu = useCallback(() => setIsMobileMenuOpen(false), []);
 
   return (
     <>
@@ -87,66 +60,73 @@ const Header: React.FC = () => {
         <div className="w-full max-w-[1920px] mx-auto flex items-center justify-between">
           <Logo />
 
-          <div className="hidden lg:flex flex-1 justify-center px-8">
+          <div className="hidden lg:flex flex-1 justify-center">
             <NavLinks />
           </div>
 
-          <div className="flex items-center gap-6 shrink-0">
-            <Tooltip content="Buscar" position="bottom">
-              <Link to="/glosario" className="hidden md:flex items-center justify-center w-8 h-8 rounded-full border border-white/10 hover:border-gold/50 transition-colors group">
-                <span className="material-symbols-outlined text-[18px] text-white/60 group-hover:text-gold transition-colors">search</span>
+          <div className="flex items-center gap-8 shrink-0 z-50">
+            <Tooltip content="Buscar no Arquivo" position="bottom">
+              <Link to="/glosario" className="hidden md:flex items-center justify-center text-white/40 hover:text-gold transition-colors duration-300">
+                <span className="material-symbols-outlined text-[20px] font-light">search</span>
               </Link>
             </Tooltip>
             
-            <div className="lg:hidden flex items-center">
+            <div className="lg:hidden">
               <button 
-                className="text-gold-light p-2 relative z-50 focus:outline-none" 
-                aria-label={isMobileMenuOpen ? "Fechar menu" : "Abrir menu"}
+                className="text-gold-light p-2 focus:outline-none group" 
                 onClick={toggleMenu}
               >
                 <div className="flex flex-col gap-1.5 items-end">
-                    <span className={`block h-px bg-gold transition-all duration-300 ${isMobileMenuOpen ? 'w-6 rotate-45 translate-y-2' : 'w-8'}`}></span>
-                    <span className={`block h-px bg-gold transition-all duration-300 ${isMobileMenuOpen ? 'opacity-0' : 'w-6'}`}></span>
-                    <span className={`block h-px bg-gold transition-all duration-300 ${isMobileMenuOpen ? 'w-6 -rotate-45 -translate-y-2.5' : 'w-4'}`}></span>
+                    <span className={`block h-px bg-current transition-all duration-500 ${isMobileMenuOpen ? 'w-6 rotate-45 translate-y-2 bg-gold' : 'w-8 bg-white/70 group-hover:w-6'}`}></span>
+                    <span className={`block h-px bg-current transition-all duration-500 ${isMobileMenuOpen ? 'opacity-0' : 'w-5 bg-white/70'}`}></span>
+                    <span className={`block h-px bg-current transition-all duration-500 ${isMobileMenuOpen ? 'w-6 -rotate-45 -translate-y-2 bg-gold' : 'w-8 bg-white/70 group-hover:w-4'}`}></span>
                 </div>
               </button>
             </div>
           </div>
         </div>
-        
-        {/* Reading Progress Bar - UX Detail */}
-        {!isMobileMenuOpen && (
-           <motion.div
-             className="absolute bottom-0 left-0 right-0 h-[1px] bg-gold origin-left"
-             style={{ scaleX }}
-           />
-        )}
       </header>
 
-      {/* Mobile Menu Overlay */}
-      <div 
-        className={`fixed inset-0 z-50 bg-forest-dark lg:hidden transition-all duration-700 ease-[cubic-bezier(0.76,0,0.24,1)] flex flex-col pt-24 ${
-          isMobileMenuOpen ? 'opacity-100 visible' : 'opacity-0 invisible pointer-events-none translate-y-4'
-        }`}
-      >
-        <div className="flex-1 flex flex-col px-8 pb-10 overflow-y-auto">
-           <nav className="flex flex-col gap-8 items-center justify-center flex-1 py-10">
-            {NAVIGATION_LINKS.map((link, idx) => (
-              <Link 
-                key={link.path} 
-                to={link.path} 
-                className={`text-4xl font-serif font-light transition-all duration-700 transform ${isMobileMenuOpen ? 'translate-y-0 opacity-100' : 'translate-y-8 opacity-0'}`}
-                style={{ transitionDelay: `${100 + idx * 50}ms` }}
-                onClick={closeMenu}
-              >
-                <span className={location.pathname === link.path ? 'text-gold italic' : 'text-paper hover:text-gold transition-colors'}>
-                  {link.label}
-                </span>
-              </Link>
-            ))}
-          </nav>
-        </div>
-      </div>
+      {/* Mobile Menu Overlay - Full Screen with Typography */}
+      <AnimatePresence>
+        {isMobileMenuOpen && (
+          <motion.div 
+            initial={{ opacity: 0, clipPath: "circle(0% at 100% 0%)" }}
+            animate={{ opacity: 1, clipPath: "circle(150% at 100% 0%)" }}
+            exit={{ opacity: 0, clipPath: "circle(0% at 100% 0%)" }}
+            transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
+            className="fixed inset-0 z-40 bg-forest-dark flex flex-col justify-center items-center"
+          >
+            <nav className="flex flex-col gap-6 items-center">
+              {NAVIGATION_LINKS.map((link, idx) => (
+                <Link 
+                  key={link.path} 
+                  to={link.path} 
+                  onClick={closeMenu}
+                  className="overflow-hidden"
+                >
+                  <motion.div
+                    initial={{ y: 100 }}
+                    animate={{ y: 0 }}
+                    transition={{ delay: 0.1 + (idx * 0.1), duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
+                    className={`text-5xl md:text-6xl font-serif tracking-tight ${location.pathname === link.path ? 'text-gold italic' : 'text-paper hover:text-gold/50 transition-colors'}`}
+                  >
+                    {link.label}
+                  </motion.div>
+                </Link>
+              ))}
+            </nav>
+            <motion.div 
+               initial={{ opacity: 0 }} 
+               animate={{ opacity: 1 }} 
+               transition={{ delay: 0.6 }}
+               className="absolute bottom-12 text-[10px] font-mono uppercase tracking-[0.3em] text-white/30"
+            >
+               Saber Botânico
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </>
   );
 };

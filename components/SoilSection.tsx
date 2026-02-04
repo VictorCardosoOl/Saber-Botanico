@@ -72,7 +72,7 @@ const SoilSection: React.FC = () => {
         </div>
 
         {/* Content Body */}
-        <div className="max-w-5xl mx-auto mb-32 relative">
+        <div className="max-w-7xl mx-auto mb-32 relative">
           <div className="flex items-center justify-center gap-6 mb-16 opacity-30">
             <span className="h-px w-32 bg-ink"></span>
             <span className="material-symbols-outlined text-gold-dark text-xl">filter_vintage</span>

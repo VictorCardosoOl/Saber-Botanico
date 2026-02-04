@@ -23,7 +23,7 @@ const NavLinks: React.FC = () => {
   const getLinkClasses = useCallback((path: string): string => {
     const isActive = location.pathname === path;
     return `
-      text-[10px] tracking-[0.25em] font-mono uppercase transition-all duration-500 relative py-2
+      text-[10px] tracking-[0.25em] font-mono uppercase transition-colors duration-500 relative py-2 inline-block
       ${isActive ? "text-gold" : "text-white/60 hover:text-white"}
       before:content-[''] before:absolute before:bottom-0 before:left-0 before:w-full before:h-px before:bg-gold before:scale-x-0 hover:before:scale-x-100 before:transition-transform before:duration-500 before:origin-right hover:before:origin-left
       ${isActive ? "before:scale-x-100" : ""}
@@ -33,8 +33,14 @@ const NavLinks: React.FC = () => {
   return (
     <nav className="flex items-center gap-8 xl:gap-12">
       {NAVIGATION_LINKS.map((link) => (
-        <Link key={link.path} to={link.path} className={getLinkClasses(link.path)}>
-          {link.label}
+        <Link key={link.path} to={link.path}>
+          <motion.span 
+            className={getLinkClasses(link.path)}
+            whileHover={{ scale: 1.1, textShadow: "0 0 8px rgba(212, 175, 55, 0.4)" }}
+            transition={{ type: "spring", stiffness: 400, damping: 17 }}
+          >
+            {link.label}
+          </motion.span>
         </Link>
       ))}
     </nav>

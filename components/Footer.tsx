@@ -39,7 +39,7 @@ const Footer: React.FC = () => {
       </div>
 
       {/* --- 3. Main Content --- */}
-      <div className="relative z-10 max-w-screen-2xl mx-auto px-6 md:px-12 pt-32 pb-24">
+      <div className="relative z-10 max-w-[1920px] mx-auto px-6 md:px-12 pt-32 pb-24">
         
         {/* Top Border for Structure */}
         <div className="w-full h-px bg-white/10 mb-16" />

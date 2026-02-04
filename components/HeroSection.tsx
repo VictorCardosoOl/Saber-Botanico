@@ -52,7 +52,7 @@ const HeroSection: React.FC = () => {
       <div className="container relative z-10 h-full flex flex-col justify-center items-center">
         
         {/* Main Composition */}
-        <div className="relative w-full max-w-6xl mx-auto flex flex-col lg:flex-row items-center justify-center lg:justify-between gap-12 lg:gap-0 mt-8 lg:mt-0">
+        <div className="relative w-full max-w-screen-2xl mx-auto flex flex-col lg:flex-row items-center justify-center lg:justify-between gap-12 lg:gap-0 mt-8 lg:mt-0">
           
           {/* Text Layer - Left but overlapping */}
           <motion.div 
@@ -67,12 +67,12 @@ const HeroSection: React.FC = () => {
                 <span className="text-gold/80 text-[10px] font-mono uppercase tracking-[0.3em]">Série Botânica N.01</span>
              </motion.div>
 
-             <motion.h1 variants={itemVariants} className="font-serif text-[clamp(3.5rem,8vw,7rem)] leading-[0.9] text-paper tracking-tighter mb-8">
+             <motion.h1 variants={itemVariants} className="font-serif text-[clamp(3.5rem,8vw,8rem)] leading-[0.9] text-paper tracking-tighter mb-8">
                Natureza <br/>
                <span className="italic font-light text-gold-light opacity-90 ml-4 lg:ml-12 block transform lg:-translate-x-4">Esculpida</span>
              </motion.h1>
 
-             <motion.p variants={itemVariants} className="max-w-md font-sans text-sm md:text-base font-light text-sage-light leading-loose tracking-wide mb-10">
+             <motion.p variants={itemVariants} className="max-w-xl font-sans text-sm md:text-lg font-light text-sage-light leading-loose tracking-wide mb-10">
                 Uma exploração digital da flora rara. Onde a ciência biológica encontra a estética do silêncio.
              </motion.p>
 
@@ -90,7 +90,7 @@ const HeroSection: React.FC = () => {
             initial={{ opacity: 0, scale: 1.1, filter: "blur(10px)" }}
             animate={{ opacity: 1, scale: 1, filter: "blur(0px)" }}
             transition={{ duration: 1.8, ease: LUXURY_EASE, delay: 0.2 }}
-            className="relative z-10 lg:absolute lg:right-0 lg:top-1/2 lg:-translate-y-1/2 w-full max-w-[400px] lg:max-w-[480px] aspect-[3/4] group perspective-1000"
+            className="relative z-10 lg:absolute lg:right-0 lg:top-1/2 lg:-translate-y-1/2 w-full max-w-[400px] lg:max-w-[550px] aspect-[3/4] group perspective-1000"
           >
              {/* Decorative Lines */}
              <div className="absolute -top-12 -right-12 w-full h-full border border-white/5 rounded-t-full rounded-b-full hidden lg:block animate-pulse-subtle"></div>

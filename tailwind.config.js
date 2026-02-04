@@ -6,13 +6,14 @@ export default {
   ],
   darkMode: 'class',
   theme: {
+    // Definindo breakpoints mais amplos para monitores modernos
     screens: {
       'sm': '640px',
       'md': '768px',
       'lg': '1024px',
       'xl': '1280px',
-      '2xl': '1440px',
-      '3xl': '1920px',
+      '2xl': '1536px', // Aumentado de 1440px para padrão mais largo
+      '3xl': '1920px', // Adicionado suporte nativo a Full HD+
     },
     container: {
       center: true,
@@ -21,10 +22,17 @@ export default {
         sm: '2rem',
         lg: '3rem',
         xl: '4rem',
-        '2xl': '5rem',
+        '2xl': '5rem', // Padding proporcional
+        '3xl': '6rem',
       },
+      // Configuração explícita para permitir que o container cresça
       screens: {
-        '2xl': '1440px',
+        'sm': '640px',
+        'md': '768px',
+        'lg': '1024px',
+        'xl': '1280px',
+        '2xl': '1536px',
+        '3xl': '1800px', // O conteúdo agora vai até 1800px de largura
       }
     },
     extend: {

@@ -11,7 +11,7 @@ const IdeaSection = () => (
     <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/noise.png')] opacity-[0.03] pointer-events-none"></div>
     
     <div className="container relative z-10">
-      <Reveal className="max-w-4xl mx-auto text-center">
+      <Reveal className="max-w-6xl mx-auto text-center">
         <div className="flex justify-center mb-8">
             <div className="size-16 border border-gold/30 rounded-full flex items-center justify-center bg-white/50 backdrop-blur-sm">
                 <span className="material-symbols-outlined text-3xl text-gold-dark">psychology_alt</span>
@@ -26,13 +26,13 @@ const IdeaSection = () => (
         
         <div className="relative py-12 mb-10">
             <span className="absolute top-0 left-1/2 -translate-x-1/2 text-6xl text-gold/20 font-serif">"</span>
-            <p className="font-alt text-2xl md:text-4xl leading-relaxed text-ink/90 relative z-10">
+            <p className="font-alt text-2xl md:text-5xl leading-relaxed text-ink/90 relative z-10">
               O Saber Botânico não é uma loja,<br className="hidden md:block"/> mas um templo de conhecimento.
             </p>
             <div className="w-16 h-px bg-gold/50 mx-auto mt-12"></div>
         </div>
 
-        <p className="font-sans text-charcoal/70 leading-loose max-w-2xl mx-auto text-sm md:text-base">
+        <p className="font-sans text-charcoal/70 leading-loose max-w-3xl mx-auto text-sm md:text-lg">
           Este projeto nasceu da necessidade de desconectar o ato de jardinagem do consumismo desenfreado. 
           Aqui, celebramos a botânica como <strong className="text-ink font-serif italic text-lg">ciência e arte</strong>. 
           Um fórum dedicado ao estudo, à troca de saberes e à preservação de espécies, onde o valor de uma planta não é medido em moeda, 
@@ -77,7 +77,7 @@ const AboutMeSection = () => (
         </Reveal>
         
         {/* Content Column */}
-        <div className="lg:col-span-7 lg:pl-12">
+        <div className="lg:col-span-7 lg:pl-16">
           <Reveal delay={0.4}>
             <div className="flex items-center gap-4 mb-8">
                 <span className="h-px w-12 bg-gold"></span>
@@ -93,7 +93,7 @@ const AboutMeSection = () => (
               "Olá, sou um desenvolvedor júnior e jardineiro sênior. Minha missão é traduzir a complexidade da natureza em interfaces serenas."
             </p>
             
-            <div className="space-y-6 text-gray-400 font-light leading-loose text-sm md:text-base max-w-xl">
+            <div className="space-y-6 text-gray-400 font-light leading-loose text-sm md:text-lg max-w-2xl">
               <p>
                 Minha jornada começou com uma pequena suculenta e floresceu em uma paixão por criar ecossistemas sustentáveis dentro de casa. 
                 Criei este espaço para documentar rituais de cuidado e compartilhar as nuances que transformam um "dedo verde" em um botânico amador.

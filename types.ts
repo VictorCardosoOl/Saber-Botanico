@@ -11,7 +11,7 @@ export interface PlantSpecimen {
   isHot?: boolean;
   // Novos campos narrativos e funcionais
   origin: string;
-  toxicity: 'Pet Safe' | 'Tóxica se ingerida' | 'Irritante ao toque';
+  toxicity: 'Pet Safe' | 'Tóxica se ingerida' | 'Irritante ao toque' | 'Tóxica para gatos' | 'Tóxica para cães' | 'Irritante para a pele';
   careLevel: 'Iniciante' | 'Intermediário' | 'Expert';
   curatorNote: string; // A nota do "Sommelier"
 }

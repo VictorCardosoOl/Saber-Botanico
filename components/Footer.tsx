@@ -9,9 +9,20 @@ import {
   Leaf
 } from 'lucide-react';
 import { Link } from 'react-router-dom';
+import { NAVIGATION_LINKS, SOCIAL_LINKS } from '../constants';
 
 const Footer: React.FC = () => {
   const currentYear = new Date().getFullYear();
+
+  // Mapeamento de ícones para as plataformas definidas em constants.ts
+  const getSocialIcon = (platform: string) => {
+    switch (platform.toLowerCase()) {
+      case 'instagram': return Instagram;
+      case 'pinterest': return Linkedin; // Placeholder conforme design original
+      case 'twitter': return Twitter;
+      default: return Globe;
+    }
+  };
 
   return (
     <footer className="relative bg-premium-black text-stone-400 overflow-hidden font-sans selection:bg-stone-700 selection:text-white border-t border-white/5">
@@ -106,28 +117,26 @@ const Footer: React.FC = () => {
               Conexão
             </span>
             <ul className="space-y-4">
-              {[
-                { name: 'Instagram', icon: Instagram, url: '#' },
-                { name: 'Pinterest', icon: Linkedin, url: '#' }, // Using Linkedin icon as placeholder for Pinterest if needed, or stick to provided
-                { name: 'Twitter / X', icon: Twitter, url: '#' },
-                { name: 'Comunidade', icon: Globe, url: '#' },
-              ].map((item) => (
-                <li key={item.name}>
-                  <a 
-                    href={item.url}
-                    target="_blank"
-                    rel="noopener noreferrer" 
-                    className="flex items-center gap-4 group cursor-pointer"
-                  >
-                    <div className="p-2 border border-white/10 rounded-full group-hover:border-stone-500 transition-all duration-300 group-hover:scale-110 group-hover:bg-white/5">
-                      <item.icon className="w-4 h-4 text-stone-500 group-hover:text-stone-100 transition-colors" />
-                    </div>
-                    <span className="text-sm font-medium text-stone-400 group-hover:text-white group-hover:translate-x-1 transition-all duration-300">
-                      {item.name}
-                    </span>
-                  </a>
-                </li>
-              ))}
+              {SOCIAL_LINKS.map((item) => {
+                const Icon = getSocialIcon(item.platform);
+                return (
+                  <li key={item.platform}>
+                    <a 
+                      href={item.url}
+                      target="_blank"
+                      rel="noopener noreferrer" 
+                      className="flex items-center gap-4 group cursor-pointer"
+                    >
+                      <div className="p-2 border border-white/10 rounded-full group-hover:border-stone-500 transition-all duration-300 group-hover:scale-110 group-hover:bg-white/5">
+                        <Icon className="w-4 h-4 text-stone-500 group-hover:text-stone-100 transition-colors" />
+                      </div>
+                      <span className="text-sm font-medium text-stone-400 group-hover:text-white group-hover:translate-x-1 transition-all duration-300">
+                        {item.platform}
+                      </span>
+                    </a>
+                  </li>
+                );
+              })}
             </ul>
           </div>
 
@@ -138,14 +147,9 @@ const Footer: React.FC = () => {
                 Índice
               </span>
               <nav className="flex flex-col gap-3">
-                {[
-                    { label: 'Glosário', path: '/glosario' },
-                    { label: 'Vasos', path: '/vasos' },
-                    { label: 'Solo', path: '/solo' },
-                    { label: 'Rituais', path: '/cuidados' }
-                ].map((link) => (
+                {NAVIGATION_LINKS.map((link) => (
                   <Link 
-                    key={link.label} 
+                    key={link.path} 
                     to={link.path}
                     className="text-lg text-stone-300 hover:text-white hover:translate-x-2 transition-transform duration-300 w-fit"
                   >

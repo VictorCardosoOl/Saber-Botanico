@@ -1,6 +1,7 @@
 import React, { useState, useCallback } from 'react';
 import { PlantSpecimen } from '../types';
 import { motion, AnimatePresence } from 'framer-motion';
+import LazyImage from './LazyImage';
 
 interface PlantCardProps {
   plant: PlantSpecimen;
@@ -21,19 +22,21 @@ const PlantCard: React.FC<PlantCardProps> = ({ plant }) => {
       transition={{ layout: { duration: 0.3, ease: "easeInOut" }, y: { duration: 0.2 } }}
       className="group flex flex-col h-full bg-transparent cursor-pointer"
     >
-        {/* Image Area - Pure, no borders */}
         <div className="relative aspect-[3/4] overflow-hidden bg-gray-100 mb-6 shadow-sm group-hover:shadow-2xl transition-shadow duration-500 rounded-sm">
-            <div 
-                className="w-full h-full bg-cover bg-center transition-transform duration-[1.5s] ease-out group-hover:scale-110 grayscale-[30%] group-hover:grayscale-0" 
-                style={{backgroundImage: `url('${plant.imageUrl}')`}}
-            ></div>
             
-            {/* Subtle Gradient Overlay */}
-            <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700"></div>
+            {/* Semantic Image via LazyImage */}
+            <div className="w-full h-full relative">
+               <LazyImage 
+                 src={plant.imageUrl} 
+                 alt={`Exemplar de ${plant.name}`}
+                 className="w-full h-full object-cover transition-transform duration-[1.5s] ease-out group-hover:scale-110 grayscale-[30%] group-hover:grayscale-0"
+               />
+            </div>
+            
+            <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none"></div>
 
-            {/* Rarity Tag - Minimalist */}
              {plant.isRare && (
-                <div className="absolute top-0 right-0 p-4">
+                <div className="absolute top-0 right-0 p-4 z-10">
                      <motion.span 
                         animate={{ boxShadow: ["0 0 0px rgba(197, 160, 40, 0)", "0 0 10px rgba(197, 160, 40, 0.8)", "0 0 0px rgba(197, 160, 40, 0)"] }}
                         transition={{ duration: 2, repeat: Infinity }}
@@ -42,13 +45,11 @@ const PlantCard: React.FC<PlantCardProps> = ({ plant }) => {
                 </div>
              )}
              
-             {/* Hover Actions */}
-             <div className="absolute bottom-6 left-6 opacity-0 group-hover:opacity-100 transition-all duration-500 translate-y-4 group-hover:translate-y-0">
+             <div className="absolute bottom-6 left-6 opacity-0 group-hover:opacity-100 transition-all duration-500 translate-y-4 group-hover:translate-y-0 z-10">
                 <span className="text-white font-mono text-[9px] uppercase tracking-widest border-b border-white/50 pb-1">Ver Detalhes</span>
              </div>
         </div>
         
-        {/* Info Area - Editorial Typography */}
         <div className="flex flex-col flex-1 relative px-2">
             <div className="flex justify-between items-baseline mb-2">
                <span className="font-mono text-[10px] text-gray-400 uppercase tracking-widest">Nº {plant.id.padStart(3, '0')}</span>

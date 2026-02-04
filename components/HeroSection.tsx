@@ -5,12 +5,10 @@ import { LUXURY_EASE } from './Animation';
 
 const HeroSection: React.FC = () => {
   const { scrollY } = useScroll();
-  // Paralaxe suave: Ajustado de 150 para 100 para um movimento menos agressivo
+  
   const yText = useTransform(scrollY, [0, 500], [0, 100]);
   const yImage = useTransform(scrollY, [0, 500], [0, 50]);
   const opacityText = useTransform(scrollY, [0, 300], [1, 0]);
-  
-  // Efeito Zoom Out: A imagem começa levemente ampliada e reduz ao rolar (1.15 -> 1.0)
   const scaleImage = useTransform(scrollY, [0, 500], [1.15, 1]);
 
   const containerVariants = {
@@ -19,8 +17,6 @@ const HeroSection: React.FC = () => {
       opacity: 1,
       transition: {
         staggerChildren: 0.15,
-        // Aumentado o delay para 1.2s para garantir que a imagem já tenha sido revelada
-        // antes do texto começar a aparecer, criando uma narrativa visual sequencial.
         delayChildren: 1.2
       }
     }
@@ -38,23 +34,19 @@ const HeroSection: React.FC = () => {
 
   return (
     <section id="hero" className="relative min-h-[100svh] w-full flex flex-col items-center justify-center pt-24 pb-12 overflow-hidden bg-forest-dark">
-      {/* Background Elements */}
       <div className="absolute inset-0 bg-noise opacity-[0.03] mix-blend-overlay pointer-events-none z-20"></div>
       
-      {/* Organic Light Blurs - Animated */}
       <motion.div 
         animate={{ opacity: [0.4, 0.7, 0.4], scale: [1, 1.1, 1] }} 
         transition={{ duration: 10, repeat: Infinity, ease: "easeInOut" }}
         className="absolute top-0 right-0 w-[50vw] h-[80vh] bg-gradient-to-b from-gold/5 to-transparent blur-[120px] pointer-events-none"
-      ></motion.div>
+      />
       <div className="absolute bottom-0 left-0 w-[40vw] h-[60vh] bg-forest-light/10 blur-[100px] pointer-events-none"></div>
 
       <div className="container relative z-10 h-full flex flex-col justify-center items-center">
         
-        {/* Main Composition */}
         <div className="relative w-full max-w-screen-2xl mx-auto flex flex-col lg:flex-row items-center justify-center lg:justify-between gap-12 lg:gap-0 mt-8 lg:mt-0">
           
-          {/* Text Layer - Left but overlapping */}
           <motion.div 
             style={{ y: yText, opacity: opacityText }}
             variants={containerVariants}
@@ -84,7 +76,6 @@ const HeroSection: React.FC = () => {
              </motion.div>
           </motion.div>
 
-          {/* Image Layer - Right / Asymmetric */}
           <motion.div 
             style={{ y: yImage }}
             initial={{ opacity: 0, scale: 1.1, filter: "blur(10px)" }}
@@ -92,21 +83,20 @@ const HeroSection: React.FC = () => {
             transition={{ duration: 1.8, ease: LUXURY_EASE, delay: 0.2 }}
             className="relative z-10 lg:absolute lg:right-0 lg:top-1/2 lg:-translate-y-1/2 w-full max-w-[400px] lg:max-w-[550px] aspect-[3/4] group perspective-1000"
           >
-             {/* Decorative Lines */}
              <div className="absolute -top-12 -right-12 w-full h-full border border-white/5 rounded-t-full rounded-b-full hidden lg:block animate-pulse-subtle"></div>
              
-             {/* Main Image Container */}
              <div className="relative w-full h-full overflow-hidden rounded-t-[200px] rounded-b-[10px] shadow-2xl shadow-black/50">
-                <motion.div 
-                  className="w-full h-full bg-cover bg-center transition-all duration-[2s] ease-out group-hover:brightness-90 group-hover:contrast-[1.1]"
-                  style={{ backgroundImage: `url('${HERO_IMAGE}')`, scale: scaleImage }}
-                ></motion.div>
+                {/* Substituição de div bg-image por motion.img para semântica correta */}
+                <motion.img 
+                  src={HERO_IMAGE}
+                  alt="Exemplar de Monstera Albo Variegata"
+                  className="w-full h-full object-cover transition-all duration-[2s] ease-out group-hover:brightness-90 group-hover:contrast-[1.1]"
+                  style={{ scale: scaleImage }}
+                />
                 
-                {/* Texture Overlay on Image */}
-                <div className="absolute inset-0 bg-noise opacity-20 mix-blend-overlay"></div>
-                <div className="absolute inset-0 bg-gradient-to-t from-forest-dark/80 to-transparent opacity-60"></div>
+                <div className="absolute inset-0 bg-noise opacity-20 mix-blend-overlay pointer-events-none"></div>
+                <div className="absolute inset-0 bg-gradient-to-t from-forest-dark/80 to-transparent opacity-60 pointer-events-none"></div>
                 
-                {/* Floating Caption inside image */}
                 <motion.div 
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
@@ -118,7 +108,6 @@ const HeroSection: React.FC = () => {
                 </motion.div>
              </div>
 
-             {/* Floating "Badge" Element */}
              <motion.div 
                 initial={{ opacity: 0, scale: 0 }}
                 animate={{ opacity: 1, scale: 1 }}
@@ -139,7 +128,6 @@ const HeroSection: React.FC = () => {
 
         </div>
 
-        {/* Scroll Indicator */}
         <motion.div 
           initial={{ opacity: 0 }}
           animate={{ opacity: 0.4 }}

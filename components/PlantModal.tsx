@@ -101,17 +101,27 @@ const PlantModal: React.FC<PlantModalProps> = ({ plant, onClose }) => {
           </button>
         </Tooltip>
 
-        {/* Image Side */}
-        <div className="w-full md:w-5/12 relative h-56 md:h-auto overflow-hidden bg-gray-100">
-          <div 
-            className="absolute inset-0 bg-cover bg-center transition-transform duration-700 hover:scale-105"
-            style={{ backgroundImage: `url('${plant.imageUrl}')` }}
-            role="img"
-            aria-label={`Imagem de ${plant.name}`}
-          ></div>
-          <div className="absolute inset-0 bg-gradient-to-t from-forest-dark/80 via-transparent to-transparent"></div>
+        <div className="w-full md:w-5/12 relative h-56 md:h-auto overflow-hidden bg-gray-100 group">
+          {/* Tag Img Semântica para Acessibilidade e Links Diretos */}
+          <img 
+            src={plant.imageUrl} 
+            alt={plant.name}
+            className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 hover:scale-105"
+          />
+          <div className="absolute inset-0 bg-gradient-to-t from-forest-dark/80 via-transparent to-transparent pointer-events-none"></div>
           
-          <div className="absolute bottom-6 left-6 right-6 text-white">
+          {/* Botão de Link Direto da Imagem */}
+          <a 
+            href={plant.imageUrl} 
+            target="_blank" 
+            rel="noopener noreferrer"
+            className="absolute top-4 left-4 z-20 w-8 h-8 rounded-full bg-white/10 backdrop-blur-sm flex items-center justify-center text-white hover:bg-white hover:text-charcoal transition-all opacity-0 group-hover:opacity-100"
+            title="Abrir imagem original"
+          >
+            <span className="material-symbols-outlined text-sm">open_in_new</span>
+          </a>
+
+          <div className="absolute bottom-6 left-6 right-6 text-white pointer-events-none">
              <div className="flex items-center gap-2 mb-2 opacity-80">
                 <span className="material-symbols-outlined text-sm">public</span>
                 <span className="text-[10px] font-mono uppercase tracking-widest">{plant.origin}</span>
@@ -121,10 +131,8 @@ const PlantModal: React.FC<PlantModalProps> = ({ plant, onClose }) => {
           </div>
         </div>
 
-        {/* Content Side */}
         <div className="w-full md:w-7/12 p-8 md:p-12 overflow-y-auto custom-scrollbar">
           
-          {/* Header Metadata */}
           <div className="flex flex-wrap items-center gap-4 mb-8 pb-8 border-b border-gold/10">
              <div className="flex items-center gap-2 px-3 py-1 bg-gold/5 border border-gold/20 rounded-sm">
                 <span className="material-symbols-outlined text-gold-dark text-sm">verified_user</span>
@@ -144,7 +152,6 @@ const PlantModal: React.FC<PlantModalProps> = ({ plant, onClose }) => {
           </div>
 
           <div className="space-y-10">
-            {/* Description & Curator Note */}
             <div>
               <p className="font-sans text-lg font-light leading-loose text-charcoal/80 mb-8">
                 {plant.description}
@@ -159,7 +166,6 @@ const PlantModal: React.FC<PlantModalProps> = ({ plant, onClose }) => {
               </div>
             </div>
 
-            {/* Rituals Grid */}
             <div>
               <h3 className="font-mono text-[10px] uppercase tracking-[0.25em] text-gray-400 mb-6 flex items-center gap-4">
                  <span className="w-8 h-px bg-gray-200"></span>

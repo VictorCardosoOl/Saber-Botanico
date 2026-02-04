@@ -4,11 +4,12 @@ import LazyImage from '../components/LazyImage';
 import SEO from '../components/SEO';
 import { PageTransition, Reveal } from '../components/Animation';
 
-const IdeaSection = () => (
+// --- Sub-components (Ideally these would be in their own files) ---
+
+const IdeaSection: React.FC = () => (
   <section className="py-32 px-6 bg-paper text-ink relative overflow-hidden">
-    {/* Decorative Background Elements */}
-    <div className="absolute top-0 left-0 w-full h-32 bg-gradient-to-b from-forest-dark/5 to-transparent pointer-events-none"></div>
-    <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/noise.png')] opacity-[0.03] pointer-events-none"></div>
+    <div className="absolute top-0 left-0 w-full h-32 bg-gradient-to-b from-forest-dark/5 to-transparent pointer-events-none" aria-hidden="true" />
+    <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/noise.png')] opacity-[0.03] pointer-events-none" aria-hidden="true" />
     
     <div className="container relative z-10">
       <Reveal className="max-w-6xl mx-auto text-center">
@@ -25,11 +26,11 @@ const IdeaSection = () => (
         </h2>
         
         <div className="relative py-12 mb-10">
-            <span className="absolute top-0 left-1/2 -translate-x-1/2 text-6xl text-gold/20 font-serif">"</span>
+            <span className="absolute top-0 left-1/2 -translate-x-1/2 text-6xl text-gold/20 font-serif" aria-hidden="true">"</span>
             <p className="font-alt text-2xl md:text-5xl leading-relaxed text-ink/90 relative z-10">
               O Saber Botânico não é uma loja,<br className="hidden md:block"/> mas um templo de conhecimento.
             </p>
-            <div className="w-16 h-px bg-gold/50 mx-auto mt-12"></div>
+            <div className="w-16 h-px bg-gold/50 mx-auto mt-12" aria-hidden="true"></div>
         </div>
 
         <p className="font-sans text-charcoal/70 leading-loose max-w-3xl mx-auto text-sm md:text-lg">
@@ -43,19 +44,16 @@ const IdeaSection = () => (
   </section>
 );
 
-const AboutMeSection = () => (
+const AboutMeSection: React.FC = () => (
   <section className="py-24 md:py-32 bg-forest-dark text-white relative overflow-hidden">
-    {/* Background Texture */}
-    <div className="absolute top-[-20%] right-[-10%] w-[60vw] h-[60vw] bg-gold/5 rounded-full blur-[150px] pointer-events-none"></div>
+    <div className="absolute top-[-20%] right-[-10%] w-[60vw] h-[60vw] bg-gold/5 rounded-full blur-[150px] pointer-events-none" aria-hidden="true"></div>
 
     <div className="container relative z-10">
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-16 items-center">
         
-        {/* Image Column - Editorial Layout */}
         <Reveal className="lg:col-span-5 relative group" delay={0.2}>
           <div className="relative aspect-[3/4] overflow-hidden rounded-sm border border-white/5 bg-gray-900">
               <div className="absolute inset-0 bg-gradient-to-tr from-black/20 to-transparent z-10 pointer-events-none"></div>
-              {/* Imagem Otimizada */}
               <LazyImage 
                   src="https://images.unsplash.com/photo-1466692476868-aef1dfb1e735" 
                   alt="Jardineiro trabalhando com plantas" 
@@ -63,7 +61,6 @@ const AboutMeSection = () => (
               />
           </div>
           
-          {/* Floating Badge - Glassmorphism */}
           <div className="absolute -bottom-8 -right-4 md:-right-8 bg-forest/90 backdrop-blur-md border border-white/10 p-6 shadow-2xl max-w-[180px]">
                <div className="flex flex-col items-center text-center">
                    <span className="text-4xl font-serif text-gold leading-none mb-1">15+</span>
@@ -72,15 +69,13 @@ const AboutMeSection = () => (
                </div>
           </div>
 
-          {/* Decorative Frame */}
-          <div className="absolute -top-4 -left-4 w-full h-full border border-gold/20 -z-10 hidden md:block transition-transform duration-700 group-hover:translate-x-2 group-hover:translate-y-2"></div>
+          <div className="absolute -top-4 -left-4 w-full h-full border border-gold/20 -z-10 hidden md:block transition-transform duration-700 group-hover:translate-x-2 group-hover:translate-y-2" aria-hidden="true"></div>
         </Reveal>
         
-        {/* Content Column */}
         <div className="lg:col-span-7 lg:pl-16">
           <Reveal delay={0.4}>
             <div className="flex items-center gap-4 mb-8">
-                <span className="h-px w-12 bg-gold"></span>
+                <span className="h-px w-12 bg-gold" aria-hidden="true"></span>
                 <span className="text-gold text-xs font-mono uppercase tracking-[0.25em]">O Curador</span>
             </div>
             

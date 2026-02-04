@@ -16,6 +16,7 @@ const LazyImage: React.FC<LazyImageProps> = ({
   ...props 
 }) => {
   const [isLoaded, setIsLoaded] = useState(priority);
+  const [hasError, setHasError] = useState(false);
   
   if (!src) return null;
 
@@ -24,10 +25,13 @@ const LazyImage: React.FC<LazyImageProps> = ({
 
   return (
     <div className={`relative overflow-hidden bg-forest-light/20 ${containerClassName || 'w-full h-full'}`}>
-      {/* Placeholder Sólido (Skeleton) que some suavemente */}
-      <div 
-        className={`absolute inset-0 bg-forest-light/10 z-10 transition-opacity duration-700 ${isLoaded ? 'opacity-0' : 'opacity-100'}`}
-      />
+      {/* Placeholder / Skeleton */}
+      {!hasError && (
+        <div 
+          className={`absolute inset-0 bg-forest-light/10 z-10 transition-opacity duration-700 ${isLoaded ? 'opacity-0 pointer-events-none' : 'opacity-100'}`}
+          aria-hidden="true"
+        />
+      )}
       
       <img
         src={optimizedSrc}
@@ -37,6 +41,10 @@ const LazyImage: React.FC<LazyImageProps> = ({
         loading={priority ? "eager" : "lazy"}
         className={`block w-full h-full transition-all duration-700 ease-out will-change-transform ${isLoaded ? 'opacity-100 scale-100 blur-0' : 'opacity-0 scale-105 blur-sm'} ${className}`}
         onLoad={() => setIsLoaded(true)}
+        onError={() => {
+            setIsLoaded(true); // Remove blur/loader
+            setHasError(true);
+        }}
         {...props}
       />
     </div>

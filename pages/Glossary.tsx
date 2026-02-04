@@ -3,29 +3,10 @@ import { PlantService } from '../services/plantService';
 import { PlantSpecimen } from '../types';
 import PlantCard from '../components/PlantCard';
 import PlantModal from '../components/PlantModal';
+import PlantCardSkeleton from '../components/PlantCardSkeleton';
 import { useDebounce } from '../hooks/useDebounce';
 import SEO from '../components/SEO';
 import { PageTransition, Reveal } from '../components/Animation';
-
-// Componente Skeleton local para evitar CLS (Layout Shift)
-const PlantCardSkeleton = () => (
-  <div className="flex flex-col h-full animate-pulse">
-    <div className="aspect-[3/4] bg-white/5 rounded-sm mb-6 w-full relative overflow-hidden">
-       <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/5 to-transparent -translate-x-full animate-[shimmer_1.5s_infinite]"></div>
-    </div>
-    <div className="flex justify-between mb-2">
-       <div className="h-3 w-16 bg-white/10 rounded-sm"></div>
-       <div className="h-3 w-12 bg-white/10 rounded-sm"></div>
-    </div>
-    <div className="h-8 w-3/4 bg-white/10 rounded-sm mb-2"></div>
-    <div className="h-3 w-1/2 bg-white/5 rounded-sm mb-6"></div>
-    <div className="h-px w-8 bg-white/10 mb-4"></div>
-    <div className="space-y-2">
-       <div className="h-2 w-full bg-white/5 rounded-sm"></div>
-       <div className="h-2 w-5/6 bg-white/5 rounded-sm"></div>
-    </div>
-  </div>
-);
 
 const Glossary: React.FC = () => {
   const [searchTerm, setSearchTerm] = useState<string>('');
@@ -36,19 +17,33 @@ const Glossary: React.FC = () => {
   const debouncedSearchTerm = useDebounce(searchTerm, 300);
 
   useEffect(() => {
+    let isMounted = true;
+
     const fetchPlants = async () => {
       setIsLoading(true);
-      // Pequeno delay artificial para evitar flash de conteúdo se a resposta for muito rápida (opcional, bom para UX suave)
-      // Em produção real, você removeria o delay artificial ou ajustaria conforme latência.
-      const [results] = await Promise.all([
-         PlantService.search(debouncedSearchTerm),
-         new Promise(resolve => setTimeout(resolve, 400)) 
-      ]);
-      
-      setPlants(results);
-      setIsLoading(false);
+      try {
+        const [results] = await Promise.all([
+           PlantService.search(debouncedSearchTerm),
+           // Artificial delay for smooth UX transition, ensuring skeleton is visible for at least 400ms
+           new Promise(resolve => setTimeout(resolve, 400)) 
+        ]);
+        
+        if (isMounted) {
+          setPlants(results);
+        }
+      } catch (error) {
+        console.error("Failed to fetch plants", error);
+        if (isMounted) setPlants([]);
+      } finally {
+        if (isMounted) setIsLoading(false);
+      }
     };
+
     fetchPlants();
+
+    return () => {
+      isMounted = false;
+    };
   }, [debouncedSearchTerm]);
 
   const handleCloseModal = () => setSelectedPlant(null);
@@ -57,12 +52,10 @@ const Glossary: React.FC = () => {
     <PageTransition className="min-h-screen pt-32 pb-20 bg-paper">
       <SEO title="Glosário Botânico" description="Explore nossa enciclopédia viva de espécies raras e exóticas." />
       
-      {/* Background Texture */}
       <div className="fixed inset-0 opacity-[0.4] pointer-events-none bg-[url('https://www.transparenttextures.com/patterns/cream-paper.png')] mix-blend-multiply z-0"></div>
 
       <div className="container px-6 relative z-10 min-h-[60vh]">
         
-        {/* Header Glossary */}
         <div className="flex flex-col items-center mb-24 max-w-4xl mx-auto text-center">
           <Reveal>
               <div className="inline-flex items-center gap-4 mb-6 opacity-60">
@@ -79,7 +72,6 @@ const Glossary: React.FC = () => {
           </Reveal>
         </div>
 
-        {/* Search Bar - Minimalist Spotlight */}
         <Reveal delay={0.1} className="sticky top-28 z-40 mb-20 max-w-2xl mx-auto">
           <div className="relative group shadow-2xl shadow-forest-dark/10">
             <input 
@@ -103,10 +95,9 @@ const Glossary: React.FC = () => {
           </div>
         </Reveal>
 
-        {/* Grid com Estado de Loading (Skeleton) */}
         {isLoading ? (
            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-8 gap-y-16">
-              {[1, 2, 3, 4, 5, 6].map((i) => (
+              {Array.from({ length: 6 }).map((_, i) => (
                  <div key={i} className="opacity-40">
                     <PlantCardSkeleton />
                  </div>

@@ -2,11 +2,13 @@ import React, { createContext, useContext, useState, useEffect, useCallback } fr
 import { useToast } from './ToastContext';
 
 interface CollectionContextData {
-  collection: string[]; // Array de IDs das plantas
+  collection: string[];
   addToCollection: (plantId: string, plantName: string) => void;
   removeFromCollection: (plantId: string) => void;
   hasInCollection: (plantId: string) => boolean;
 }
+
+const STORAGE_KEY = 'saber-botanico-collection';
 
 const CollectionContext = createContext<CollectionContextData>({} as CollectionContextData);
 
@@ -14,21 +16,39 @@ export const CollectionProvider: React.FC<{ children: React.ReactNode }> = ({ ch
   const [collection, setCollection] = useState<string[]>([]);
   const { addToast } = useToast();
 
-  // Carregar do localStorage na inicialização
+  // Initialize and Sync
   useEffect(() => {
-    const stored = localStorage.getItem('saber-botanico-collection');
-    if (stored) {
-      try {
-        setCollection(JSON.parse(stored));
-      } catch (e) {
-        console.error("Falha ao carregar coleção", e);
+    const loadCollection = () => {
+      const stored = localStorage.getItem(STORAGE_KEY);
+      if (stored) {
+        try {
+          setCollection(JSON.parse(stored));
+        } catch (e) {
+          console.error("Failed to parse collection from storage", e);
+          setCollection([]);
+        }
       }
-    }
+    };
+
+    loadCollection();
+
+    const handleStorageChange = (e: StorageEvent) => {
+      if (e.key === STORAGE_KEY) {
+        loadCollection();
+      }
+    };
+
+    window.addEventListener('storage', handleStorageChange);
+    return () => window.removeEventListener('storage', handleStorageChange);
   }, []);
 
-  // Persistir mudanças
+  // Persistence
   useEffect(() => {
-    localStorage.setItem('saber-botanico-collection', JSON.stringify(collection));
+    try {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(collection));
+    } catch (e) {
+      console.error("Failed to save collection to storage", e);
+    }
   }, [collection]);
 
   const addToCollection = useCallback((plantId: string, plantName: string) => {
@@ -57,7 +77,7 @@ export const CollectionProvider: React.FC<{ children: React.ReactNode }> = ({ ch
 export function useCollection() {
   const context = useContext(CollectionContext);
   if (!context) {
-    throw new Error('useCollection deve ser usado dentro de um CollectionProvider');
+    throw new Error('useCollection must be used within a CollectionProvider');
   }
   return context;
 }

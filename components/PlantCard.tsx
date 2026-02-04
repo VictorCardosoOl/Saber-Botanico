@@ -5,19 +5,19 @@ import LazyImage from './LazyImage';
 
 interface PlantCardProps {
   plant: PlantSpecimen;
-  onClick?: () => void; // Adicionado para suportar click do pai se necessário
+  onClick?: () => void;
 }
 
 const PlantCard: React.FC<PlantCardProps> = ({ plant, onClick }) => {
   const [isExpanded, setIsExpanded] = useState(false);
 
-  // Previne a propagação para não ativar o clique do card principal ao interagir com "Ler mais"
+  // Previne a propagação e recálculos desnecessários
   const toggleDescription = useCallback((e: React.MouseEvent | React.KeyboardEvent) => {
     e.stopPropagation();
     setIsExpanded((prev) => !prev);
   }, []);
 
-  // Handler para navegação por teclado (Acessibilidade)
+  // Handler para navegação por teclado (Acessibilidade WAI-ARIA)
   const handleKeyDown = useCallback((e: KeyboardEvent) => {
     if (e.key === 'Enter' || e.key === ' ') {
       e.preventDefault();
@@ -27,11 +27,11 @@ const PlantCard: React.FC<PlantCardProps> = ({ plant, onClick }) => {
 
   return (
     <motion.article 
-      layout
+      layout="position" 
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
-      whileHover={{ y: -8 }}
-      transition={{ layout: { duration: 0.3, ease: "easeInOut" }, y: { duration: 0.2 } }}
+      whileHover={{ y: -4 }} 
+      transition={{ layout: { duration: 0.3 }, y: { duration: 0.2 } }}
       className="group flex flex-col h-full bg-transparent cursor-pointer relative focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold focus-visible:rounded-sm"
       onClick={onClick}
       onKeyDown={handleKeyDown}
@@ -46,7 +46,7 @@ const PlantCard: React.FC<PlantCardProps> = ({ plant, onClick }) => {
                <LazyImage 
                  src={plant.imageUrl} 
                  alt={`Exemplar de ${plant.name}`}
-                 className="w-full h-full object-cover transition-transform duration-[1.5s] ease-out group-hover:scale-110 grayscale-[30%] group-hover:grayscale-0"
+                 className="w-full h-full object-cover transition-transform duration-[1.5s] ease-out group-hover:scale-105 grayscale-[10%] group-hover:grayscale-0"
                />
             </div>
             
@@ -54,12 +54,7 @@ const PlantCard: React.FC<PlantCardProps> = ({ plant, onClick }) => {
 
              {plant.isRare && (
                 <div className="absolute top-0 right-0 p-4 z-10" title="Espécie Rara">
-                     <motion.span 
-                        animate={{ boxShadow: ["0 0 0px rgba(197, 160, 40, 0)", "0 0 10px rgba(197, 160, 40, 0.8)", "0 0 0px rgba(197, 160, 40, 0)"] }}
-                        transition={{ duration: 2, repeat: Infinity }}
-                        className="block w-2 h-2 bg-gold rounded-full"
-                        aria-hidden="true"
-                     ></motion.span>
+                     <div className="block w-2 h-2 bg-gold rounded-full shadow-[0_0_10px_rgba(197,160,40,0.8)] animate-pulse"></div>
                      <span className="sr-only">Item Raro</span>
                 </div>
              )}
@@ -84,31 +79,25 @@ const PlantCard: React.FC<PlantCardProps> = ({ plant, onClick }) => {
               {plant.scientificName}
             </p>
 
-            <motion.div 
-              initial={{ width: 32 }}
-              whileHover={{ width: "100%", backgroundColor: "rgba(197, 160, 40, 0.3)" }}
-              transition={{ duration: 0.5 }}
-              className="h-px bg-charcoal/10 mb-4"
-              aria-hidden="true"
-            ></motion.div>
+            <div className="h-px w-8 bg-charcoal/10 mb-4 group-hover:w-full group-hover:bg-gold/30 transition-all duration-500"></div>
 
             <div className="flex-grow relative group/desc">
               <motion.p 
-                layout
-                className={`text-sm text-charcoal/60 font-sans leading-relaxed font-light overflow-hidden transition-all duration-300 ${isExpanded ? '' : 'line-clamp-2'}`}
+                layout="position"
+                className={`text-sm text-charcoal/60 font-sans leading-relaxed font-light overflow-hidden ${isExpanded ? '' : 'line-clamp-2'}`}
               >
                   {plant.description}
               </motion.p>
               
               <AnimatePresence>
                    <motion.button
-                     layout
+                     layout="position"
                      initial={{ opacity: 0 }}
                      animate={{ opacity: 1 }}
                      onClick={toggleDescription}
                      onKeyDown={(e) => {
                        if(e.key === 'Enter' || e.key === ' ') {
-                         e.stopPropagation(); // Impede abrir o modal
+                         e.stopPropagation(); 
                          toggleDescription(e);
                        }
                      }}
@@ -117,14 +106,9 @@ const PlantCard: React.FC<PlantCardProps> = ({ plant, onClick }) => {
                      aria-label={isExpanded ? "Reduzir descrição" : "Ler descrição completa"}
                    >
                      <span>{isExpanded ? 'Reduzir' : 'Ler mais'}</span>
-                     <motion.span 
-                        animate={{ rotate: isExpanded ? 180 : 0 }}
-                        transition={{ duration: 0.3 }}
-                        className="material-symbols-outlined text-[14px]"
-                        aria-hidden="true"
-                     >
+                     <span className={`material-symbols-outlined text-[14px] transition-transform duration-300 ${isExpanded ? 'rotate-180' : ''}`}>
                         expand_more
-                     </motion.span>
+                     </span>
                    </motion.button>
               </AnimatePresence>
             </div>

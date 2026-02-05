@@ -1,8 +1,9 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 
-// Configuração de curva "Luxury" (lenta e suave, mas responsiva)
-export const LUXURY_EASE = [0.22, 1, 0.36, 1];
+// DOC: Ajuste de curva. Antes era muito lenta. Agora é "Snappy" mas suave.
+// Bezier curve: [0.25, 1, 0.5, 1] é padrão industry-standard para UI moderna.
+export const LUXURY_EASE = [0.25, 1, 0.5, 1];
 
 interface WrapperProps {
   children: React.ReactNode;
@@ -14,10 +15,10 @@ interface WrapperProps {
 export const PageTransition: React.FC<WrapperProps> = ({ children, className }) => {
   return (
     <motion.div
-      initial={{ opacity: 0, y: 10 }} // Reduzido de 20 para 10 para menos salto
-      animate={{ opacity: 1, y: 0 }}
-      exit={{ opacity: 0, y: -10, transition: { duration: 0.4, ease: LUXURY_EASE } }}
-      transition={{ duration: 0.6, ease: LUXURY_EASE }}
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+      transition={{ duration: 0.5, ease: LUXURY_EASE }} // Duração reduzida para 0.5s para navegação mais rápida
       className={className}
     >
       {children}
@@ -29,10 +30,9 @@ export const PageTransition: React.FC<WrapperProps> = ({ children, className }) 
 export const Reveal: React.FC<WrapperProps> = ({ children, className, delay = 0 }) => {
   return (
     <motion.div
-      initial={{ opacity: 0, y: 30 }} // Reduzido de 60 para 30 (movimento mais sutil)
+      initial={{ opacity: 0, y: 40 }}
       whileInView={{ opacity: 1, y: 0 }}
-      // margin "-5%" significa: comece a animar quando o topo do elemento estiver 5% dentro da tela (antes era muito tarde)
-      viewport={{ once: true, margin: "-5%" }} 
+      viewport={{ once: true, margin: "-10% 0px" }} // Margem ajustada para disparar antes
       transition={{ duration: 0.8, delay, ease: LUXURY_EASE }}
       className={className}
     >
@@ -51,8 +51,8 @@ export const StaggerContainer: React.FC<WrapperProps> = ({ children, className }
       variants={{
         visible: {
           transition: {
-            staggerChildren: 0.08, // Acelerado ligeiramente
-            delayChildren: 0.1
+            staggerChildren: 0.1,
+            delayChildren: 0.05
           }
         }
       }}
@@ -67,7 +67,7 @@ export const FadeUpItem = ({ children }: { children: React.ReactNode }) => (
   <motion.div
     variants={{
       hidden: { opacity: 0, y: 20 },
-      visible: { opacity: 1, y: 0, transition: { duration: 0.6, ease: LUXURY_EASE } }
+      visible: { opacity: 1, y: 0, transition: { duration: 0.5, ease: LUXURY_EASE } }
     }}
   >
     {children}

@@ -1,100 +1,63 @@
-/* Base styles */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* 
+  DOC: Reset Global
+  Removemos o scroll-behavior: smooth nativo pois ele conflita com bibliotecas
+  de scroll virtual (Lenis) causando "stuttering".
+*/
 html {
-  scroll-behavior: smooth;
-  scroll-snap-type: y proximity;
-  height: 100%;
-  overflow-y: scroll;
+  height: auto;
+  min-height: 100%;
 }
 
 body {
   width: 100%;
   min-height: 100vh;
   overflow-x: hidden;
-  background-color: #0A0F0D; /* Forest Dark novo */
-  color: #F5F2EB; /* Paper novo */
+  background-color: #051605; /* Forest Dark */
+  color: #F9F7F2; /* Paper */
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-rendering: optimizeLegibility;
-  font-feature-settings: "salt"; /* Alternate styling for fonts that support it */
 }
 
-/* GLOBAL GRAIN TEXTURE - Essential for Luxury/Film Look */
-body::after {
-  content: "";
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.04'/%3E%3C/svg%3E");
+/* 
+  DOC: Lenis Recommended CSS 
+  Necessário para garantir que o Lenis funcione corretamente sem travar o layout.
+*/
+html.lenis, html.lenis body {
+  height: auto;
+}
+
+.lenis.lenis-smooth {
+  scroll-behavior: auto !important;
+}
+
+.lenis.lenis-smooth [data-lenis-prevent] {
+  overscroll-behavior: contain;
+}
+
+.lenis.lenis-stopped {
+  overflow: hidden;
+}
+
+.lenis.lenis-scrolling iframe {
   pointer-events: none;
-  z-index: 9999;
-  mix-blend-mode: overlay;
-  opacity: 0.6;
 }
 
-section {
-  scroll-snap-align: start;
-  scroll-margin-top: 0px;
-}
-
-/* High-end Selection */
-::selection {
-  background: rgba(207, 183, 131, 0.2); /* Gold Subtle */
-  color: #CFB783;
-}
-
-:focus-visible {
-  outline: 1px solid #CFB783;
-  outline-offset: 6px;
-}
-
-/* Typography Utilities */
-.text-fluid-h1 {
-  font-size: clamp(3rem, 6vw + 1rem, 7.5rem);
-  line-height: 0.95;
-  letter-spacing: -0.05em;
-}
-.text-fluid-h2 {
-  font-size: clamp(2.5rem, 4vw + 1rem, 4.5rem);
-  line-height: 1.05;
-  letter-spacing: -0.03em;
-}
-.text-fluid-h3 {
-  font-size: clamp(1.5rem, 2.5vw, 2.5rem);
-  line-height: 1.2;
-  letter-spacing: -0.02em;
-}
-
-/* Glassmorphism */
-.glass-panel {
-  background: rgba(255, 255, 255, 0.02);
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
-  border: 1px solid rgba(255, 255, 255, 0.05);
-  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.2);
-}
-
-/* Hide Scrollbar visually but keep functionality */
+/* Custom Scrollbar (Opcional, minimalista) */
 ::-webkit-scrollbar {
-  width: 0px;
-  background: transparent;
+  width: 6px;
 }
-
-@keyframes blobPulse {
-  0% { transform: scale(1); opacity: 0.3; }
-  50% { transform: scale(1.15); opacity: 0.5; }
-  100% { transform: scale(1); opacity: 0.3; }
+::-webkit-scrollbar-track {
+  background: #051605;
 }
-
-.animate-blob-pulse {
-  animation: blobPulse 15s ease-in-out infinite;
-  will-change: transform, opacity;
+::-webkit-scrollbar-thumb {
+  background: rgba(207, 183, 131, 0.3);
+  border-radius: 3px;
 }
-
-@media (max-width: 768px) {
-  .glass-panel {
-    backdrop-filter: blur(10px);
-    background: rgba(10, 15, 13, 0.9);
-  }
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(207, 183, 131, 0.6);
 }

@@ -5,6 +5,7 @@ import { AnimatePresence } from 'framer-motion';
 import Header from './components/Header';
 import Footer from './components/Footer';
 import BackToTop from './components/BackToTop';
+import SmoothScrolling from './components/SmoothScrolling'; // Importação do Scroll
 import { ToastProvider } from './context/ToastContext';
 import { CollectionProvider } from './context/CollectionContext';
 
@@ -18,6 +19,9 @@ import Care from './pages/Care';
 const ScrollToTop = () => {
   const { pathname } = useLocation();
   useEffect(() => {
+    // Com Lenis, o window.scrollTo nativo ainda funciona, 
+    // mas em casos complexos podemos precisar acessar a instância do Lenis.
+    // Para esta implementação simples, o nativo é suficiente.
     window.scrollTo(0, 0);
   }, [pathname]);
   return null;
@@ -44,19 +48,21 @@ const App: React.FC = () => {
     <HelmetProvider>
       <ToastProvider>
         <CollectionProvider>
-          <HashRouter>
-            <ScrollToTop />
-            <Header />
-            
-            <div className="w-full relative overflow-x-hidden min-h-screen flex flex-col bg-forest-dark">
-              <main className="flex-1 w-full">
-                <AnimatedRoutes />
-              </main>
-              <Footer />
-              <BackToTop />
-            </div>
+          <SmoothScrolling> {/* Envolvendo a aplicação no Smooth Scroll */}
+            <HashRouter>
+              <ScrollToTop />
+              <Header />
+              
+              <div className="w-full relative overflow-x-hidden min-h-screen flex flex-col bg-forest-dark">
+                <main className="flex-1 w-full">
+                  <AnimatedRoutes />
+                </main>
+                <Footer />
+                <BackToTop />
+              </div>
 
-          </HashRouter>
+            </HashRouter>
+          </SmoothScrolling>
         </CollectionProvider>
       </ToastProvider>
     </HelmetProvider>

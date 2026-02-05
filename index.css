@@ -1,9 +1,27 @@
 /* Base styles */
 html {
-  scroll-behavior: smooth;
-  scroll-snap-type: y proximity;
   height: 100%;
-  overflow-y: scroll;
+  /* Lenis recomenda remover scroll-behavior: smooth nativo para evitar conflitos */
+}
+
+html.lenis, html.lenis body {
+  height: auto;
+}
+
+.lenis.lenis-smooth {
+  scroll-behavior: auto !important;
+}
+
+.lenis.lenis-smooth [data-lenis-prevent] {
+  overscroll-behavior: contain;
+}
+
+.lenis.lenis-stopped {
+  overflow: hidden;
+}
+
+.lenis.lenis-scrolling iframe {
+  pointer-events: none;
 }
 
 body {
@@ -34,7 +52,7 @@ body::after {
 }
 
 section {
-  scroll-snap-align: start;
+  /* scroll-snap-align removido pois Lenis gerencia o fluxo */
   scroll-margin-top: 0px;
 }
 
@@ -75,7 +93,7 @@ section {
   box-shadow: 0 4px 30px rgba(0, 0, 0, 0.2);
 }
 
-/* Hide Scrollbar visually but keep functionality */
+/* Hide Scrollbar visually */
 ::-webkit-scrollbar {
   width: 0px;
   background: transparent;

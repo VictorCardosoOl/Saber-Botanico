@@ -3,8 +3,9 @@ import { useScrollVisibility } from '../hooks/useScrollVisibility';
 import { Link, useLocation } from 'react-router-dom';
 import { NAVIGATION_LINKS } from '../constants';
 import Tooltip from './Tooltip';
+import Magnetic from './Magnetic'; // Importando efeito magnético
 import { motion, AnimatePresence, Variants } from 'framer-motion';
-import { LUXURY_EASE } from './Animation'; // Importando a curva de animação global
+import { LUXURY_EASE } from './Animation';
 
 // --- Variantes de Animação ---
 
@@ -48,9 +49,11 @@ const linkVariants: Variants = {
 
 const Logo: React.FC = () => (
   <Link to="/" className="flex items-center gap-4 group shrink-0 z-50">
-    <div className="relative flex items-center justify-center size-10 border border-white/10 rounded-full bg-white/[0.02] backdrop-blur-sm group-hover:border-gold/30 transition-colors duration-500">
-      <span className="material-symbols-outlined text-[20px] text-gold group-hover:rotate-180 transition-transform duration-[1.5s] ease-[cubic-bezier(0.22,1,0.36,1)]">spa</span>
-    </div>
+    <Magnetic>
+      <div className="relative flex items-center justify-center size-10 border border-white/10 rounded-full bg-white/[0.02] backdrop-blur-sm group-hover:border-gold/30 transition-colors duration-500">
+        <span className="material-symbols-outlined text-[20px] text-gold group-hover:rotate-180 transition-transform duration-[1.5s] ease-[cubic-bezier(0.22,1,0.36,1)]">spa</span>
+      </div>
+    </Magnetic>
     <div className="flex flex-col">
       <h2 className="text-lg font-serif font-medium leading-none tracking-[0.05em] text-paper group-hover:text-gold transition-colors duration-500">Saber</h2>
     </div>
@@ -115,17 +118,19 @@ const Header: React.FC = () => {
             </Tooltip>
             
             <div className="lg:hidden">
-              <button 
-                className="relative z-[70] text-gold-light p-2 focus:outline-none group" 
-                onClick={toggleMenu}
-                aria-label={isMobileMenuOpen ? "Fechar Menu" : "Abrir Menu"}
-              >
-                <div className="flex flex-col gap-1.5 items-end">
-                    <span className={`block h-px bg-current transition-all duration-500 ${isMobileMenuOpen ? 'w-6 rotate-45 translate-y-2.5 bg-gold' : 'w-8 bg-white/70 group-hover:w-6'}`}></span>
-                    <span className={`block h-px bg-current transition-all duration-500 ${isMobileMenuOpen ? 'opacity-0 scale-0' : 'w-5 bg-white/70'}`}></span>
-                    <span className={`block h-px bg-current transition-all duration-500 ${isMobileMenuOpen ? 'w-6 -rotate-45 -translate-y-2.5 bg-gold' : 'w-8 bg-white/70 group-hover:w-4'}`}></span>
-                </div>
-              </button>
+              <Magnetic strength={20}>
+                <button 
+                  className="relative z-[70] text-gold-light p-4 -m-4 focus:outline-none group" // Aumentei a área de toque para o Magnetic funcionar melhor
+                  onClick={toggleMenu}
+                  aria-label={isMobileMenuOpen ? "Fechar Menu" : "Abrir Menu"}
+                >
+                  <div className="flex flex-col gap-1.5 items-end">
+                      <span className={`block h-px bg-current transition-all duration-500 ${isMobileMenuOpen ? 'w-6 rotate-45 translate-y-2.5 bg-gold' : 'w-8 bg-white/70 group-hover:w-6'}`}></span>
+                      <span className={`block h-px bg-current transition-all duration-500 ${isMobileMenuOpen ? 'opacity-0 scale-0' : 'w-5 bg-white/70'}`}></span>
+                      <span className={`block h-px bg-current transition-all duration-500 ${isMobileMenuOpen ? 'w-6 -rotate-45 -translate-y-2.5 bg-gold' : 'w-8 bg-white/70 group-hover:w-4'}`}></span>
+                  </div>
+                </button>
+              </Magnetic>
             </div>
           </div>
         </div>

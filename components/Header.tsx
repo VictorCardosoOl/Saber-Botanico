@@ -3,9 +3,49 @@ import { useScrollVisibility } from '../hooks/useScrollVisibility';
 import { Link, useLocation } from 'react-router-dom';
 import { NAVIGATION_LINKS } from '../constants';
 import Tooltip from './Tooltip';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion, AnimatePresence, Variants } from 'framer-motion';
+import { LUXURY_EASE } from './Animation'; // Importando a curva de animação global
 
-// Componentes extraídos para evitar re-declaração no render
+// --- Variantes de Animação ---
+
+const menuVariants: Variants = {
+  closed: {
+    y: "-100%",
+    transition: {
+      duration: 0.8,
+      ease: LUXURY_EASE,
+      staggerChildren: 0.05,
+      staggerDirection: -1
+    }
+  },
+  open: {
+    y: "0%",
+    transition: {
+      duration: 0.8,
+      ease: LUXURY_EASE,
+      staggerChildren: 0.1,
+      delayChildren: 0.2
+    }
+  }
+};
+
+const linkVariants: Variants = {
+  closed: { 
+    y: 80, 
+    opacity: 0,
+    rotateX: -20,
+    transition: { duration: 0.4 } 
+  },
+  open: { 
+    y: 0, 
+    opacity: 1,
+    rotateX: 0,
+    transition: { duration: 0.8, ease: LUXURY_EASE } 
+  }
+};
+
+// --- Componentes Auxiliares ---
+
 const Logo: React.FC = () => (
   <Link to="/" className="flex items-center gap-4 group shrink-0 z-50">
     <div className="relative flex items-center justify-center size-10 border border-white/10 rounded-full bg-white/[0.02] backdrop-blur-sm group-hover:border-gold/30 transition-colors duration-500">
@@ -17,7 +57,7 @@ const Logo: React.FC = () => (
   </Link>
 );
 
-const NavLinks: React.FC = () => {
+const DesktopNavLinks: React.FC = () => {
   const location = useLocation();
   
   return (
@@ -45,12 +85,13 @@ const Header: React.FC = () => {
   const headerClasses = useMemo(() => {
     const isScrolled = typeof window !== 'undefined' ? window.scrollY > 20 : false;
     
-    // Glassmorphism refinado
+    // Glassmorphism condicional
+    // Se o menu mobile estiver aberto, removemos o fundo do header para ele "sumir" na sobreposição, mantendo apenas o botão visível
     const bgClass = isMobileMenuOpen 
-      ? 'bg-forest-dark' 
-      : (isVisible && isScrolled ? 'bg-forest-dark/70 backdrop-blur-xl border-b border-white/[0.03]' : 'bg-transparent border-transparent');
+      ? 'bg-transparent border-transparent' 
+      : (isVisible && isScrolled ? 'bg-forest-dark/80 backdrop-blur-xl border-b border-white/[0.03] shadow-sm' : 'bg-transparent border-transparent');
     
-    return `fixed top-0 left-0 right-0 z-[60] transition-all duration-700 ease-[cubic-bezier(0.22,1,0.36,1)] px-6 md:px-12 py-4 ${bgClass} ${isVisible ? 'translate-y-0' : '-translate-y-full'}`;
+    return `fixed top-0 left-0 right-0 z-[60] transition-all duration-700 ease-[cubic-bezier(0.22,1,0.36,1)] px-6 md:px-12 py-4 ${bgClass} ${!isMobileMenuOpen && !isVisible ? '-translate-y-full' : 'translate-y-0'}`;
   }, [isVisible, isMobileMenuOpen]);
 
   const toggleMenu = useCallback(() => setIsMobileMenuOpen(prev => !prev), []);
@@ -63,7 +104,7 @@ const Header: React.FC = () => {
           <Logo />
 
           <div className="hidden lg:flex flex-1 justify-center">
-            <NavLinks />
+            <DesktopNavLinks />
           </div>
 
           <div className="flex items-center gap-8 shrink-0 z-50">
@@ -75,14 +116,14 @@ const Header: React.FC = () => {
             
             <div className="lg:hidden">
               <button 
-                className="text-gold-light p-2 focus:outline-none group" 
+                className="relative z-[70] text-gold-light p-2 focus:outline-none group" 
                 onClick={toggleMenu}
                 aria-label={isMobileMenuOpen ? "Fechar Menu" : "Abrir Menu"}
               >
                 <div className="flex flex-col gap-1.5 items-end">
-                    <span className={`block h-px bg-current transition-all duration-500 ${isMobileMenuOpen ? 'w-6 rotate-45 translate-y-2 bg-gold' : 'w-8 bg-white/70 group-hover:w-6'}`}></span>
-                    <span className={`block h-px bg-current transition-all duration-500 ${isMobileMenuOpen ? 'opacity-0' : 'w-5 bg-white/70'}`}></span>
-                    <span className={`block h-px bg-current transition-all duration-500 ${isMobileMenuOpen ? 'w-6 -rotate-45 -translate-y-2 bg-gold' : 'w-8 bg-white/70 group-hover:w-4'}`}></span>
+                    <span className={`block h-px bg-current transition-all duration-500 ${isMobileMenuOpen ? 'w-6 rotate-45 translate-y-2.5 bg-gold' : 'w-8 bg-white/70 group-hover:w-6'}`}></span>
+                    <span className={`block h-px bg-current transition-all duration-500 ${isMobileMenuOpen ? 'opacity-0 scale-0' : 'w-5 bg-white/70'}`}></span>
+                    <span className={`block h-px bg-current transition-all duration-500 ${isMobileMenuOpen ? 'w-6 -rotate-45 -translate-y-2.5 bg-gold' : 'w-8 bg-white/70 group-hover:w-4'}`}></span>
                 </div>
               </button>
             </div>
@@ -90,42 +131,60 @@ const Header: React.FC = () => {
         </div>
       </header>
 
-      {/* Mobile Menu Overlay */}
+      {/* Mobile Menu Overlay - Full Screen Curtain */}
       <AnimatePresence>
         {isMobileMenuOpen && (
           <motion.div 
-            initial={{ opacity: 0, clipPath: "circle(0% at 100% 0%)" }}
-            animate={{ opacity: 1, clipPath: "circle(150% at 100% 0%)" }}
-            exit={{ opacity: 0, clipPath: "circle(0% at 100% 0%)" }}
-            transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
-            className="fixed inset-0 z-40 bg-forest-dark flex flex-col justify-center items-center"
+            initial="closed"
+            animate="open"
+            exit="closed"
+            variants={menuVariants}
+            className="fixed inset-0 z-[50] bg-forest-dark flex flex-col justify-center items-center overflow-hidden"
           >
-            <nav className="flex flex-col gap-6 items-center">
-              {NAVIGATION_LINKS.map((link, idx) => (
-                <Link 
-                  key={link.path} 
-                  to={link.path} 
-                  onClick={closeMenu}
-                  className="overflow-hidden"
-                >
-                  <motion.div
-                    initial={{ y: 100 }}
-                    animate={{ y: 0 }}
-                    transition={{ delay: 0.1 + (idx * 0.1), duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
-                    className={`text-5xl md:text-6xl font-serif tracking-tight ${location.pathname === link.path ? 'text-gold italic' : 'text-paper hover:text-gold/50 transition-colors'}`}
-                  >
-                    {link.label}
+            {/* Background Texture for Detail */}
+            <div className="absolute inset-0 opacity-[0.03] pointer-events-none bg-[url('https://www.transparenttextures.com/patterns/noise.png')] mix-blend-overlay"></div>
+            
+            <nav className="flex flex-col gap-8 items-center relative z-10">
+              {NAVIGATION_LINKS.map((link) => {
+                 const isActive = location.pathname === link.path;
+                 
+                 return (
+                  <motion.div key={link.path} variants={linkVariants} className="overflow-hidden">
+                    <Link 
+                      to={link.path} 
+                      onClick={closeMenu}
+                      className="block"
+                    >
+                      <motion.div
+                        className={`text-5xl md:text-7xl font-serif tracking-tighter ${isActive ? 'text-gold italic' : 'text-paper hover:text-white transition-colors'}`}
+                        whileHover={{ 
+                          scale: 1.05, 
+                          skewX: -5,
+                          color: "#CFB783", // Gold default
+                          transition: { duration: 0.3 } 
+                        }}
+                        whileTap={{ 
+                          scale: 0.95, 
+                          color: "#8F7A48", // Gold dark
+                          opacity: 0.8
+                        }}
+                      >
+                        {link.label}
+                      </motion.div>
+                    </Link>
                   </motion.div>
-                </Link>
-              ))}
+                );
+              })}
             </nav>
+
             <motion.div 
-               initial={{ opacity: 0 }} 
-               animate={{ opacity: 1 }} 
-               transition={{ delay: 0.6 }}
-               className="absolute bottom-12 text-[10px] font-mono uppercase tracking-[0.3em] text-white/30"
+               variants={linkVariants}
+               className="absolute bottom-12 flex flex-col items-center gap-4"
             >
-               Saber Botânico
+               <div className="w-px h-12 bg-white/10"></div>
+               <span className="text-[10px] font-mono uppercase tracking-[0.3em] text-white/30">
+                  Saber Botânico
+               </span>
             </motion.div>
           </motion.div>
         )}

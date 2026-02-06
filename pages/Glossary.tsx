@@ -7,6 +7,7 @@ import PlantCardSkeleton from '../components/PlantCardSkeleton';
 import { useDebounce } from '../hooks/useDebounce';
 import SEO from '../components/SEO';
 import { PageTransition, Reveal } from '../components/Animation';
+import { AnimatePresence } from 'framer-motion';
 
 const Glossary: React.FC = () => {
   const [searchTerm, setSearchTerm] = useState<string>('');
@@ -118,9 +119,11 @@ const Glossary: React.FC = () => {
         )}
       </div>
 
-      {selectedPlant && (
-        <PlantModal plant={selectedPlant} onClose={handleCloseModal} />
-      )}
+      <AnimatePresence>
+        {selectedPlant && (
+          <PlantModal plant={selectedPlant} onClose={handleCloseModal} />
+        )}
+      </AnimatePresence>
     </PageTransition>
   );
 };

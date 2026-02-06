@@ -1,12 +1,14 @@
-import React, { useCallback, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import { RITUALS } from '../constants';
 import { PlantSpecimen, RitualStep } from '../types';
 import Tooltip from './Tooltip';
 import { useCollection } from '../context/CollectionContext';
 import { useFocusTrap } from '../hooks/useFocusTrap';
+import { motion } from 'framer-motion';
+import { LUXURY_EASE } from './Animation';
 
 interface PlantModalProps {
-  plant: PlantSpecimen | null;
+  plant: PlantSpecimen;
   onClose: () => void;
 }
 
@@ -47,16 +49,25 @@ const PlantModal: React.FC<PlantModalProps> = ({ plant, onClose }) => {
       aria-modal="true" 
       aria-labelledby="modal-title"
     >
-      <div 
-        className="absolute inset-0 bg-forest-dark/90 backdrop-blur-md transition-opacity" 
+      <motion.div 
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        exit={{ opacity: 0 }}
+        transition={{ duration: 0.4 }}
+        className="absolute inset-0 bg-forest-dark/90 backdrop-blur-md" 
         onClick={onClose}
         aria-hidden="true"
-      ></div>
+      ></motion.div>
       
-      <div 
+      <motion.div 
         ref={modalRef}
-        className="relative w-full max-w-5xl bg-[#FDFBF7] rounded-sm shadow-2xl overflow-hidden flex flex-col md:flex-row animate-fade-in-up max-h-[90vh] md:max-h-[85vh] focus:outline-none"
+        layoutId={`modal-container-${plant.id}`} // Opcional: Container compartilhado se desejar expandir o card inteiro
+        className="relative w-full max-w-5xl bg-[#FDFBF7] rounded-sm shadow-2xl overflow-hidden flex flex-col md:flex-row max-h-[90vh] md:max-h-[85vh] focus:outline-none"
         tabIndex={-1}
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        exit={{ opacity: 0, y: 20, transition: { duration: 0.3 } }}
+        transition={{ duration: 0.6, ease: LUXURY_EASE }}
       >
         <Tooltip content="Fechar (Esc)" position="left">
           <button 
@@ -68,40 +79,71 @@ const PlantModal: React.FC<PlantModalProps> = ({ plant, onClose }) => {
           </button>
         </Tooltip>
 
-        <div className="w-full md:w-5/12 relative h-56 md:h-auto overflow-hidden bg-gray-100 group">
+        {/* CONTAINER DA IMAGEM - Shared Layout ID igual ao do Card */}
+        <motion.div 
+          layoutId={`plant-image-${plant.id}`}
+          className="w-full md:w-5/12 relative h-56 md:h-auto overflow-hidden bg-gray-100 group"
+          transition={{ duration: 0.6, ease: LUXURY_EASE }}
+        >
           {/* Imagem Principal */}
           <img 
             src={plant.imageUrl} 
             alt={plant.name}
-            className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 hover:scale-105"
+            className="absolute inset-0 w-full h-full object-cover"
           />
           <div className="absolute inset-0 bg-gradient-to-t from-forest-dark/80 via-transparent to-transparent pointer-events-none"></div>
           
-          <Tooltip content="Ver Imagem Original" position="right">
-            <a 
-                href={plant.imageUrl} 
-                target="_blank" 
-                rel="noopener noreferrer"
-                className="absolute top-4 left-4 z-20 w-10 h-10 rounded-full bg-white/10 backdrop-blur-md border border-white/20 flex items-center justify-center text-white hover:bg-white hover:text-forest-dark transition-all duration-300 hover:scale-110"
-                aria-label="Abrir imagem original em nova aba"
-            >
-                <span className="material-symbols-outlined text-lg">open_in_new</span>
-            </a>
-          </Tooltip>
+          <motion.div 
+             initial={{ opacity: 0 }} 
+             animate={{ opacity: 1 }} 
+             transition={{ delay: 0.3 }}
+          >
+            <Tooltip content="Ver Imagem Original" position="right">
+                <a 
+                    href={plant.imageUrl} 
+                    target="_blank" 
+                    rel="noopener noreferrer"
+                    className="absolute top-4 left-4 z-20 w-10 h-10 rounded-full bg-white/10 backdrop-blur-md border border-white/20 flex items-center justify-center text-white hover:bg-white hover:text-forest-dark transition-all duration-300 hover:scale-110"
+                    aria-label="Abrir imagem original em nova aba"
+                >
+                    <span className="material-symbols-outlined text-lg">open_in_new</span>
+                </a>
+            </Tooltip>
+          </motion.div>
 
           <div className="absolute bottom-6 left-6 right-6 text-white pointer-events-none">
-             <div className="flex items-center gap-2 mb-2 opacity-80">
+             <motion.div 
+                initial={{ opacity: 0, y: 10 }} 
+                animate={{ opacity: 1, y: 0 }} 
+                transition={{ delay: 0.4 }}
+                className="flex items-center gap-2 mb-2 opacity-80"
+             >
                 <span className="material-symbols-outlined text-sm">public</span>
                 <span className="text-[10px] font-mono uppercase tracking-widest">{plant.origin}</span>
-             </div>
+             </motion.div>
              <h2 id="modal-title" className="text-3xl md:text-4xl font-serif italic tracking-tighter leading-none mb-1">{plant.name}</h2>
              <p className="text-xs font-mono uppercase tracking-widest opacity-60">{plant.scientificName}</p>
           </div>
-        </div>
+          
+           {plant.isRare && (
+                <motion.div 
+                    layoutId={`plant-badge-${plant.id}`}
+                    className="absolute top-0 right-0 p-4 z-10 pointer-events-none" 
+                >
+                     <div className="block w-2 h-2 bg-gold rounded-full shadow-[0_0_10px_rgba(197,160,40,0.8)]"></div>
+                </motion.div>
+             )}
+        </motion.div>
 
+        {/* CONTEÚDO DE TEXTO - Fade In Staggered */}
         <div className="w-full md:w-7/12 p-8 md:p-12 overflow-y-auto custom-scrollbar bg-paper">
           
-          <div className="flex flex-wrap items-center gap-4 mb-8 pb-8 border-b border-gold/10">
+          <motion.div 
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.2, duration: 0.5 }}
+            className="flex flex-wrap items-center gap-4 mb-8 pb-8 border-b border-gold/10"
+          >
              <div className="flex items-center gap-2 px-3 py-1 bg-gold/5 border border-gold/20 rounded-sm">
                 <span className="material-symbols-outlined text-gold-dark text-sm">verified_user</span>
                 <span className="text-[10px] font-mono font-bold uppercase tracking-widest text-gold-dark">
@@ -117,10 +159,14 @@ const PlantModal: React.FC<PlantModalProps> = ({ plant, onClose }) => {
                    {plant.toxicity}
                 </span>
              </div>
-          </div>
+          </motion.div>
 
           <div className="space-y-10">
-            <div>
+            <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.3, duration: 0.5 }}
+            >
               <p className="font-sans text-lg font-light leading-loose text-charcoal/80 mb-8 text-justify">
                 {plant.description}
               </p>
@@ -132,9 +178,13 @@ const PlantModal: React.FC<PlantModalProps> = ({ plant, onClose }) => {
                  </p>
                  <p className="text-[9px] font-mono uppercase tracking-widest text-gold-dark text-right">— Notas do Sommelier</p>
               </div>
-            </div>
+            </motion.div>
 
-            <div>
+            <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.4, duration: 0.5 }}
+            >
               <h3 className="font-mono text-[10px] uppercase tracking-[0.25em] text-gray-400 mb-6 flex items-center gap-4">
                  <span className="w-8 h-px bg-gray-200"></span>
                  Ritual de Cultivo
@@ -162,9 +212,14 @@ const PlantModal: React.FC<PlantModalProps> = ({ plant, onClose }) => {
                    </p>
                 </div>
               </div>
-            </div>
+            </motion.div>
             
-            <div className="pt-6 mt-8 border-t border-gold/10 flex justify-between items-center">
+            <motion.div 
+               initial={{ opacity: 0 }}
+               animate={{ opacity: 1 }}
+               transition={{ delay: 0.5, duration: 0.5 }}
+               className="pt-6 mt-8 border-t border-gold/10 flex justify-between items-center"
+            >
                <span className="text-2xl font-serif text-charcoal">{plant.price}</span>
                <button 
                 onClick={handleCollectionToggle}
@@ -183,10 +238,10 @@ const PlantModal: React.FC<PlantModalProps> = ({ plant, onClose }) => {
                       'Adicionar à Coleção'
                   )}
                </button>
-            </div>
+            </motion.div>
           </div>
         </div>
-      </div>
+      </motion.div>
     </div>
   );
 };

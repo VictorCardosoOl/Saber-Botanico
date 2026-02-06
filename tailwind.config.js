@@ -35,9 +35,9 @@ export default {
     },
     extend: {
       fontFamily: {
-        sans: ['Manrope', 'sans-serif'],
-        serif: ['Playfair Display', 'serif'],
-        alt: ['Cormorant Garamond', 'serif'],
+        sans: ['Outfit', 'sans-serif'], // Atualizado: Outfit (Moderno, Curvilíneo)
+        serif: ['Cormorant Garamond', 'serif'], // Atualizado: Cormorant (Clássico, Elegante)
+        alt: ['Cormorant Garamond', 'serif'], 
         mono: ['Space Mono', 'monospace'],
       },
       fontSize: {
@@ -45,23 +45,23 @@ export default {
         '3xs': ['0.5rem', { lineHeight: '0.75rem' }], // 8px (Micro labels)
       },
       letterSpacing: {
-        tighter: '-0.06em', // Mais apertado para títulos Display
+        tighter: '-0.06em', 
         tight: '-0.03em',
         normal: '0em',
         wide: '0.03em',
         wider: '0.08em',
-        widest: '0.25em', // Aumentado para labels mono
-        'widest-xl': '0.5em', // Estilo editorial extremo para datas/códigos
+        widest: '0.25em',
+        'widest-xl': '0.5em',
       },
       lineHeight: {
-        'display': '0.85', // Leading ultra-compacto para títulos
-        'loose-p': '1.8',  // Leading relaxado para parágrafos
+        'display': '0.9', // Leve ajuste para Cormorant que é mais alta
+        'loose-p': '1.8', 
       },
       colors: {
         gold: {
-          DEFAULT: '#CFB783', // Champagne Gold
-          light: '#EBE2CD',   // Off-white gold
-          dark: '#8F7A48',    // Bronze antigo
+          DEFAULT: '#CFB783', 
+          light: '#EBE2CD',   
+          dark: '#8F7A48',    
           dim: '#9E8C60',
           subtle: 'rgba(207, 183, 131, 0.1)'
         },

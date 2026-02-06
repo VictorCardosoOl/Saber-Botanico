@@ -12,7 +12,8 @@
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,400;1,500&family=Manrope:wght@200;300;400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=Space+Mono:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+    <!-- Nova seleção de fontes: Cormorant Garamond (Elegância Botânica) e Outfit (Modernidade Fluida) -->
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600&family=Outfit:wght@100..900&family=Space+Mono:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet" />
     
     <!-- Tailwind CSS CDN -->
@@ -44,9 +45,8 @@
           },
           extend: {
             fontFamily: {
-              sans: ['Manrope', 'sans-serif'],
-              serif: ['Playfair Display', 'serif'],
-              alt: ['Cormorant Garamond', 'serif'],
+              sans: ['Outfit', 'sans-serif'], // Outfit substitui Manrope (menos quadrada)
+              serif: ['Cormorant Garamond', 'serif'], // Cormorant substitui Playfair (mais elegante/botânica)
               mono: ['Space Mono', 'monospace'],
             },
             letterSpacing: {
@@ -81,9 +81,9 @@
               },
               charcoal: '#262626',
               premium: {
-                black: '#0c0a09', // stone-950 ajustado
-                dark: '#1c1917',  // stone-900
-                accent: '#d6d3d1', // stone-300
+                black: '#0c0a09', 
+                dark: '#1c1917', 
+                accent: '#d6d3d1', 
               }
             },
             backgroundImage: {

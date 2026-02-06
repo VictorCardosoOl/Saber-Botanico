@@ -88,7 +88,7 @@
             },
             backgroundImage: {
               'luxury-gradient': 'linear-gradient(135deg, #051605 0%, #0F2F1E 100%)',
-              'noise': "url('data:image/svg+xml,%3Csvg viewBox=%220 0 200 200%22 xmlns=%22http://www.w3.org/2000/svg%22%3E%3Cfilter id=%22noiseFilter%22%3E%3CfeTurbulence type=%22fractalNoise%22 baseFrequency=%220.8%22 numOctaves=%223%22 stitchTiles=%22stitch%22/%3E%3C/filter%3E%3Crect width=%22100%25%22 height=%22100%25%22 filter=%22url(%23noiseFilter)%22 opacity=%220.04%22/%3E%3C/svg%3E')",
+              'noise': "url('data:image/svg+xml,%3Csvg viewBox=%220 0 200 200%22 xmlns=%22http://www.w3.org/2000/svg%22%3E%3Cfilter id=%22noiseFilter%22%3E%3CfeTurbulence type=%22fractalNoise%22 baseFrequency=%220.8%22 numOctaves=%221%22 stitchTiles=%22stitch%22/%3E%3C/filter%3E%3Crect width=%22100%25%22 height=%22100%25%22 filter=%22url(%23noiseFilter)%22 opacity=%220.04%22/%3E%3C/svg%3E')",
               'linen': "repeating-linear-gradient(0deg, transparent, transparent 2px, #E8E6DE 2px, #E8E6DE 3px), repeating-linear-gradient(90deg, transparent, transparent 2px, #E8E6DE 2px, #E8E6DE 3px)",
             },
             animation: {
@@ -136,15 +136,15 @@
     <!-- SVG Filters for Liquid/Glass Effects -->
     <svg style="position: absolute; width: 0; height: 0; pointer-events: none;" aria-hidden="true">
       <defs>
-        <!-- Liquid Distortion Filter -->
+        <!-- Liquid Distortion Filter - Otimizado: numOctaves reduzido para 1 -->
         <filter id="liquid-distortion">
-          <feTurbulence type="fractalNoise" baseFrequency="0.015" numOctaves="2" result="warp" />
-          <feDisplacementMap xChannelSelector="R" yChannelSelector="G" scale="40" in="SourceGraphic" in2="warp" />
+          <feTurbulence type="fractalNoise" baseFrequency="0.01" numOctaves="1" result="warp" />
+          <feDisplacementMap xChannelSelector="R" yChannelSelector="G" scale="30" in="SourceGraphic" in2="warp" />
         </filter>
         
-        <!-- Subtle Glass Noise -->
+        <!-- Subtle Glass Noise - Otimizado -->
         <filter id="glass-noise">
-           <feTurbulence type="fractalNoise" baseFrequency="0.6" stitchTiles="stitch" />
+           <feTurbulence type="fractalNoise" baseFrequency="0.6" numOctaves="1" stitchTiles="stitch" />
            <feColorMatrix type="saturate" values="0" />
         </filter>
       </defs>

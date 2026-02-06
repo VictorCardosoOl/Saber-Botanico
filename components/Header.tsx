@@ -1,9 +1,9 @@
 import React, { useMemo, useState, useCallback } from 'react';
-import { useScrollVisibility } from '../hooks/useScrollVisibility';
+import { useScrollDirection } from '../hooks/useScrollDirection';
 import { Link, useLocation } from 'react-router-dom';
 import { NAVIGATION_LINKS } from '../constants';
 import Tooltip from './Tooltip';
-import Magnetic from './Magnetic'; // Importando efeito magnético
+import Magnetic from './Magnetic';
 import { motion, AnimatePresence, Variants } from 'framer-motion';
 import { LUXURY_EASE } from './Animation';
 
@@ -82,22 +82,34 @@ const DesktopNavLinks: React.FC = () => {
 
 const Header: React.FC = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  const isVisible = useScrollVisibility({ threshold: 10 });
+  
+  // Hook de Scroll Otimizado
+  const { isScrollingUp, scrollPosition } = useScrollDirection();
+  
   const location = useLocation();
   
+  // Lógica de Visibilidade Inteligente:
+  // 1. Sempre visível no topo (scrollPosition < 50)
+  // 2. Visível ao rolar para cima
+  // 3. Oculto ao rolar para baixo (se não estiver no topo)
+  // 4. Sempre visível se o menu mobile estiver aberto
+  const isVisible = isMobileMenuOpen || isScrollingUp || scrollPosition < 50;
+
   const headerClasses = useMemo(() => {
-    const isScrolled = typeof window !== 'undefined' ? window.scrollY > 20 : false;
+    const isScrolled = scrollPosition > 20;
     
-    // Liquid Glass Logic
-    // backdrop-blur-xl + bg-opacity + border + shadow = Liquid Glass
+    // Performance: Removemos sombras pesadas e blur excessivo durante scroll rápido
     const bgClass = isMobileMenuOpen 
       ? 'bg-transparent border-transparent' 
-      : (isVisible && isScrolled 
-          ? 'bg-forest-dark/70 backdrop-blur-[20px] border-b border-white/[0.08] shadow-[0_4px_30px_rgba(0,0,0,0.1)]' 
+      : (isScrolled 
+          ? 'bg-forest-dark/80 backdrop-blur-md border-b border-white/[0.08] shadow-sm' 
           : 'bg-transparent border-transparent');
     
-    return `fixed top-0 left-0 right-0 z-[60] transition-all duration-700 ease-[cubic-bezier(0.22,1,0.36,1)] px-6 md:px-12 py-4 ${bgClass} ${!isMobileMenuOpen && !isVisible ? '-translate-y-full' : 'translate-y-0'}`;
-  }, [isVisible, isMobileMenuOpen]);
+    // Transform class para esconder/mostrar
+    const transformClass = isVisible ? 'translate-y-0' : '-translate-y-full';
+
+    return `fixed top-0 left-0 right-0 z-[60] transition-all duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] px-6 md:px-12 py-4 ${bgClass} ${transformClass}`;
+  }, [scrollPosition, isMobileMenuOpen, isVisible]);
 
   const toggleMenu = useCallback(() => setIsMobileMenuOpen(prev => !prev), []);
   const closeMenu = useCallback(() => setIsMobileMenuOpen(false), []);
@@ -138,7 +150,7 @@ const Header: React.FC = () => {
         </div>
       </header>
 
-      {/* Mobile Menu Overlay - Liquid Glass Curtain */}
+      {/* Mobile Menu Overlay */}
       <AnimatePresence>
         {isMobileMenuOpen && (
           <motion.div 
@@ -148,12 +160,10 @@ const Header: React.FC = () => {
             variants={menuVariants}
             className="fixed inset-0 z-[50] flex flex-col justify-center items-center overflow-hidden"
           >
-            {/* Background com efeito Liquid Filter */}
-            <div className="absolute inset-0 bg-forest-dark/95 backdrop-blur-3xl liquid-filter opacity-90"></div>
-            <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,_rgba(212,175,55,0.1),_transparent_70%)] pointer-events-none"></div>
+            {/* Otimização: Uso de gradiente simples ao invés de SVG Filter pesado no menu mobile para evitar travamento */}
+            <div className="absolute inset-0 bg-forest-dark/98 backdrop-blur-xl"></div>
+            <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,_rgba(212,175,55,0.05),_transparent_70%)] pointer-events-none"></div>
 
-            <div className="absolute inset-0 opacity-[0.05] pointer-events-none bg-[url('https://www.transparenttextures.com/patterns/noise.png')] mix-blend-overlay"></div>
-            
             <nav className="flex flex-col gap-8 items-center relative z-10">
               {NAVIGATION_LINKS.map((link) => {
                  const isActive = location.pathname === link.path;

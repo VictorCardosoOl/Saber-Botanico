@@ -3,41 +3,56 @@ import { useState, useEffect, useRef } from 'react';
 interface ScrollDirData {
   isScrollingUp: boolean;
   scrollPosition: number;
+  scrollDirection: 'up' | 'down';
 }
 
 export function useScrollDirection(): ScrollDirData {
   const [data, setData] = useState<ScrollDirData>({
-    isScrollingUp: false,
+    isScrollingUp: true,
     scrollPosition: 0,
+    scrollDirection: 'up',
   });
 
   const lastScrollY = useRef<number>(typeof window !== 'undefined' ? window.scrollY : 0);
-  const rafId = useRef<number | null>(null);
+  const ticking = useRef(false);
 
   useEffect(() => {
+    const threshold = 10; // Mínimo de pixels para considerar uma mudança de direção
+
     const updateScrollDirection = () => {
       const currentScrollY = window.scrollY;
       const previousScrollY = lastScrollY.current;
+      
+      const scrollDifference = Math.abs(currentScrollY - previousScrollY);
 
-      // Only update state if the scroll position has actually changed
-      if (currentScrollY !== previousScrollY) {
-        const isScrollingUp = currentScrollY < previousScrollY;
+      // Previne comportamento elástico (overscroll) no topo/fundo
+      const safeScrollY = Math.max(0, currentScrollY);
+
+      if (scrollDifference > threshold) {
+        const isScrollingUp = safeScrollY < previousScrollY;
         
         setData({
           isScrollingUp,
-          scrollPosition: currentScrollY,
+          scrollPosition: safeScrollY,
+          scrollDirection: isScrollingUp ? 'up' : 'down',
         });
 
-        // Prevent negative values (e.g., iOS overscroll)
-        lastScrollY.current = currentScrollY > 0 ? currentScrollY : 0;
+        lastScrollY.current = safeScrollY;
+      } else {
+        // Apenas atualiza a posição se a diferença for pequena, mas não a direção
+        setData(prev => ({
+          ...prev,
+          scrollPosition: safeScrollY
+        }));
       }
-      
-      rafId.current = null;
+
+      ticking.current = false;
     };
 
     const onScroll = () => {
-      if (rafId.current === null) {
-        rafId.current = window.requestAnimationFrame(updateScrollDirection);
+      if (!ticking.current) {
+        window.requestAnimationFrame(updateScrollDirection);
+        ticking.current = true;
       }
     };
 
@@ -45,9 +60,6 @@ export function useScrollDirection(): ScrollDirData {
 
     return () => {
       window.removeEventListener('scroll', onScroll);
-      if (rafId.current !== null) {
-        window.cancelAnimationFrame(rafId.current);
-      }
     };
   }, []);
 

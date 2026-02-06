@@ -1,30 +1,30 @@
+
 import React from 'react';
 import { VASE_TERRACOTTA, VASE_CERAMIC, VASE_TECH } from '../constants';
 import { motion } from 'framer-motion';
-import LazyImage from './LazyImage';
 
 const MaterialsGrid: React.FC = () => {
   const materials = [
     {
-      title: 'Terracota',
-      subtitle: 'Respiração Natural',
-      desc: 'A porosidade da argila não esmaltada permite a troca gasosa vital. Essencial para espécies que exigem secagem rápida.',
+      title: 'Argila Toscana',
+      subtitle: 'Transpiração Ativa',
+      desc: 'Material de alta porosidade, não esmaltado. Permite a troca gasosa lateral e evaporação rápida (efeito resfriamento). Essencial para orquídeas e suculentas.',
       image: VASE_TERRACOTTA,
-      code: 'MAT-01'
+      code: 'MAT-TER-01'
     },
     {
-      title: 'Cerâmica Esmaltada',
-      subtitle: 'Retenção Hídrica',
-      desc: 'O vidro fundido sela a umidade. Ideal para tropicais sedentas que habitam o sub-bosque úmido.',
+      title: 'Grês Esmaltado',
+      subtitle: 'Isolamento Hídrico',
+      desc: 'Queimado a 1200°C e vitrificado. Cria um ambiente hermético que retém umidade por períodos prolongados. Ideal para Calatheas e Marantas.',
       image: VASE_CERAMIC,
-      code: 'MAT-02'
+      code: 'MAT-CER-02'
     },
     {
-      title: 'Geopolímero',
-      subtitle: 'Engenharia Moderna',
-      desc: 'Compósitos leves e inertes. Oferecem isolamento térmico superior para raízes sensíveis a flutuações.',
+      title: 'Compósito Polimérico',
+      subtitle: 'Engenharia Térmica',
+      desc: 'Ultraleve e quimicamente inerte. Possui parede dupla para isolamento térmico das raízes contra flutuações bruscas de temperatura.',
       image: VASE_TECH,
-      code: 'MAT-03'
+      code: 'MAT-POL-03'
     }
   ];
 
@@ -32,11 +32,11 @@ const MaterialsGrid: React.FC = () => {
     <div className="mb-40">
        <div className="flex items-end justify-between mb-20 border-b border-white/10 pb-8">
           <div>
-            <span className="font-mono text-[10px] uppercase tracking-widest text-gold-dark mb-2 block">Catálogo de Materiais</span>
-            <h3 className="text-4xl font-serif text-paper tracking-tight">Matéria & Função</h3>
+            <span className="font-mono text-[10px] uppercase tracking-widest text-gold-dark mb-2 block">Catálogo de Estruturas</span>
+            <h3 className="text-4xl font-serif text-paper tracking-tight">Engenharia do Recipiente</h3>
           </div>
           <div className="hidden md:block text-right">
-             <span className="font-mono text-[10px] text-white/40 uppercase tracking-widest">Seletor Técnico v2.0</span>
+             <span className="font-mono text-[10px] text-white/40 uppercase tracking-widest">Matéria & Função v2.0</span>
           </div>
        </div>
 
@@ -56,7 +56,7 @@ const MaterialsGrid: React.FC = () => {
                   {/* Overlay Técnico */}
                   <div className="absolute inset-0 p-6 flex flex-col justify-between opacity-0 group-hover:opacity-100 transition-opacity duration-500 bg-gradient-to-t from-forest-dark/90 via-transparent to-transparent">
                      <div className="flex justify-between items-start">
-                        <span className="font-mono text-[9px] text-white/60 border border-white/20 px-2 py-1">{item.code}</span>
+                        <span className="font-mono text-[9px] text-white/60 border border-white/20 px-2 py-1 bg-black/20 backdrop-blur-sm">{item.code}</span>
                      </div>
                   </div>
                </div>

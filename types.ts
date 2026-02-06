@@ -1,7 +1,9 @@
+
 export interface PlantSpecimen {
   id: string;
   name: string;
   scientificName: string;
+  family: string; // Novo: Família botânica (ex: Araceae)
   price: string;
   description: string;
   imageUrl: string;
@@ -9,11 +11,11 @@ export interface PlantSpecimen {
   isRare?: boolean;
   isNew?: boolean;
   isHot?: boolean;
-  // Novos campos narrativos e funcionais
   origin: string;
+  climate: string; // Novo: Clima ideal (ex: Tropical Úmido)
   toxicity: 'Pet Safe' | 'Tóxica se ingerida' | 'Irritante ao toque' | 'Tóxica para gatos' | 'Tóxica para cães' | 'Irritante para a pele';
-  careLevel: 'Iniciante' | 'Intermediário' | 'Expert';
-  curatorNote: string; // A nota do "Sommelier"
+  careLevel: 'Iniciante' | 'Intermediário' | 'Expert' | 'Mestre';
+  curatorNote: string;
 }
 
 export interface RitualStep {
@@ -37,7 +39,7 @@ export interface SocialLink {
 export interface DiagnosticSymptom {
   id: string;
   title: string;
-  visualCue: string; // Ex: "Folhas Amarelas"
+  visualCue: string;
   cause: string;
   solution: string;
   imageUrl: string;

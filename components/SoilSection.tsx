@@ -1,3 +1,4 @@
+
 import React from 'react';
 import { SOIL_IMAGE_MAIN, SOIL_IMAGE_SMALL_1, SOIL_IMAGE_SMALL_2 } from '../constants';
 import LazyImage from './LazyImage';
@@ -16,7 +17,7 @@ const SoilSection: React.FC = () => {
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 mb-32 items-end">
           <div className="lg:col-span-8 relative">
             <Reveal>
-                <span className="font-mono text-[10px] uppercase tracking-[0.4em] text-gold-dark/80 block mb-6">Ciência da Terra</span>
+                <span className="font-mono text-[10px] uppercase tracking-[0.4em] text-gold-dark/80 block mb-6">Geologia Aplicada</span>
                 <h2 className="font-serif text-fluid-h1 text-forest-dark tracking-tighter leading-[0.85]">
                   Alquimia do <br/>
                   <span className="italic text-gold-dark opacity-90 ml-12">Substrato</span>
@@ -26,9 +27,9 @@ const SoilSection: React.FC = () => {
           <div className="lg:col-span-4 border-l border-gold/30 pl-8 pb-2">
             <Reveal delay={0.2}>
                 <p className="font-alt text-2xl leading-tight text-forest-dark/80 italic mb-4">
-                  "A saúde visível da folha é apenas um reflexo da saúde invisível da raiz."
+                  "Raízes saudáveis exigem oxigênio tanto quanto exigem água. O segredo reside nos espaços vazios entre as partículas."
                 </p>
-                <span className="text-[10px] font-mono uppercase tracking-widest text-gold-dark">— Axioma Botânico</span>
+                <span className="text-[10px] font-mono uppercase tracking-widest text-gold-dark">— Princípio do Chunky Mix</span>
             </Reveal>
           </div>
         </div>
@@ -40,11 +41,11 @@ const SoilSection: React.FC = () => {
                     <div className="relative w-full h-full overflow-hidden bg-forest-dark group">
                         <LazyImage 
                           src={SOIL_IMAGE_MAIN} 
-                          alt="Preparo do Solo"
+                          alt="Preparo do Solo com Perlite e Casca de Pinus"
                           className="w-full h-full object-cover sepia-[0.2] opacity-90 transition-transform duration-[2s] group-hover:scale-105"
                         />
                         <div className="absolute top-8 left-8 border border-white/20 px-4 py-2 bg-white/5 backdrop-blur-md">
-                            <span className="text-white font-mono text-[10px] uppercase tracking-widest">Fig 1.1 — Aeração</span>
+                            <span className="text-white font-mono text-[10px] uppercase tracking-widest">Fig 1.1 — Granulometria Grossa</span>
                         </div>
                     </div>
                 </Reveal>
@@ -59,7 +60,7 @@ const SoilSection: React.FC = () => {
                 >
                     <LazyImage 
                         src={SOIL_IMAGE_SMALL_1} 
-                        alt="Textura detalhada"
+                        alt="Textura de solo vulcânico"
                         className="w-full h-full object-cover grayscale contrast-125"
                     />
                 </motion.div>
@@ -71,15 +72,15 @@ const SoilSection: React.FC = () => {
                         <span className="text-6xl text-gold-dark/20 font-serif block mb-4">01.</span>
                         <h3 className="text-3xl font-serif text-forest-dark mb-4">A Fundação de Drenagem</h3>
                         <p className="font-sans text-forest-dark/70 leading-loose text-justify font-light">
-                            O erro primário do cultivador iniciante é negligenciar o fluxo. Comece com uma camada deliberada de argila expandida ou rocha vulcânica. Este estrato oculto é a apólice de seguro contra a hipóxia radicular (falta de oxigênio).
+                            O erro primário é o uso de terra vegetal compacta. Para <i>Araceas</i> (Monsteras, Philodendrons), o solo deve desmoronar na mão. Utilizamos uma base de casca de pinus compostada para estrutura e acidez leve.
                         </p>
                     </motion.div>
 
                     <motion.div variants={{ hidden: { opacity: 0, y: 20 }, visible: { opacity: 1, y: 0, transition: { duration: 0.8 } } }}>
                         <span className="text-6xl text-gold-dark/20 font-serif block mb-4">02.</span>
-                        <h3 className="text-3xl font-serif text-forest-dark mb-4">A Mistura Aérea</h3>
+                        <h3 className="text-3xl font-serif text-forest-dark mb-4">Macroporosidade</h3>
                         <p className="font-sans text-forest-dark/70 leading-loose text-justify font-light">
-                            Solo compacto é o inimigo. Busque a "porosidade perfeita": 40% Turfa ou Fibra de Coco, 30% Perlita para aeração e 30% Húmus para nutrição lenta. A raiz deve navegar pelo solo, não lutar contra ele.
+                            Adicionamos agregados minerais inertes como Perlita Expandida ou Pedra-Pomes (Pumice). Estes componentes criam bolsas de ar permanentes, prevenindo a hipóxia radicular e apodrecimento.
                         </p>
                     </motion.div>
                 </StaggerContainer>
@@ -89,22 +90,22 @@ const SoilSection: React.FC = () => {
         {/* Horizontal Scroll / Metodologia */}
         <div className="border-t border-forest-dark/5 pt-24">
             <div className="flex flex-col md:flex-row justify-between items-end mb-16">
-                 <h3 className="text-fluid-h2 font-serif text-forest-dark">Componentes</h3>
+                 <h3 className="text-fluid-h2 font-serif text-forest-dark">A Tríade Mineral</h3>
                  <span className="font-mono text-[10px] text-forest-dark/50 uppercase tracking-widest">Matéria Prima Essencial</span>
             </div>
             
             <div className="grid grid-cols-1 md:grid-cols-3 gap-px bg-forest-dark/10 border border-forest-dark/10">
                 {[
-                    { title: 'Perlita', desc: 'Vidro vulcânico expandido. Cria bolsas de ar vitais.', img: SOIL_IMAGE_SMALL_2 },
-                    { title: 'Casca de Pinus', desc: 'Matéria orgânica estrutural. Simula o chão da floresta.', img: 'https://images.unsplash.com/photo-1542601906990-b4d3fb778b09?auto=format&fit=crop&q=80&w=800' },
-                    { title: 'Carvão Ativado', desc: 'Filtro natural. Previne odores e acúmulo de toxinas.', img: 'https://images.unsplash.com/photo-1550583724-b2692b85b150?auto=format&fit=crop&q=80&w=800' }
+                    { title: 'Perlita / Pumice', desc: 'Rocha vulcânica expandida. Retém água microscopicamente enquanto drena macroscopicamente.', img: SOIL_IMAGE_SMALL_2 },
+                    { title: 'Casca de Pinus', desc: 'Matéria orgânica estrutural. Simula os detritos do chão da floresta tropical e acidifica levemente o pH.', img: 'https://images.unsplash.com/photo-1542601906990-b4d3fb778b09?auto=format&fit=crop&q=80&w=800' },
+                    { title: 'Carvão Ativado', desc: 'O purificador. Absorve toxinas acumuladas, previne odores e atua como bactericida natural no sistema.', img: 'https://images.unsplash.com/photo-1550583724-b2692b85b150?auto=format&fit=crop&q=80&w=800' }
                 ].map((item, idx) => (
                     <div key={idx} className="group relative bg-paper h-[400px] flex flex-col justify-end p-8 overflow-hidden hover:bg-[#F2EFE9] transition-colors duration-500">
                         <div className="absolute inset-0 opacity-0 group-hover:opacity-10 transition-opacity duration-700">
                              <LazyImage src={item.img} alt={item.title} className="w-full h-full object-cover grayscale" />
                         </div>
                         <div className="relative z-10">
-                            <span className="text-[10px] font-mono uppercase tracking-widest text-gold-dark mb-2 block">0{idx + 1}</span>
+                            <span className="text-[10px] font-mono uppercase tracking-widest text-gold-dark mb-2 block">Componente 0{idx + 1}</span>
                             <h4 className="font-serif text-3xl text-forest-dark mb-4">{item.title}</h4>
                             <p className="font-sans text-sm text-forest-dark/60 font-light leading-relaxed border-t border-forest-dark/10 pt-4">
                                 {item.desc}

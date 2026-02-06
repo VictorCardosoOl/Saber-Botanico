@@ -44,13 +44,15 @@ const Footer: React.FC = () => {
 
       {/* --- 2. Background Typography --- */}
       <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-full text-center pointer-events-none select-none z-0 leading-none">
-        <span className="text-[22vw] font-serif font-bold text-premium-dark tracking-tighter mix-blend-color-dodge opacity-60 block translate-y-[5%]">
+        {/* Ajuste de translate-y para -5% para levantar o texto e evitar cortes na base */}
+        <span className="text-[22vw] font-serif font-bold text-premium-dark tracking-tighter mix-blend-color-dodge opacity-60 block translate-y-[-5%]">
           SABER
         </span>
       </div>
 
       {/* --- 3. Main Content --- */}
-      <div className="relative z-10 max-w-[1920px] mx-auto px-6 md:px-12 pt-32 pb-24">
+      {/* Aumento do padding vertical (pt-48 pb-40) para maior respiro e sofisticação */}
+      <div className="relative z-10 max-w-[1920px] mx-auto px-6 md:px-12 pt-48 pb-40">
         
         {/* Top Border for Structure */}
         <div className="w-full h-px bg-white/10 mb-16" />

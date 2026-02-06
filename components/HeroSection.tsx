@@ -6,11 +6,13 @@ import { LUXURY_EASE } from './Animation';
 const HeroSection: React.FC = () => {
   const { scrollY } = useScroll();
   
-  // Parallax refinado
-  const yText = useTransform(scrollY, [0, 800], [0, 200]);
+  // Parallax refinado e mais sutil para o texto (sobe apenas 100px)
+  const yText = useTransform(scrollY, [0, 800], [0, 100]);
   const yImage = useTransform(scrollY, [0, 800], [0, 100]);
   const opacityText = useTransform(scrollY, [0, 400], [1, 0]);
-  const scaleImage = useTransform(scrollY, [0, 800], [1.1, 1]);
+  
+  // Efeito de Zoom Out: Começa em 1.2 (levemente ampliado) e vai para 1.0 (tamanho original)
+  const scaleImage = useTransform(scrollY, [0, 800], [1.2, 1]);
 
   return (
     <section id="hero" className="relative h-[100svh] w-full flex flex-col justify-center overflow-hidden bg-forest-dark">

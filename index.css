@@ -5,7 +5,6 @@
 /* Base styles */
 html {
   height: 100%;
-  /* Lenis recomenda remover scroll-behavior: smooth nativo para evitar conflitos */
 }
 
 html.lenis, html.lenis body {
@@ -32,15 +31,15 @@ body {
   width: 100%;
   min-height: 100vh;
   overflow-x: hidden;
-  background-color: #0A0F0D; /* Forest Dark novo */
-  color: #F5F2EB; /* Paper novo */
+  background-color: #0A0F0D;
+  color: #F5F2EB;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-rendering: optimizeLegibility;
-  font-feature-settings: "salt"; /* Alternate styling for fonts that support it */
+  font-feature-settings: "salt", "kern", "liga"; /* Habilita ligaduras e alternativas estilísticas */
 }
 
-/* GLOBAL GRAIN TEXTURE - Essential for Luxury/Film Look */
+/* GLOBAL GRAIN TEXTURE */
 body::after {
   content: "";
   position: fixed;
@@ -56,13 +55,12 @@ body::after {
 }
 
 section {
-  /* scroll-snap-align removido pois Lenis gerencia o fluxo */
   scroll-margin-top: 0px;
 }
 
 /* High-end Selection */
 ::selection {
-  background: rgba(207, 183, 131, 0.2); /* Gold Subtle */
+  background: rgba(207, 183, 131, 0.2);
   color: #CFB783;
 }
 
@@ -71,21 +69,32 @@ section {
   outline-offset: 6px;
 }
 
-/* Typography Utilities */
+/* Typography Utilities - REFINED */
 .text-fluid-h1 {
-  font-size: clamp(3rem, 6vw + 1rem, 7.5rem);
-  line-height: 0.95;
-  letter-spacing: -0.05em;
+  /* Escala massiva em telas grandes, legível em mobile. Line-height apertado é crucial para o visual editorial */
+  font-size: clamp(3.5rem, 9vw, 10rem);
+  line-height: 0.85; 
+  letter-spacing: -0.06em;
 }
+
 .text-fluid-h2 {
-  font-size: clamp(2.5rem, 4vw + 1rem, 4.5rem);
-  line-height: 1.05;
-  letter-spacing: -0.03em;
+  font-size: clamp(2.5rem, 5vw + 1rem, 5.5rem);
+  line-height: 0.95;
+  letter-spacing: -0.04em;
 }
+
 .text-fluid-h3 {
-  font-size: clamp(1.5rem, 2.5vw, 2.5rem);
-  line-height: 1.2;
+  font-size: clamp(1.75rem, 3vw, 3rem);
+  line-height: 1.1;
   letter-spacing: -0.02em;
+}
+
+/* Paragraph styling for editorial readability */
+.text-body-editorial {
+  font-family: 'Manrope', sans-serif;
+  font-weight: 300;
+  line-height: 1.8;
+  letter-spacing: 0.01em;
 }
 
 /* Glassmorphism */

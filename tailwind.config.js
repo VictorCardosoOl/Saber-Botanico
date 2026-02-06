@@ -40,18 +40,26 @@ export default {
         alt: ['Cormorant Garamond', 'serif'],
         mono: ['Space Mono', 'monospace'],
       },
+      fontSize: {
+        '2xs': ['0.625rem', { lineHeight: '1rem' }], // 10px
+        '3xs': ['0.5rem', { lineHeight: '0.75rem' }], // 8px (Micro labels)
+      },
       letterSpacing: {
-        tighter: '-0.05em',
+        tighter: '-0.06em', // Mais apertado para títulos Display
         tight: '-0.03em',
         normal: '0em',
-        wide: '0.025em',
-        wider: '0.05em',
-        widest: '0.25em', // Aumentado para títulos pequenos
-        'widest-xl': '0.4em', // Estilo editorial extremo
+        wide: '0.03em',
+        wider: '0.08em',
+        widest: '0.25em', // Aumentado para labels mono
+        'widest-xl': '0.5em', // Estilo editorial extremo para datas/códigos
+      },
+      lineHeight: {
+        'display': '0.85', // Leading ultra-compacto para títulos
+        'loose-p': '1.8',  // Leading relaxado para parágrafos
       },
       colors: {
         gold: {
-          DEFAULT: '#CFB783', // Champagne Gold (Menos amarelo, mais sofisticado)
+          DEFAULT: '#CFB783', // Champagne Gold
           light: '#EBE2CD',   // Off-white gold
           dark: '#8F7A48',    // Bronze antigo
           dim: '#9E8C60',
@@ -59,11 +67,11 @@ export default {
         },
         forest: {
           DEFAULT: '#142118',
-          dark: '#0A0F0D', // Quase preto, com tom verde imperceptível
+          dark: '#0A0F0D', 
           light: '#233329',
           deep: '#050806'
         },
-        paper: '#F5F2EB', // Warm white, textura de papel art
+        paper: '#F5F2EB', 
         ink: '#1C1C1C',
         sage: {
           DEFAULT: '#949D90',

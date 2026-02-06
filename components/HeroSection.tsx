@@ -53,24 +53,25 @@ const HeroSection: React.FC = () => {
             {/* Typography Layer - Overlapping */}
             <motion.div 
               style={{ y: yText, opacity: opacityText }}
-              className="relative z-10 lg:pl-12 max-w-4xl mix-blend-hard-light"
+              className="relative z-10 lg:pl-12 max-w-5xl mix-blend-hard-light"
             >
                <motion.div 
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 1, delay: 1 }}
-                  className="flex items-center gap-4 mb-8"
+                  className="flex items-center gap-4 mb-10"
                >
-                  <span className="h-px w-12 bg-gold"></span>
-                  <span className="text-gold text-[10px] font-mono uppercase tracking-[0.4em]">Edição Limitada</span>
+                  <span className="h-px w-16 bg-gold"></span>
+                  <span className="text-gold text-[10px] font-mono uppercase tracking-widest-xl">Edição Limitada .01</span>
                </motion.div>
 
+               {/* TITLES - Using text-fluid-h1 from updated CSS */}
                <div className="overflow-hidden">
                  <motion.h1 
                     initial={{ y: "100%" }}
                     animate={{ y: 0 }}
                     transition={{ duration: 1.2, ease: LUXURY_EASE, delay: 0.5 }}
-                    className="font-serif text-[clamp(4rem,10vw,9.5rem)] leading-[0.85] text-paper tracking-tighter"
+                    className="text-fluid-h1 font-serif text-paper"
                  >
                    Botânica
                  </motion.h1>
@@ -81,7 +82,7 @@ const HeroSection: React.FC = () => {
                     initial={{ y: "100%" }}
                     animate={{ y: 0 }}
                     transition={{ duration: 1.2, ease: LUXURY_EASE, delay: 0.65 }}
-                    className="font-serif text-[clamp(4rem,10vw,9.5rem)] leading-[0.85] text-transparent bg-clip-text bg-gradient-to-r from-gold-light to-gold-dark tracking-tighter italic pr-4"
+                    className="text-fluid-h1 font-serif text-transparent bg-clip-text bg-gradient-to-r from-gold-light to-gold-dark italic pr-4"
                  >
                    Esculpida
                  </motion.h1>
@@ -91,9 +92,9 @@ const HeroSection: React.FC = () => {
                   initial={{ opacity: 0 }}
                   animate={{ opacity: 1 }}
                   transition={{ duration: 1.5, delay: 1.2 }}
-                  className="max-w-md font-sans text-sm md:text-base font-light text-paper/70 leading-loose tracking-wide ml-2 md:ml-24 border-l border-white/20 pl-6"
+                  className="text-body-editorial text-paper/70 text-base md:text-lg max-w-lg ml-2 md:ml-24 border-l border-white/20 pl-8"
                >
-                  Uma exploração digital da flora rara. Onde a ciência biológica encontra a estética do silêncio. Curadoria por especialistas para colecionadores exigentes.
+                  Uma exploração digital da flora rara. Onde a <span className="text-gold italic font-serif">ciência biológica</span> encontra a estética do silêncio. Curadoria por especialistas para colecionadores exigentes.
                </motion.p>
             </motion.div>
           </div>
@@ -108,8 +109,8 @@ const HeroSection: React.FC = () => {
           className="absolute bottom-12 left-0 w-full flex justify-between items-end px-6 lg:px-12 pointer-events-none mix-blend-difference"
         >
            <div className="hidden md:block">
-              <span className="block text-[10px] font-mono uppercase tracking-widest text-paper/50 mb-1">Coordenadas</span>
-              <span className="block text-xs font-mono text-paper">23°33'S 46°38'W</span>
+              <span className="block text-[9px] font-mono uppercase tracking-widest-xl text-paper/50 mb-2">Coordenadas</span>
+              <span className="block text-xs font-mono text-paper tracking-widest">23°33'S 46°38'W</span>
            </div>
 
            <div className="flex flex-col items-center gap-4 absolute left-1/2 -translate-x-1/2">
@@ -118,8 +119,8 @@ const HeroSection: React.FC = () => {
            </div>
 
            <div className="hidden md:block text-right">
-              <span className="block text-[10px] font-mono uppercase tracking-widest text-paper/50 mb-1">Volume</span>
-              <span className="block text-xs font-mono text-paper">No. 01 — 2024</span>
+              <span className="block text-[9px] font-mono uppercase tracking-widest-xl text-paper/50 mb-2">Volume</span>
+              <span className="block text-xs font-mono text-paper tracking-widest">No. 01 — 2024</span>
            </div>
         </motion.div>
 

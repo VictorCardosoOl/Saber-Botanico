@@ -48,9 +48,15 @@ const Glossary: React.FC = () => {
 
   const handleCloseModal = () => setSelectedPlant(null);
 
+  // Lógica dinâmica para SEO baseada no estado do modal
+  const seoTitle = selectedPlant ? selectedPlant.name : "Glosário Botânico";
+  const seoDescription = selectedPlant 
+    ? `Detalhes botânicos, origem e rituais de cuidado para ${selectedPlant.name} (${selectedPlant.scientificName}).` 
+    : "Explore nossa enciclopédia viva de espécies raras e exóticas.";
+
   return (
     <PageTransition className="min-h-screen pt-32 pb-20 bg-paper">
-      <SEO title="Glosário Botânico" description="Explore nossa enciclopédia viva de espécies raras e exóticas." />
+      <SEO title={seoTitle} description={seoDescription} />
       
       <div className="fixed inset-0 opacity-[0.4] pointer-events-none bg-[url('https://www.transparenttextures.com/patterns/cream-paper.png')] mix-blend-multiply z-0"></div>
 

@@ -1,24 +1,26 @@
 import React from 'react';
-import { motion } from 'framer-motion';
+import { motion, HTMLMotionProps, Variants } from 'framer-motion';
 
-// Configuração de curva "Luxury" (lenta e suave, mas responsiva)
-export const LUXURY_EASE = [0.22, 1, 0.36, 1];
+// Curva refinada para sensação de luxo: início responsivo, final extremamente suave.
+export const LUXURY_EASE = [0.25, 0.1, 0.25, 1.0]; 
 
-interface WrapperProps {
+interface WrapperProps extends HTMLMotionProps<"div"> {
   children: React.ReactNode;
   className?: string;
   delay?: number;
 }
 
 // Wrapper para Transição de Páginas
-export const PageTransition: React.FC<WrapperProps> = ({ children, className }) => {
+// Efeito: A página sobe levemente enquanto ganha opacidade.
+export const PageTransition: React.FC<WrapperProps> = ({ children, className, ...props }) => {
   return (
     <motion.div
-      initial={{ opacity: 0, y: 10 }} // Reduzido de 20 para 10 para menos salto
-      animate={{ opacity: 1, y: 0 }}
-      exit={{ opacity: 0, y: -10, transition: { duration: 0.4, ease: LUXURY_EASE } }}
-      transition={{ duration: 0.6, ease: LUXURY_EASE }}
+      initial={{ opacity: 0, y: 20, filter: "blur(10px)" }}
+      animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
+      exit={{ opacity: 0, y: -20, filter: "blur(5px)", transition: { duration: 0.4, ease: "easeInOut" } }}
+      transition={{ duration: 0.8, ease: LUXURY_EASE }}
       className={className}
+      {...props}
     >
       {children}
     </motion.div>
@@ -26,14 +28,14 @@ export const PageTransition: React.FC<WrapperProps> = ({ children, className }) 
 };
 
 // Wrapper para Revelar ao Rolar (Scroll Reveal)
+// Efeito: Fade Up clássico
 export const Reveal: React.FC<WrapperProps> = ({ children, className, delay = 0 }) => {
   return (
     <motion.div
-      initial={{ opacity: 0, y: 30 }} // Reduzido de 60 para 30 (movimento mais sutil)
+      initial={{ opacity: 0, y: 40 }}
       whileInView={{ opacity: 1, y: 0 }}
-      // margin "-5%" significa: comece a animar quando o topo do elemento estiver 5% dentro da tela (antes era muito tarde)
-      viewport={{ once: true, margin: "-5%" }} 
-      transition={{ duration: 0.8, delay, ease: LUXURY_EASE }}
+      viewport={{ once: true, margin: "-10%" }} 
+      transition={{ duration: 1.0, delay, ease: LUXURY_EASE }}
       className={className}
     >
       {children}
@@ -41,8 +43,8 @@ export const Reveal: React.FC<WrapperProps> = ({ children, className, delay = 0 
   );
 };
 
-// Container para escalonamento de filhos
-export const StaggerContainer: React.FC<WrapperProps> = ({ children, className }) => {
+// Container para escalonamento de filhos (Stagger)
+export const StaggerContainer: React.FC<WrapperProps> = ({ children, className, ...props }) => {
   return (
     <motion.div
       initial="hidden"
@@ -51,25 +53,45 @@ export const StaggerContainer: React.FC<WrapperProps> = ({ children, className }
       variants={{
         visible: {
           transition: {
-            staggerChildren: 0.08, // Acelerado ligeiramente
+            staggerChildren: 0.1,
             delayChildren: 0.1
           }
         }
       }}
       className={className}
+      {...props}
     >
       {children}
     </motion.div>
   );
 };
 
-export const FadeUpItem = ({ children }: { children: React.ReactNode }) => (
+// Item individual para usar dentro de StaggerContainer
+export const FadeUpItem = ({ children, className }: { children: React.ReactNode, className?: string }) => (
   <motion.div
+    className={className}
     variants={{
-      hidden: { opacity: 0, y: 20 },
-      visible: { opacity: 1, y: 0, transition: { duration: 0.6, ease: LUXURY_EASE } }
+      hidden: { opacity: 0, y: 30 },
+      visible: { opacity: 1, y: 0, transition: { duration: 0.8, ease: LUXURY_EASE } }
     }}
   >
     {children}
   </motion.div>
 );
+
+// Novo: Mask Reveal (Efeito de texto saindo de dentro de uma caixa)
+// Muito usado em sites editoriais de luxo para títulos.
+export const MaskReveal: React.FC<WrapperProps> = ({ children, className, delay = 0 }) => {
+    return (
+        <div className={`overflow-hidden ${className || ''}`}>
+            <motion.div
+                initial={{ y: "110%" }}
+                whileInView={{ y: "0%" }}
+                viewport={{ once: true, margin: "-10%" }}
+                transition={{ duration: 1.2, delay, ease: LUXURY_EASE }}
+            >
+                {children}
+            </motion.div>
+        </div>
+    );
+};

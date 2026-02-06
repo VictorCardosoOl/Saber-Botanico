@@ -1,11 +1,11 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { HashRouter, Routes, Route, useLocation } from 'react-router-dom';
 import { HelmetProvider } from 'react-helmet-async';
 import { AnimatePresence } from 'framer-motion';
 import Header from './components/Header';
 import Footer from './components/Footer';
 import BackToTop from './components/BackToTop';
-import SmoothScrolling from './components/SmoothScrolling'; // Importação do Scroll
+import SmoothScrolling from './components/SmoothScrolling'; 
 import { ToastProvider } from './context/ToastContext';
 import { CollectionProvider } from './context/CollectionContext';
 
@@ -15,17 +15,6 @@ import Glossary from './pages/Glossary';
 import Vases from './pages/Vases';
 import Soil from './pages/Soil';
 import Care from './pages/Care';
-
-const ScrollToTop = () => {
-  const { pathname } = useLocation();
-  useEffect(() => {
-    // Com Lenis, o window.scrollTo nativo ainda funciona, 
-    // mas em casos complexos podemos precisar acessar a instância do Lenis.
-    // Para esta implementação simples, o nativo é suficiente.
-    window.scrollTo(0, 0);
-  }, [pathname]);
-  return null;
-};
 
 const AnimatedRoutes = () => {
   const location = useLocation();
@@ -48,9 +37,12 @@ const App: React.FC = () => {
     <HelmetProvider>
       <ToastProvider>
         <CollectionProvider>
-          <SmoothScrolling> {/* Envolvendo a aplicação no Smooth Scroll */}
-            <HashRouter>
-              <ScrollToTop />
+          {/* HashRouter deve estar DENTRO do SmoothScrolling se quiséssemos passar o router para ele, 
+              mas como SmoothScrolling usa useLocation, ele precisa estar DENTRO do Router.
+              Refatorando a ordem: Router -> SmoothScrolling -> App Content
+          */}
+          <HashRouter>
+            <SmoothScrolling> 
               <Header />
               
               <div className="w-full relative overflow-x-hidden min-h-screen flex flex-col bg-forest-dark">
@@ -61,8 +53,8 @@ const App: React.FC = () => {
                 <BackToTop />
               </div>
 
-            </HashRouter>
-          </SmoothScrolling>
+            </SmoothScrolling>
+          </HashRouter>
         </CollectionProvider>
       </ToastProvider>
     </HelmetProvider>

@@ -10,16 +10,16 @@ const DiagnosticsGuide: React.FC = () => {
     <section className="py-32 bg-forest-deep relative overflow-hidden text-paper">
       <div className="container relative z-10 px-6">
         
-        <div className="flex flex-col md:flex-row justify-between items-end mb-20 border-b border-white/10 pb-8">
+        <div className="flex flex-col md:flex-row justify-between items-end mb-24 border-b border-white/10 pb-8">
            <div className="max-w-2xl">
               <span className="text-gold font-mono text-[10px] uppercase tracking-widest-xl block mb-4">Clínica Botânica</span>
-              <h2 className="text-5xl font-serif text-white mb-6 tracking-tight">Diagnóstico Visual</h2>
-              <p className="text-white/60 font-light leading-relaxed">
+              <h2 className="text-fluid-h2 font-serif text-white mb-6 tracking-tight">Diagnóstico Visual</h2>
+              <p className="text-white/60 font-sans font-light leading-relaxed text-lg">
                  As plantas se comunicam através de sinais silenciosos. Identifique o sintoma para acessar o protocolo de recuperação.
               </p>
            </div>
            <div className="hidden md:block">
-              <span className="material-symbols-outlined text-4xl text-white/10">local_hospital</span>
+              <span className="material-symbols-outlined text-5xl text-white/10">local_hospital</span>
            </div>
         </div>
 
@@ -39,7 +39,7 @@ const DiagnosticsGuide: React.FC = () => {
                                 : 'border-white/10 hover:border-white/30 hover:bg-white/[0.01]'
                             }`}
                         >
-                            <span className={`font-serif text-lg tracking-wide ${activeId === item.id ? 'text-white' : 'text-white/50 group-hover:text-white/80'}`}>
+                            <span className={`font-serif text-xl tracking-wide ${activeId === item.id ? 'text-white italic' : 'text-white/50 group-hover:text-white/80'}`}>
                                 {item.title}
                             </span>
                             {activeId === item.id && (
@@ -82,25 +82,27 @@ const DiagnosticsGuide: React.FC = () => {
                                 <span className="material-symbols-outlined text-9xl">medical_services</span>
                             </div>
 
-                            <div className="mb-10 relative z-10">
-                                <h4 className="font-mono text-[10px] uppercase tracking-widest text-gold-dark mb-2">
+                            <div className="mb-12 relative z-10">
+                                <h4 className="font-mono text-[10px] uppercase tracking-widest text-gold-dark mb-4 opacity-70">
                                     Manifestação Visual
                                 </h4>
-                                <p className="text-3xl font-serif text-forest-dark italic mb-6">
+                                <p className="text-4xl md:text-5xl font-display-italic text-forest-dark mb-8 leading-tight">
                                     "{activeDiagnostic.visualCue}"
                                 </p>
-                                <p className="text-sm font-sans text-forest-dark/70 leading-relaxed border-l border-gold/30 pl-4">
-                                    <strong className="text-forest-dark block text-xs uppercase tracking-wide mb-1">Diagnóstico:</strong>
-                                    {activeDiagnostic.cause}
-                                </p>
+                                <div className="border-l-2 border-gold/30 pl-6">
+                                    <strong className="text-forest-dark block text-[10px] uppercase tracking-widest mb-2 opacity-60">Causa Provável:</strong>
+                                    <p className="text-lg font-sans text-forest-dark/80 leading-relaxed">
+                                       {activeDiagnostic.cause}
+                                    </p>
+                                </div>
                             </div>
 
-                            <div className="bg-forest-light/5 p-6 border border-forest-dark/5 relative z-10">
-                                <h4 className="flex items-center gap-2 text-[10px] font-mono uppercase tracking-widest text-forest-dark mb-3">
-                                    <span className="w-2 h-2 rounded-full bg-gold"></span>
+                            <div className="bg-forest-light/5 p-8 border border-forest-dark/5 relative z-10 rounded-sm">
+                                <h4 className="flex items-center gap-3 text-[10px] font-mono uppercase tracking-widest text-forest-dark mb-4">
+                                    <span className="w-2 h-2 rounded-full bg-gold animate-pulse"></span>
                                     Protocolo de Correção
                                 </h4>
-                                <p className="text-base font-light text-forest-dark leading-loose">
+                                <p className="text-body-editorial text-forest-dark leading-loose">
                                     {activeDiagnostic.solution}
                                 </p>
                             </div>

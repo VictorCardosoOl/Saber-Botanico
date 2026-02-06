@@ -27,15 +27,12 @@ const PlantCard: React.FC<PlantCardProps> = ({ plant, onClick }) => {
       transition={{ layout: { duration: 0.3 }, y: { duration: 0.2 } }}
       className="group flex flex-col h-full bg-transparent relative rounded-sm"
     >
-        {/* 
-           IMAGEM
-           Nota: Removemos o onClick daqui. A interação agora é via o Título (Stretched Link).
-        */}
+        {/* IMAGEM */}
         <div className="relative aspect-[3/4] overflow-hidden bg-gray-100 mb-6 shadow-sm group-hover:shadow-2xl transition-shadow duration-500 rounded-sm">
             <div className="w-full h-full relative">
                <LazyImage 
                  src={plant.imageUrl} 
-                 alt="" // Alt vazio pois o contexto é dado pelo texto do card
+                 alt="" 
                  className="w-full h-full object-cover transition-transform duration-[1.5s] ease-out group-hover:scale-105 grayscale-[10%] group-hover:grayscale-0"
                />
             </div>
@@ -53,30 +50,24 @@ const PlantCard: React.FC<PlantCardProps> = ({ plant, onClick }) => {
              </div>
         </div>
         
-        {/* INFO CONTAINER */}
+        {/* INFO CONTAINER - MICRO-TYPOGRAPHY REFINED */}
         <div className="flex flex-col flex-1 relative px-2">
-            <header className="flex justify-between items-baseline mb-2">
-               <span className="font-mono text-[10px] text-gray-400 uppercase tracking-widest">Nº {plant.id.padStart(3, '0')}</span>
-               <span className="font-mono text-[10px] text-gold-dark font-bold tracking-widest">{plant.price}</span>
+            <header className="flex justify-between items-baseline mb-3">
+               <span className="font-mono text-[9px] text-gray-400 uppercase tracking-widest opacity-70">Specimen Nº {plant.id.padStart(3, '0')}</span>
+               <span className="font-mono text-[11px] text-gold-dark font-bold tracking-widest">{plant.price}</span>
             </header>
             
-            {/* 
-                CORREÇÃO DE A11Y E UX:
-                Transformamos o Título em um botão/link que estende sua área clicável 
-                para cobrir o card todo (exceto outros botões interativos).
-                Isso usa a técnica ::after { absolute inset-0 }
-            */}
             <h3>
               <button 
                 onClick={onClick}
-                className="text-3xl font-serif font-medium text-charcoal leading-none tracking-tight mb-1 group-hover:text-gold-dark transition-colors duration-300 text-left w-full focus:outline-none focus:underline after:absolute after:inset-0 after:z-0"
+                className="text-3xl font-serif font-normal text-charcoal leading-none tracking-tight mb-2 group-hover:text-gold-dark transition-colors duration-300 text-left w-full focus:outline-none focus:underline after:absolute after:inset-0 after:z-0"
                 aria-label={`Ver detalhes de ${plant.name}`}
               >
                 {plant.name}
               </button>
             </h3>
             
-            <p className="text-xs italic text-sage-dark font-serif tracking-wide mb-4 opacity-60 group-hover:opacity-100 transition-opacity">
+            <p className="text-sm font-display-italic text-sage-dark mb-5 opacity-80 group-hover:opacity-100 transition-opacity">
               {plant.scientificName}
             </p>
 
@@ -85,7 +76,7 @@ const PlantCard: React.FC<PlantCardProps> = ({ plant, onClick }) => {
             <div className="flex-grow relative group/desc">
               <motion.p 
                 layout="position"
-                className={`text-sm text-charcoal/60 font-sans leading-relaxed font-light overflow-hidden ${isExpanded ? '' : 'line-clamp-2'}`}
+                className={`text-body-editorial text-sm text-charcoal/70 leading-relaxed overflow-hidden ${isExpanded ? '' : 'line-clamp-2'}`}
               >
                   {plant.description}
               </motion.p>
@@ -96,7 +87,6 @@ const PlantCard: React.FC<PlantCardProps> = ({ plant, onClick }) => {
                      initial={{ opacity: 0 }}
                      animate={{ opacity: 1 }}
                      onClick={toggleDescription}
-                     // Z-Index relativo para ficar ACIMA do stretched link do card
                      className="relative z-10 mt-3 text-[10px] font-mono uppercase tracking-widest text-gold-dark hover:text-gold flex items-center gap-1 group/btn focus:outline-none focus:ring-2 focus:ring-gold rounded-sm px-1 -ml-1"
                      aria-expanded={isExpanded}
                      aria-label={isExpanded ? "Reduzir descrição" : "Ler descrição completa"}

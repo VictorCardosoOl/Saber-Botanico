@@ -24,7 +24,6 @@ const Glossary: React.FC = () => {
       try {
         const [results] = await Promise.all([
            PlantService.search(debouncedSearchTerm),
-           // Artificial delay for smooth UX transition, ensuring skeleton is visible for at least 400ms
            new Promise(resolve => setTimeout(resolve, 400)) 
         ]);
         
@@ -56,39 +55,37 @@ const Glossary: React.FC = () => {
 
       <div className="container px-6 relative z-10 min-h-[60vh]">
         
-        <div className="flex flex-col items-center mb-24 max-w-4xl mx-auto text-center">
+        <div className="flex flex-col items-center mb-24 max-w-5xl mx-auto text-center">
           <Reveal>
-              <div className="inline-flex items-center gap-4 mb-6 opacity-60">
+              <div className="inline-flex items-center gap-4 mb-8 opacity-60">
                  <span className="text-gold-dark font-mono text-[10px] uppercase tracking-[0.3em]">Arquivo Botânico</span>
                  <span className="w-12 h-px bg-gold-dark"></span>
                  <span className="text-gold-dark font-mono text-[10px] uppercase tracking-[0.3em]">Vol. I</span>
               </div>
-              <h1 className="text-fluid-h1 font-serif text-forest-dark mb-8 tracking-tighter leading-none">
-                Índice de <br/><span className="italic text-gold-dark/90">Espécimes</span>
+              <h1 className="text-fluid-h1 font-serif text-forest-dark mb-8 tracking-tighter leading-[0.9]">
+                Índice de <br/><span className="font-display-italic text-gold-dark/90">Espécimes</span>
               </h1>
-              <p className="text-forest-dark/60 font-sans text-lg font-light leading-relaxed max-w-2xl mx-auto">
+              <p className="text-body-editorial text-forest-dark/70 text-lg md:text-xl max-w-2xl mx-auto">
                 Uma enciclopédia viva. Descubra a proveniência, rituais e a poesia biológica de cada espécie catalogada em nosso santuário.
               </p>
           </Reveal>
         </div>
 
         <Reveal delay={0.1} className="sticky top-28 z-40 mb-20 max-w-2xl mx-auto">
-          <div className="relative group shadow-2xl shadow-forest-dark/10">
+          <div className="relative group">
             <input 
               type="text" 
-              placeholder="Pesquisar por nome científico ou comum..." 
+              placeholder="Pesquisar por nome científico..." 
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
-              className="w-full bg-forest-dark/95 backdrop-blur-md text-paper placeholder-white/30 py-6 pl-16 pr-6 focus:outline-none focus:ring-1 focus:ring-gold transition-all duration-300 font-serif text-xl tracking-wide rounded-sm border border-white/10"
+              className="w-full bg-paper/90 backdrop-blur-xl text-forest-dark placeholder-forest-dark/30 py-6 pl-16 pr-6 focus:outline-none focus:ring-0 focus:border-gold border-b-2 border-forest-dark/10 transition-all duration-300 font-serif text-2xl tracking-wide shadow-lg"
               aria-label="Pesquisar plantas"
             />
-            <span className="material-symbols-outlined absolute left-6 top-1/2 -translate-y-1/2 text-gold opacity-80" aria-hidden="true">search</span>
-            
-            <div className="absolute inset-x-0 bottom-0 h-px bg-gradient-to-r from-transparent via-gold/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+            <span className="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-gold opacity-80 text-2xl" aria-hidden="true">search</span>
           </div>
-          <div className="text-center mt-4 h-6">
+          <div className="text-center mt-6 h-6">
              {!isLoading && (
-                 <span className="text-[9px] font-mono uppercase tracking-widest text-forest-dark/40 animate-fade-in">
+                 <span className="text-[10px] font-mono uppercase tracking-widest text-forest-dark/40 animate-fade-in">
                     {plants.length} Espécimes Encontrados
                  </span>
              )}
@@ -116,7 +113,7 @@ const Glossary: React.FC = () => {
         ) : (
           <div className="text-center py-32 opacity-50">
              <span className="material-symbols-outlined text-6xl mb-6 text-forest-dark/20 font-thin">spa</span>
-             <p className="text-2xl font-serif italic text-forest-dark/40">Nenhum espécime encontrado.</p>
+             <p className="text-3xl font-display-italic text-forest-dark/40">Nenhum espécime encontrado.</p>
           </div>
         )}
       </div>

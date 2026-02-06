@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { VASE_TERRACOTTA, VASE_CERAMIC, VASE_TECH } from '../constants';
 import { motion } from 'framer-motion';
@@ -33,7 +32,7 @@ const MaterialsGrid: React.FC = () => {
        <div className="flex items-end justify-between mb-20 border-b border-white/10 pb-8">
           <div>
             <span className="font-mono text-[10px] uppercase tracking-widest text-gold-dark mb-2 block">Catálogo de Estruturas</span>
-            <h3 className="text-4xl font-serif text-paper tracking-tight">Engenharia do Recipiente</h3>
+            <h3 className="text-fluid-h2 font-serif text-paper tracking-tight">Engenharia do Recipiente</h3>
           </div>
           <div className="hidden md:block text-right">
              <span className="font-mono text-[10px] text-white/40 uppercase tracking-widest">Matéria & Função v2.0</span>
@@ -62,9 +61,9 @@ const MaterialsGrid: React.FC = () => {
                </div>
 
                <div className="flex-1 border-l border-gold/20 pl-6 group-hover:border-gold transition-colors duration-500">
-                  <h4 className="font-serif text-2xl mb-2 text-paper group-hover:text-gold transition-colors">{item.title}</h4>
+                  <h4 className="font-serif text-3xl mb-2 text-paper group-hover:text-gold transition-colors">{item.title}</h4>
                   <span className="font-mono text-[10px] uppercase tracking-widest text-white/40 mb-4 block">{item.subtitle}</span>
-                  <p className="text-sm font-light text-white/60 leading-relaxed max-w-xs">
+                  <p className="text-body-editorial text-sm text-white/60 leading-relaxed max-w-xs">
                      {item.desc}
                   </p>
                </div>

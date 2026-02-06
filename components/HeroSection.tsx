@@ -65,7 +65,7 @@ const HeroSection: React.FC = () => {
                   <span className="text-gold text-[10px] font-mono uppercase tracking-widest-xl">Edição Limitada .01</span>
                </motion.div>
 
-               {/* TITLES - Using text-fluid-h1 from updated CSS */}
+               {/* TITLES - Using Updated Typography Scale */}
                <div className="overflow-hidden">
                  <motion.h1 
                     initial={{ y: "100%" }}
@@ -82,7 +82,7 @@ const HeroSection: React.FC = () => {
                     initial={{ y: "100%" }}
                     animate={{ y: 0 }}
                     transition={{ duration: 1.2, ease: LUXURY_EASE, delay: 0.65 }}
-                    className="text-fluid-h1 font-serif text-transparent bg-clip-text bg-gradient-to-r from-gold-light to-gold-dark italic pr-4"
+                    className="text-fluid-h1 font-display-italic text-transparent bg-clip-text bg-gradient-to-r from-gold-light to-gold-dark pr-4"
                  >
                    Esculpida
                  </motion.h1>
@@ -92,9 +92,9 @@ const HeroSection: React.FC = () => {
                   initial={{ opacity: 0 }}
                   animate={{ opacity: 1 }}
                   transition={{ duration: 1.5, delay: 1.2 }}
-                  className="text-body-editorial text-paper/70 text-base md:text-lg max-w-lg ml-2 md:ml-24 border-l border-white/20 pl-8"
+                  className="text-body-editorial text-paper/70 text-base md:text-xl max-w-lg ml-2 md:ml-24 border-l border-white/20 pl-8"
                >
-                  Uma exploração digital da flora rara. Onde a <span className="text-gold italic font-serif">ciência biológica</span> encontra a estética do silêncio. Curadoria por especialistas para colecionadores exigentes.
+                  Uma exploração digital da flora rara. Onde a <span className="text-gold font-display-italic">ciência biológica</span> encontra a estética do silêncio. Curadoria por especialistas para colecionadores exigentes.
                </motion.p>
             </motion.div>
           </div>

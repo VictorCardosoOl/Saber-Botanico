@@ -69,31 +69,46 @@ section {
   outline-offset: 6px;
 }
 
-/* Typography Utilities - REFINED */
+/* 
+   Typography Utilities - REFINED FLUID SCALE 
+   Calculado para transição perfeita entre 375px e 1920px
+*/
+
 .text-fluid-h1 {
-  /* Cormorant precisa ser um pouco maior para ter o mesmo impacto */
-  font-size: clamp(3.8rem, 9.5vw, 11rem);
-  line-height: 0.88; 
+  /* De 3.5rem (mobile) até 9rem (desktop ultra wide) */
+  font-size: clamp(3.5rem, 8vw + 1rem, 9rem);
+  line-height: 0.85; 
   letter-spacing: -0.04em;
+  font-weight: 300; /* Light para elegância */
 }
 
 .text-fluid-h2 {
+  /* De 2.5rem até 5.5rem */
   font-size: clamp(2.5rem, 5vw + 1rem, 5.5rem);
   line-height: 0.95;
   letter-spacing: -0.03em;
+  font-weight: 300;
 }
 
 .text-fluid-h3 {
-  font-size: clamp(1.75rem, 3vw, 3rem);
+  /* De 1.75rem até 3.5rem */
+  font-size: clamp(1.75rem, 3vw + 0.5rem, 3.5rem);
   line-height: 1.1;
   letter-spacing: -0.02em;
+}
+
+/* Display Italic - Assinatura Visual */
+.font-display-italic {
+  font-family: 'Cormorant Garamond', serif;
+  font-style: italic;
+  font-weight: 400;
 }
 
 /* Paragraph styling for editorial readability */
 .text-body-editorial {
   font-family: 'Outfit', sans-serif;
-  font-weight: 300;
-  line-height: 1.8;
+  font-weight: 300; /* Light */
+  line-height: 1.7; /* Respiro vertical */
   letter-spacing: 0.01em;
 }
 

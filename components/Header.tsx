@@ -50,12 +50,12 @@ const linkVariants: Variants = {
 const Logo: React.FC = () => (
   <Link to="/" className="flex items-center gap-4 group shrink-0 z-50">
     <Magnetic>
-      <div className="relative flex items-center justify-center size-10 border border-white/10 rounded-full bg-white/[0.02] backdrop-blur-sm group-hover:border-gold/30 transition-colors duration-500">
-        <span className="material-symbols-outlined text-[20px] text-gold group-hover:rotate-180 transition-transform duration-[1.5s] ease-[cubic-bezier(0.22,1,0.36,1)]">spa</span>
+      <div className="relative flex items-center justify-center size-10 border border-white/10 rounded-full bg-white/[0.05] backdrop-blur-md group-hover:border-gold/50 group-hover:bg-gold/10 transition-all duration-500 shadow-[0_0_15px_rgba(0,0,0,0.1)]">
+        <span className="material-symbols-outlined text-[20px] text-gold group-hover:rotate-180 transition-transform duration-[1.5s] ease-[cubic-bezier(0.22,1,0.36,1)] drop-shadow-[0_0_5px_rgba(212,175,55,0.5)]">spa</span>
       </div>
     </Magnetic>
     <div className="flex flex-col">
-      <h2 className="text-lg font-serif font-medium leading-none tracking-[0.05em] text-paper group-hover:text-gold transition-colors duration-500">Saber</h2>
+      <h2 className="text-lg font-serif font-medium leading-none tracking-[0.05em] text-paper group-hover:text-gold transition-colors duration-500 drop-shadow-sm">Saber</h2>
     </div>
   </Link>
 );
@@ -69,10 +69,10 @@ const DesktopNavLinks: React.FC = () => {
         const isActive = location.pathname === link.path;
         return (
           <Link key={link.path} to={link.path} className="relative group py-4">
-            <span className={`text-[10px] tracking-[0.2em] font-mono uppercase transition-all duration-500 ${isActive ? "text-gold" : "text-white/50 group-hover:text-white"}`}>
+            <span className={`text-[10px] tracking-[0.2em] font-mono uppercase transition-all duration-500 ${isActive ? "text-gold drop-shadow-[0_0_8px_rgba(212,175,55,0.6)]" : "text-white/50 group-hover:text-white"}`}>
               {link.label}
             </span>
-            <span className={`absolute bottom-3 left-1/2 -translate-x-1/2 w-1 h-1 rounded-full bg-gold transition-all duration-500 ${isActive ? "opacity-100 scale-100" : "opacity-0 scale-0 group-hover:opacity-50 group-hover:scale-75"}`}></span>
+            <span className={`absolute bottom-3 left-1/2 -translate-x-1/2 w-1 h-1 rounded-full bg-gold transition-all duration-500 shadow-[0_0_5px_rgba(212,175,55,0.8)] ${isActive ? "opacity-100 scale-100" : "opacity-0 scale-0 group-hover:opacity-50 group-hover:scale-75"}`}></span>
           </Link>
         );
       })}
@@ -88,11 +88,13 @@ const Header: React.FC = () => {
   const headerClasses = useMemo(() => {
     const isScrolled = typeof window !== 'undefined' ? window.scrollY > 20 : false;
     
-    // Glassmorphism condicional
-    // Se o menu mobile estiver aberto, removemos o fundo do header para ele "sumir" na sobreposição, mantendo apenas o botão visível
+    // Liquid Glass Logic
+    // backdrop-blur-xl + bg-opacity + border + shadow = Liquid Glass
     const bgClass = isMobileMenuOpen 
       ? 'bg-transparent border-transparent' 
-      : (isVisible && isScrolled ? 'bg-forest-dark/80 backdrop-blur-xl border-b border-white/[0.03] shadow-sm' : 'bg-transparent border-transparent');
+      : (isVisible && isScrolled 
+          ? 'bg-forest-dark/70 backdrop-blur-[20px] border-b border-white/[0.08] shadow-[0_4px_30px_rgba(0,0,0,0.1)]' 
+          : 'bg-transparent border-transparent');
     
     return `fixed top-0 left-0 right-0 z-[60] transition-all duration-700 ease-[cubic-bezier(0.22,1,0.36,1)] px-6 md:px-12 py-4 ${bgClass} ${!isMobileMenuOpen && !isVisible ? '-translate-y-full' : 'translate-y-0'}`;
   }, [isVisible, isMobileMenuOpen]);
@@ -120,14 +122,14 @@ const Header: React.FC = () => {
             <div className="lg:hidden">
               <Magnetic strength={20}>
                 <button 
-                  className="relative z-[70] text-gold-light p-4 -m-4 focus:outline-none group" // Aumentei a área de toque para o Magnetic funcionar melhor
+                  className="relative z-[70] text-gold-light p-4 -m-4 focus:outline-none group" 
                   onClick={toggleMenu}
                   aria-label={isMobileMenuOpen ? "Fechar Menu" : "Abrir Menu"}
                 >
                   <div className="flex flex-col gap-1.5 items-end">
-                      <span className={`block h-px bg-current transition-all duration-500 ${isMobileMenuOpen ? 'w-6 rotate-45 translate-y-2.5 bg-gold' : 'w-8 bg-white/70 group-hover:w-6'}`}></span>
+                      <span className={`block h-px bg-current transition-all duration-500 ${isMobileMenuOpen ? 'w-6 rotate-45 translate-y-2.5 bg-gold shadow-[0_0_5px_rgba(212,175,55,1)]' : 'w-8 bg-white/70 group-hover:w-6'}`}></span>
                       <span className={`block h-px bg-current transition-all duration-500 ${isMobileMenuOpen ? 'opacity-0 scale-0' : 'w-5 bg-white/70'}`}></span>
-                      <span className={`block h-px bg-current transition-all duration-500 ${isMobileMenuOpen ? 'w-6 -rotate-45 -translate-y-2.5 bg-gold' : 'w-8 bg-white/70 group-hover:w-4'}`}></span>
+                      <span className={`block h-px bg-current transition-all duration-500 ${isMobileMenuOpen ? 'w-6 -rotate-45 -translate-y-2.5 bg-gold shadow-[0_0_5px_rgba(212,175,55,1)]' : 'w-8 bg-white/70 group-hover:w-4'}`}></span>
                   </div>
                 </button>
               </Magnetic>
@@ -136,7 +138,7 @@ const Header: React.FC = () => {
         </div>
       </header>
 
-      {/* Mobile Menu Overlay - Full Screen Curtain */}
+      {/* Mobile Menu Overlay - Liquid Glass Curtain */}
       <AnimatePresence>
         {isMobileMenuOpen && (
           <motion.div 
@@ -144,10 +146,13 @@ const Header: React.FC = () => {
             animate="open"
             exit="closed"
             variants={menuVariants}
-            className="fixed inset-0 z-[50] bg-forest-dark flex flex-col justify-center items-center overflow-hidden"
+            className="fixed inset-0 z-[50] flex flex-col justify-center items-center overflow-hidden"
           >
-            {/* Background Texture for Detail */}
-            <div className="absolute inset-0 opacity-[0.03] pointer-events-none bg-[url('https://www.transparenttextures.com/patterns/noise.png')] mix-blend-overlay"></div>
+            {/* Background com efeito Liquid Filter */}
+            <div className="absolute inset-0 bg-forest-dark/95 backdrop-blur-3xl liquid-filter opacity-90"></div>
+            <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,_rgba(212,175,55,0.1),_transparent_70%)] pointer-events-none"></div>
+
+            <div className="absolute inset-0 opacity-[0.05] pointer-events-none bg-[url('https://www.transparenttextures.com/patterns/noise.png')] mix-blend-overlay"></div>
             
             <nav className="flex flex-col gap-8 items-center relative z-10">
               {NAVIGATION_LINKS.map((link) => {
@@ -161,7 +166,7 @@ const Header: React.FC = () => {
                       className="block"
                     >
                       <motion.div
-                        className={`text-5xl md:text-7xl font-serif tracking-tighter ${isActive ? 'text-gold italic' : 'text-paper hover:text-white transition-colors'}`}
+                        className={`text-5xl md:text-7xl font-serif tracking-tighter ${isActive ? 'text-gold italic drop-shadow-[0_0_15px_rgba(212,175,55,0.4)]' : 'text-paper hover:text-white transition-colors'}`}
                         whileHover={{ 
                           scale: 1.05, 
                           skewX: -5,
@@ -184,10 +189,10 @@ const Header: React.FC = () => {
 
             <motion.div 
                variants={linkVariants}
-               className="absolute bottom-12 flex flex-col items-center gap-4"
+               className="absolute bottom-12 flex flex-col items-center gap-4 relative z-10"
             >
-               <div className="w-px h-12 bg-white/10"></div>
-               <span className="text-[10px] font-mono uppercase tracking-[0.3em] text-white/30">
+               <div className="w-px h-12 bg-gradient-to-b from-transparent via-white/20 to-transparent"></div>
+               <span className="text-[10px] font-mono uppercase tracking-[0.3em] text-white/30 drop-shadow-sm">
                   Saber Botânico
                </span>
             </motion.div>

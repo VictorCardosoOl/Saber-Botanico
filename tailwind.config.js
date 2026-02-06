@@ -94,6 +94,7 @@ export default {
         'fade-in-up': 'fadeInUp 1.2s cubic-bezier(0.22, 1, 0.36, 1) forwards',
         'pulse-subtle': 'pulseSubtle 6s ease-in-out infinite',
         'float': 'float 8s ease-in-out infinite',
+        'breathing-glow': 'breathing 10s ease-in-out infinite',
       },
       keyframes: {
         fadeInUp: {
@@ -107,6 +108,10 @@ export default {
         float: {
           '0%, 100%': { transform: 'translateY(0)' },
           '50%': { transform: 'translateY(-10px)' },
+        },
+        breathing: {
+          '0%, 100%': { opacity: '0.2', transform: 'scale(1)' },
+          '50%': { opacity: '0.5', transform: 'scale(1.2)' },
         }
       }
     }

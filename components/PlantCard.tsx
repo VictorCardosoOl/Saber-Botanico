@@ -12,7 +12,6 @@ const PlantCard: React.FC<PlantCardProps> = ({ plant, onClick }) => {
   const [isExpanded, setIsExpanded] = useState(false);
 
   const toggleDescription = useCallback((e: React.MouseEvent | React.KeyboardEvent) => {
-    // Stop propagation vital para não disparar o click do card (stretched link)
     e.stopPropagation();
     e.preventDefault(); 
     setIsExpanded((prev) => !prev);
@@ -28,7 +27,7 @@ const PlantCard: React.FC<PlantCardProps> = ({ plant, onClick }) => {
       className="group flex flex-col h-full bg-transparent relative rounded-sm cursor-pointer"
       onClick={onClick}
     >
-        {/* IMAGEM - Shared Layout ID para transição mágica */}
+        {/* IMAGEM - Container com Efeito Liquid Glass no Hover */}
         <motion.div 
             layoutId={`plant-image-${plant.id}`}
             className="relative aspect-[3/4] overflow-hidden bg-gray-100 mb-6 shadow-sm group-hover:shadow-2xl transition-shadow duration-500 rounded-sm"
@@ -39,6 +38,12 @@ const PlantCard: React.FC<PlantCardProps> = ({ plant, onClick }) => {
                  alt="" 
                  className="w-full h-full object-cover transition-transform duration-[1.5s] ease-out group-hover:scale-105 grayscale-[10%] group-hover:grayscale-0"
                />
+               
+               {/* LIQUID GLASS OVERLAY - SHEEN EFFECT */}
+               <div className="absolute inset-0 bg-gradient-to-tr from-white/0 via-white/10 to-white/0 skew-x-12 opacity-0 group-hover:opacity-100 pointer-events-none mix-blend-overlay">
+                  {/* Animação do brilho passando */}
+                  <div className="absolute inset-0 w-full h-full bg-gradient-to-r from-transparent via-white/40 to-transparent -translate-x-[150%] group-hover:animate-sheen skew-x-[-20deg]"></div>
+               </div>
             </div>
             
             <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none"></div>
@@ -49,16 +54,19 @@ const PlantCard: React.FC<PlantCardProps> = ({ plant, onClick }) => {
                     className="absolute top-0 right-0 p-4 z-10" 
                     title="Espécie Rara"
                 >
-                     <div className="block w-2 h-2 bg-gold rounded-full shadow-[0_0_10px_rgba(197,160,40,0.8)] animate-pulse"></div>
+                     <div className="relative">
+                        <div className="block w-2 h-2 bg-gold rounded-full shadow-[0_0_10px_rgba(197,160,40,0.8)] z-10 relative"></div>
+                        <div className="absolute inset-0 bg-gold rounded-full animate-ping opacity-75"></div>
+                     </div>
                 </motion.div>
              )}
              
              <div className="absolute bottom-6 left-6 opacity-0 group-hover:opacity-100 transition-all duration-500 translate-y-4 group-hover:translate-y-0 z-10 pointer-events-none">
-                <span className="text-white font-mono text-[9px] uppercase tracking-widest border-b border-white/50 pb-1">Ver Detalhes</span>
+                <span className="text-white font-mono text-[9px] uppercase tracking-widest border-b border-white/50 pb-1 backdrop-blur-sm px-1">Ver Detalhes</span>
              </div>
         </motion.div>
         
-        {/* INFO CONTAINER - MICRO-TYPOGRAPHY REFINED */}
+        {/* INFO CONTAINER */}
         <div className="flex flex-col flex-1 relative px-2">
             <header className="flex justify-between items-baseline mb-3">
                <span className="font-mono text-[9px] text-gray-400 uppercase tracking-widest opacity-70">Specimen Nº {plant.id.padStart(3, '0')}</span>

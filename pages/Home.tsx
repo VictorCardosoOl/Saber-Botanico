@@ -1,3 +1,4 @@
+
 import React from 'react';
 import HeroSection from '../components/HeroSection';
 import LazyImage from '../components/LazyImage';
@@ -28,16 +29,15 @@ const IdeaSection: React.FC = () => (
         <div className="relative py-12 mb-10">
             <span className="absolute top-0 left-1/2 -translate-x-1/2 text-6xl text-gold/20 font-serif" aria-hidden="true">"</span>
             <p className="font-alt text-2xl md:text-5xl leading-relaxed text-ink/90 relative z-10">
-              O Saber Botânico não é uma loja,<br className="hidden md:block"/> mas um templo de conhecimento.
+              O Saber Botânico não é apenas um arquivo,<br className="hidden md:block"/> é um ato de preservação estética.
             </p>
             <div className="w-16 h-px bg-gold/50 mx-auto mt-12" aria-hidden="true"></div>
         </div>
 
         <p className="font-sans text-charcoal/70 leading-loose max-w-3xl mx-auto text-sm md:text-lg">
-          Este projeto nasceu da necessidade de desconectar o ato de jardinagem do consumismo desenfreado. 
-          Aqui, celebramos a botânica como <strong className="text-ink font-serif italic text-lg">ciência e arte</strong>. 
-          Um fórum dedicado ao estudo, à troca de saberes e à preservação de espécies, onde o valor de uma planta não é medido em moeda, 
-          mas em sua história biológica e no bem-estar que proporciona.
+          Nascemos da interseção entre a ciência biológica e o design contemplativo. 
+          Aqui, celebramos a botânica como uma disciplina de <strong className="text-ink font-serif italic text-lg">paciência e observação</strong>. 
+          Um espaço dedicado ao estudo profundo de espécies que desafiam a botânica convencional, curado para aqueles que entendem que cuidar de uma planta é, em última análise, cuidar do próprio tempo.
         </p>
       </Reveal>
     </div>
@@ -56,16 +56,16 @@ const AboutMeSection: React.FC = () => (
               <div className="absolute inset-0 bg-gradient-to-tr from-black/20 to-transparent z-10 pointer-events-none"></div>
               <LazyImage 
                   src="https://images.unsplash.com/photo-1466692476868-aef1dfb1e735" 
-                  alt="Jardineiro trabalhando com plantas" 
+                  alt="Estúdio de Design Biofílico" 
                   className="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-1000 ease-out scale-105 group-hover:scale-100"
               />
           </div>
           
           <div className="absolute -bottom-8 -right-4 md:-right-8 bg-forest/90 backdrop-blur-md border border-white/10 p-6 shadow-2xl max-w-[180px]">
                <div className="flex flex-col items-center text-center">
-                   <span className="text-4xl font-serif text-gold leading-none mb-1">15+</span>
+                   <span className="text-4xl font-serif text-gold leading-none mb-1">IV</span>
                    <div className="w-8 h-px bg-white/20 my-2"></div>
-                   <span className="text-[10px] uppercase tracking-widest text-white/60">Anos de<br/>Cultivo</span>
+                   <span className="text-[10px] uppercase tracking-widest text-white/60">Gerações de<br/>Botânica</span>
                </div>
           </div>
 
@@ -76,31 +76,30 @@ const AboutMeSection: React.FC = () => (
           <Reveal delay={0.4}>
             <div className="flex items-center gap-4 mb-8">
                 <span className="h-px w-12 bg-gold" aria-hidden="true"></span>
-                <span className="text-gold text-xs font-mono uppercase tracking-[0.25em]">O Curador</span>
+                <span className="text-gold text-xs font-mono uppercase tracking-[0.25em]">O Estúdio</span>
             </div>
             
             <h2 className="text-fluid-h2 font-serif mb-8 leading-[1.1]">
-              Cultivando mais do que <br/> 
-              <span className="italic text-transparent bg-clip-text bg-gradient-to-r from-sage via-white to-sage">apenas plantas.</span>
+              Traduzindo a complexidade <br/> 
+              <span className="italic text-transparent bg-clip-text bg-gradient-to-r from-sage via-white to-sage">da natureza em código.</span>
             </h2>
             
             <p className="font-alt text-2xl text-white/90 mb-8 border-l-2 border-gold/30 pl-6 leading-relaxed">
-              "Olá, sou um desenvolvedor júnior e jardineiro sênior. Minha missão é traduzir a complexidade da natureza em interfaces serenas."
+              "Somos um coletivo de desenvolvedores e paisagistas. Nossa missão é digitalizar a experiência tátil do cultivo raro."
             </p>
             
             <div className="space-y-6 text-gray-400 font-light leading-loose text-sm md:text-lg max-w-2xl">
               <p>
-                Minha jornada começou com uma pequena suculenta e floresceu em uma paixão por criar ecossistemas sustentáveis dentro de casa. 
-                Criei este espaço para documentar rituais de cuidado e compartilhar as nuances que transformam um "dedo verde" em um botânico amador.
+                O Saber Botânico começou como um caderno de campo para catalogar variações genéticas de Araceas e evoluiu para uma plataforma de referência.
+                Acreditamos no **Slow Web**: interfaces que respiram, interações que mimetizam o crescimento orgânico e conteúdo que exige leitura atenta.
               </p>
               <p>
-                Acredito que a tecnologia e a natureza podem coexistir. Através do design biofílico, busco criar experiências digitais que tragam 
-                a mesma paz de um jardim matinal.
+                Cada planta listada em nosso arquivo foi cultivada, estudada e fotografada em nosso estúdio. Não vendemos produtos; curamos experiências biológicas para ambientes internos.
               </p>
             </div>
 
             <div className="mt-12 flex flex-wrap gap-4">
-                 {['Design Biofílico', 'React & Natureza', 'Slow Living'].map(tag => (
+                 {['Curadoria Genética', 'Engenharia de Solo', 'Arquitetura Verde'].map(tag => (
                      <span key={tag} className="px-5 py-2 border border-white/10 rounded-full text-xs uppercase tracking-widest text-white/60 hover:border-gold hover:text-gold hover:bg-gold/5 transition-all cursor-default">
                          {tag}
                      </span>
@@ -126,3 +125,4 @@ const Home: React.FC = () => {
 };
 
 export default Home;
+    

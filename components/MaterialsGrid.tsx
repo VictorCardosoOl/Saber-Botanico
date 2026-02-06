@@ -1,3 +1,4 @@
+
 import React from 'react';
 import { VASE_TERRACOTTA, VASE_CERAMIC, VASE_TECH } from '../constants';
 import { motion } from 'framer-motion';
@@ -6,22 +7,22 @@ const MaterialsGrid: React.FC = () => {
   const materials = [
     {
       title: 'Argila Toscana',
-      subtitle: 'Transpiração Ativa',
-      desc: 'Material de alta porosidade, não esmaltado. Permite a troca gasosa lateral e evaporação rápida (efeito resfriamento). Essencial para orquídeas e suculentas.',
+      subtitle: 'Alta Porosidade | Transpiração',
+      desc: 'Material não esmaltado com estrutura microcapilar. Permite troca gasosa lateral (O2 para as raízes) e resfriamento evaporativo do substrato. Essencial para espécies epífitas e de clima árido.',
       image: VASE_TERRACOTTA,
       code: 'MAT-TER-01'
     },
     {
-      title: 'Grês Esmaltado',
-      subtitle: 'Isolamento Hídrico',
-      desc: 'Queimado a 1200°C e vitrificado. Cria um ambiente hermético que retém umidade por períodos prolongados. Ideal para Calatheas e Marantas.',
+      title: 'Grês Vitrificado',
+      subtitle: 'Hermético | Retenção Térmica',
+      desc: 'Queimado a 1200°C, criando uma barreira impermeável. Mantém a umidade do solo estável por longos períodos. Ideal para Marantaceas e plantas tropicais de sub-bosque que não toleram seca.',
       image: VASE_CERAMIC,
       code: 'MAT-CER-02'
     },
     {
       title: 'Compósito Polimérico',
-      subtitle: 'Engenharia Térmica',
-      desc: 'Ultraleve e quimicamente inerte. Possui parede dupla para isolamento térmico das raízes contra flutuações bruscas de temperatura.',
+      subtitle: 'Engenharia Térmica | Leveza',
+      desc: 'Tecnologia de parede dupla para isolamento térmico das raízes. Protege o sistema radicular contra flutuações bruscas de temperatura e é quimicamente inerte (pH neutro).',
       image: VASE_TECH,
       code: 'MAT-POL-03'
     }
@@ -63,7 +64,7 @@ const MaterialsGrid: React.FC = () => {
                <div className="flex-1 border-l border-gold/20 pl-6 group-hover:border-gold transition-colors duration-500">
                   <h4 className="font-serif text-3xl mb-2 text-paper group-hover:text-gold transition-colors">{item.title}</h4>
                   <span className="font-mono text-[10px] uppercase tracking-widest text-white/40 mb-4 block">{item.subtitle}</span>
-                  <p className="text-body-editorial text-sm text-white/60 leading-relaxed max-w-xs">
+                  <p className="text-body-editorial text-sm text-white/60 leading-relaxed">
                      {item.desc}
                   </p>
                </div>
@@ -75,3 +76,4 @@ const MaterialsGrid: React.FC = () => {
 };
 
 export default MaterialsGrid;
+    

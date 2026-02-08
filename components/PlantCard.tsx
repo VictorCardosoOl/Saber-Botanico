@@ -66,8 +66,7 @@ const PlantCard: React.FC<PlantCardProps> = ({ plant, onClick }) => {
                </div>
                
                <div className="flex flex-col items-end gap-1">
-                  <span className="font-mono text-[9px] text-gray-400 uppercase tracking-widest opacity-60">Nº {plant.id.padStart(3, '0')}</span>
-                  <span className="font-mono text-xs text-forest-dark tracking-wide mt-1">{plant.price}</span>
+                  <span className="font-mono text-[9px] text-gray-400 uppercase tracking-widest opacity-60">REF {plant.id.padStart(3, '0')}</span>
                </div>
             </header>
             

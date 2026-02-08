@@ -1,3 +1,4 @@
+
 import React from 'react';
 import { 
   ArrowUpRight, 
@@ -120,7 +121,7 @@ const Footer: React.FC = () => {
               
               <a href="#/glosario" className="group mt-10 inline-flex items-center justify-between w-full p-6 border border-white/5 bg-white/[0.02] hover:bg-white/[0.05] hover:border-white/10 transition-all cursor-pointer rounded-sm backdrop-blur-sm shadow-sm hover:shadow-[0_0_30px_rgba(255,255,255,0.05)]">
                 <span className="font-serif text-xl text-stone-200 group-hover:text-gold transition-colors duration-300">
-                  Iniciar Coleção
+                  Explorar Espécies
                 </span>
                 <div className="bg-white/5 rounded-full p-2 group-hover:bg-gold group-hover:text-premium-black transition-all duration-300 rotate-0 group-hover:rotate-45">
                   <ArrowUpRight className="w-4 h-4" />

@@ -4,7 +4,6 @@ export interface PlantSpecimen {
   name: string;
   scientificName: string;
   family: string; // Novo: Família botânica (ex: Araceae)
-  price: string;
   description: string;
   imageUrl: string;
   tags?: string[];

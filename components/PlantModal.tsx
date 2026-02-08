@@ -1,3 +1,4 @@
+
 import React, { useEffect } from 'react';
 import { RITUALS } from '../constants';
 import { PlantSpecimen, RitualStep } from '../types';
@@ -218,9 +219,8 @@ const PlantModal: React.FC<PlantModalProps> = ({ plant, onClose }) => {
                initial={{ opacity: 0 }}
                animate={{ opacity: 1 }}
                transition={{ delay: 0.5, duration: 0.5 }}
-               className="pt-6 mt-8 border-t border-gold/10 flex justify-between items-center"
+               className="pt-6 mt-8 border-t border-gold/10 flex justify-end items-center"
             >
-               <span className="text-2xl font-serif text-charcoal">{plant.price}</span>
                <button 
                 onClick={handleCollectionToggle}
                 className={`px-6 py-3 text-[10px] font-bold uppercase tracking-[0.2em] border transition-all duration-300 hover:shadow-lg hover:-translate-y-1 active:scale-95 flex items-center gap-2 ${
@@ -231,11 +231,14 @@ const PlantModal: React.FC<PlantModalProps> = ({ plant, onClose }) => {
                >
                   {isCollected ? (
                       <>
-                        <span className="material-symbols-outlined text-sm">check</span>
-                        Na Coleção
+                        <span className="material-symbols-outlined text-sm">bookmark</span>
+                        Salvo no Herbário
                       </>
                   ) : (
-                      'Adicionar à Coleção'
+                      <>
+                        <span className="material-symbols-outlined text-sm">bookmark_border</span>
+                        Salvar no Herbário
+                      </>
                   )}
                </button>
             </motion.div>

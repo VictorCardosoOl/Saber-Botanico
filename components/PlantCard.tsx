@@ -22,95 +22,76 @@ const PlantCard: React.FC<PlantCardProps> = ({ plant, onClick }) => {
       layout="position" 
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
-      whileHover={{ y: -4 }} 
-      transition={{ layout: { duration: 0.3 }, y: { duration: 0.2 } }}
-      className="group flex flex-col h-full bg-transparent relative rounded-sm cursor-pointer"
+      className="group flex flex-col h-full bg-transparent relative cursor-pointer"
       onClick={onClick}
     >
-        {/* IMAGEM - Container com Efeito Liquid Glass no Hover */}
-        <motion.div 
-            layoutId={`plant-image-${plant.id}`}
-            className="relative aspect-[3/4] overflow-hidden bg-gray-100 mb-6 shadow-sm group-hover:shadow-2xl transition-shadow duration-500 rounded-sm"
-        >
-            <div className="w-full h-full relative">
+        {/* IMAGEM - Minimalista com Zoom Suave */}
+        <div className="relative w-full aspect-[4/5] overflow-hidden bg-[#F0EEE6] mb-8">
+            <div className="absolute inset-0 transition-transform duration-[1.5s] ease-luxury group-hover:scale-105">
                <LazyImage 
                  src={plant.imageUrl} 
                  alt="" 
-                 className="w-full h-full object-cover transition-transform duration-[1.5s] ease-out group-hover:scale-105 grayscale-[10%] group-hover:grayscale-0"
+                 className="w-full h-full object-cover transition-all duration-[1.2s] ease-luxury grayscale-[15%] group-hover:grayscale-0 group-hover:contrast-[1.05]"
                />
-               
-               {/* LIQUID GLASS OVERLAY - SHEEN EFFECT */}
-               <div className="absolute inset-0 bg-gradient-to-tr from-white/0 via-white/10 to-white/0 skew-x-12 opacity-0 group-hover:opacity-100 pointer-events-none mix-blend-overlay">
-                  {/* Animação do brilho passando */}
-                  <div className="absolute inset-0 w-full h-full bg-gradient-to-r from-transparent via-white/40 to-transparent -translate-x-[150%] group-hover:animate-sheen skew-x-[-20deg]"></div>
-               </div>
             </div>
             
-            <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none"></div>
+            {/* Overlay sutil apenas para contraste de texto se necessário, ou brilho */}
+            <div className="absolute inset-0 bg-black/0 group-hover:bg-black/5 transition-colors duration-700 pointer-events-none"></div>
 
+            {/* Rare Badge - Style Refined */}
              {plant.isRare && (
-                <motion.div 
-                    layoutId={`plant-badge-${plant.id}`}
-                    className="absolute top-0 right-0 p-4 z-10" 
-                    title="Espécie Rara"
-                >
-                     <div className="relative">
-                        <div className="block w-2 h-2 bg-gold rounded-full shadow-[0_0_10px_rgba(197,160,40,0.8)] z-10 relative"></div>
-                        <div className="absolute inset-0 bg-gold rounded-full animate-ping opacity-75"></div>
+                <div className="absolute top-4 right-4 z-10">
+                     <div className="flex items-center gap-2 px-3 py-1 bg-white/90 backdrop-blur-md border border-white/50">
+                        <span className="block w-1.5 h-1.5 bg-gold rounded-full animate-pulse"></span>
+                        <span className="text-[9px] font-mono uppercase tracking-widest text-forest-dark">Rara</span>
                      </div>
-                </motion.div>
+                </div>
              )}
              
-             <div className="absolute bottom-6 left-6 opacity-0 group-hover:opacity-100 transition-all duration-500 translate-y-4 group-hover:translate-y-0 z-10 pointer-events-none">
-                <span className="text-white font-mono text-[9px] uppercase tracking-widest border-b border-white/50 pb-1 backdrop-blur-sm px-1">Ver Detalhes</span>
-             </div>
-        </motion.div>
+             {/* Efeito Sheen (Vidro) no Hover */}
+             <div className="absolute inset-0 bg-gradient-to-tr from-transparent via-white/20 to-transparent skew-x-12 opacity-0 group-hover:opacity-100 pointer-events-none mix-blend-overlay group-hover:animate-sheen"></div>
+        </div>
         
-        {/* INFO CONTAINER */}
-        <div className="flex flex-col flex-1 relative px-2">
-            <header className="flex justify-between items-baseline mb-3">
-               <span className="font-mono text-[9px] text-gray-400 uppercase tracking-widest opacity-70">Specimen Nº {plant.id.padStart(3, '0')}</span>
-               <span className="font-mono text-[11px] text-gold-dark font-bold tracking-widest">{plant.price}</span>
+        {/* INFO CONTAINER - Tipografia Editorial */}
+        <div className="flex flex-col flex-1 relative px-1">
+            <header className="flex justify-between items-start mb-2 border-b border-forest-dark/5 pb-4 group-hover:border-gold/30 transition-colors duration-700">
+               <div>
+                 <h3 className="text-3xl font-serif text-forest-dark leading-none tracking-tight group-hover:text-gold-dark transition-colors duration-500">
+                    {plant.name}
+                 </h3>
+                 <span className="block mt-2 font-display-italic text-sm text-sage-dark group-hover:text-forest-dark/70 transition-colors duration-500">
+                   {plant.scientificName}
+                 </span>
+               </div>
+               
+               <div className="flex flex-col items-end gap-1">
+                  <span className="font-mono text-[9px] text-gray-400 uppercase tracking-widest opacity-60">Nº {plant.id.padStart(3, '0')}</span>
+                  <span className="font-mono text-xs text-forest-dark tracking-wide mt-1">{plant.price}</span>
+               </div>
             </header>
             
-            <h3>
-              <button 
-                className="text-3xl font-serif font-normal text-charcoal leading-none tracking-tight mb-2 group-hover:text-gold-dark transition-colors duration-300 text-left w-full focus:outline-none focus:underline"
-                aria-label={`Ver detalhes de ${plant.name}`}
-              >
-                {plant.name}
-              </button>
-            </h3>
-            
-            <p className="text-sm font-display-italic text-sage-dark mb-5 opacity-80 group-hover:opacity-100 transition-opacity">
-              {plant.scientificName}
-            </p>
-
-            <div className="h-px w-8 bg-charcoal/10 mb-4 group-hover:w-full group-hover:bg-gold/30 transition-all duration-500"></div>
-
-            <div className="flex-grow relative group/desc">
+            <div className="mt-4 flex-grow relative">
               <motion.p 
                 layout="position"
-                className={`text-body-editorial text-sm text-charcoal/70 leading-relaxed overflow-hidden ${isExpanded ? '' : 'line-clamp-2'}`}
+                className={`text-body-editorial text-sm text-forest-dark/60 leading-relaxed overflow-hidden ${isExpanded ? '' : 'line-clamp-2'}`}
               >
                   {plant.description}
               </motion.p>
               
               <AnimatePresence>
-                   <motion.button
-                     layout="position"
-                     initial={{ opacity: 0 }}
-                     animate={{ opacity: 1 }}
-                     onClick={toggleDescription}
-                     className="relative z-10 mt-3 text-[10px] font-mono uppercase tracking-widest text-gold-dark hover:text-gold flex items-center gap-1 group/btn focus:outline-none focus:ring-2 focus:ring-gold rounded-sm px-1 -ml-1"
-                     aria-expanded={isExpanded}
-                     aria-label={isExpanded ? "Reduzir descrição" : "Ler descrição completa"}
-                   >
-                     <span>{isExpanded ? 'Reduzir' : 'Ler mais'}</span>
-                     <span className={`material-symbols-outlined text-[14px] transition-transform duration-300 ${isExpanded ? 'rotate-180' : ''}`}>
-                        expand_more
-                     </span>
-                   </motion.button>
+                   <div className="flex items-center justify-between mt-4">
+                     <button
+                       onClick={toggleDescription}
+                       className="text-[9px] font-mono uppercase tracking-widest text-gold-dark/70 hover:text-gold-dark flex items-center gap-1 group/btn transition-all focus:outline-none"
+                     >
+                       <span className="border-b border-transparent group-hover/btn:border-gold-dark transition-all">
+                         {isExpanded ? 'Ler Menos' : 'Ler Mais'}
+                       </span>
+                     </button>
+                     
+                     {/* Call to Action Sutil */}
+                     <span className="w-8 h-px bg-forest-dark/10 group-hover:w-16 group-hover:bg-gold transition-all duration-700"></span>
+                   </div>
               </AnimatePresence>
             </div>
         </div>

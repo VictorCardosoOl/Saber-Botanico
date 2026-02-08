@@ -5,6 +5,27 @@
 /* Base styles */
 html {
   height: 100%;
+  scrollbar-color: #333 #050A07; /* Firefox */
+  scrollbar-width: thin;
+}
+
+/* Custom Scrollbar WebKit */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: #050A07; 
+}
+
+::-webkit-scrollbar-thumb {
+  background: #333; 
+  border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #CFB783; 
 }
 
 html.lenis, html.lenis body {
@@ -31,15 +52,15 @@ body {
   width: 100%;
   min-height: 100vh;
   overflow-x: hidden;
-  background-color: #0A0F0D;
-  color: #F5F2EB;
+  background-color: #050A07;
+  color: #F7F5F0;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-rendering: optimizeLegibility;
   font-feature-settings: "salt", "kern", "liga"; 
 }
 
-/* GLOBAL GRAIN TEXTURE - Optimization: Opacity reduced */
+/* GLOBAL GRAIN TEXTURE - Subtler */
 body::after {
   content: "";
   position: fixed;
@@ -47,11 +68,11 @@ body::after {
   left: 0;
   width: 100%;
   height: 100%;
-  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='1' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.04'/%3E%3C/svg%3E");
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='1' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.03'/%3E%3C/svg%3E");
   pointer-events: none;
   z-index: 9999;
   mix-blend-mode: overlay;
-  opacity: 0.4;
+  opacity: 0.3;
 }
 
 section {
@@ -60,53 +81,50 @@ section {
 
 /* High-end Selection */
 ::selection {
-  background: rgba(207, 183, 131, 0.2);
-  color: #CFB783;
+  background: rgba(212, 175, 55, 0.25);
+  color: #F3E5AB;
 }
 
 :focus-visible {
-  outline: 1px solid #CFB783;
-  outline-offset: 6px;
+  outline: 1px solid #D4AF37;
+  outline-offset: 4px;
 }
 
-/* LIQUID GLASS EFFECTS - OPTIMIZED */
-
-/* Aplica o filtro SVG para distorção orgânica */
+/* LIQUID GLASS EFFECTS */
 .liquid-filter {
   filter: url(#liquid-distortion);
-  /* Optimization: Force hardware acceleration and inform browser of changes */
   will-change: transform; 
   transform: translateZ(0); 
 }
 
-/* Animação de brilho percorrendo o elemento (Sheen) */
 @keyframes glass-sheen {
-  0% { transform: translateX(-100%) skewX(-15deg); }
-  100% { transform: translateX(200%) skewX(-15deg); }
+  0% { transform: translateX(-100%) skewX(-20deg); opacity: 0; }
+  20% { opacity: 0.5; }
+  100% { transform: translateX(200%) skewX(-20deg); opacity: 0; }
 }
 
 .group:hover .animate-sheen {
-  animation: glass-sheen 1s ease-in-out forwards;
+  animation: glass-sheen 1.8s ease-in-out forwards;
 }
 
-/* Utilitários de Tipografia Fluida */
+/* Typography Utilities */
 
 .text-fluid-h1 {
-  font-size: clamp(3.5rem, 8vw + 1rem, 9rem);
-  line-height: 0.85; 
+  font-size: clamp(3rem, 7vw + 1rem, 7.5rem);
+  line-height: 0.9; 
   letter-spacing: -0.04em;
   font-weight: 300;
 }
 
 .text-fluid-h2 {
-  font-size: clamp(2.5rem, 5vw + 1rem, 5.5rem);
-  line-height: 0.95;
+  font-size: clamp(2.25rem, 4.5vw + 1rem, 5rem);
+  line-height: 1.0;
   letter-spacing: -0.03em;
   font-weight: 300;
 }
 
 .text-fluid-h3 {
-  font-size: clamp(1.75rem, 3vw + 0.5rem, 3.5rem);
+  font-size: clamp(1.5rem, 2.5vw + 0.5rem, 3rem);
   line-height: 1.1;
   letter-spacing: -0.02em;
 }
@@ -120,43 +138,35 @@ section {
 .text-body-editorial {
   font-family: 'Outfit', sans-serif;
   font-weight: 300;
-  line-height: 1.7;
+  line-height: 1.8;
   letter-spacing: 0.01em;
 }
 
-/* Glassmorphism Refined (Liquid Style) */
+/* Glassmorphism Refined */
 .glass-panel {
   background: rgba(255, 255, 255, 0.02);
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  box-shadow: 
-    0 4px 30px rgba(0, 0, 0, 0.2),
-    inset 0 0 20px rgba(255, 255, 255, 0.02); /* Inner glow for thickness */
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 255, 255, 0.05);
 }
 
-/* Hide Scrollbar visually */
-::-webkit-scrollbar {
-  width: 0px;
-  background: transparent;
+/* Utility to hide scrollbar but keep functionality */
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
 }
 
 @keyframes blobPulse {
   0% { transform: scale(1); opacity: 0.3; }
-  50% { transform: scale(1.15); opacity: 0.5; }
+  50% { transform: scale(1.1); opacity: 0.5; }
   100% { transform: scale(1); opacity: 0.3; }
 }
 
 .animate-blob-pulse {
-  animation: blobPulse 15s ease-in-out infinite;
-  /* Optimization: Inform browser about specific properties changing */
+  animation: blobPulse 18s ease-in-out infinite;
   will-change: transform, opacity;
   transform: translateZ(0);
-}
-
-@media (max-width: 768px) {
-  .glass-panel {
-    backdrop-filter: blur(10px);
-    background: rgba(10, 15, 13, 0.9);
-  }
 }

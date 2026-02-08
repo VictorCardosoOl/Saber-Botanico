@@ -146,7 +146,7 @@ export const PLANTS: PlantSpecimen[] = [
     climate: 'Tropical de Altitude',
     toxicity: 'Tóxica se ingerida',
     careLevel: 'Intermediário',
-    curatorNote: 'Odeia água em suas folhas; regue apenas o substrato. Podas regulares estimulam um crescimento mais arbustivo.'
+    curatorNote: 'A aristocrata sensível. Ao contrário das Araceas, a Begônia possui raízes finas e odeia o acúmulo de sais minerais. Evite adubos químicos granulados potentes; prefira compostos orgânicos de liberação lenta (Bocashi). Nunca borrife água em suas folhas.'
   },
   {
     id: '11',
@@ -188,7 +188,7 @@ export const PLANTS: PlantSpecimen[] = [
     climate: 'Tropical Úmido',
     toxicity: 'Tóxica se ingerida',
     careLevel: 'Iniciante',
-    curatorNote: 'Limpe as folhas semanalmente para desobstruir os estômatos. Gosta de "ter os pés apertados" no vaso e tutores firmes.'
+    curatorNote: 'Uma escultura viva que exige higiene. Suas folhas largas acumulam poeira que bloqueia os estômatos. O ritual de limpeza com pano úmido é mandatório. Prospera quando suas raízes aéreas são direcionadas de volta ao substrato.'
   },
   {
     id: '14',
@@ -227,16 +227,23 @@ export const RITUALS: RitualStep[] = [
     description: 'Mimetismo do chão da floresta tropical. O substrato deve permanecer na consistência de uma esponja torcida: úmido, mas nunca encharcado. A umidade atmosférica deve complementar a rega.',
     icon: 'rainy',
     frequency: 'A cada 3-5 Dias'
+  },
+  {
+    id: 'pruning',
+    title: 'Arquitetura de Poda',
+    description: 'A manipulação da forma através da quebra da dominância apical. Ao cortar a gema principal, redistribui-se o hormônio auxina para as gemas laterais, estimulando a ramificação. O corte não é agressão; é design biológico.',
+    icon: 'content_cut',
+    frequency: 'Sazonal / Corretiva'
   }
 ];
 
 export const DIAGNOSTICS: DiagnosticSymptom[] = [
   {
     id: '1',
-    title: 'Clorose Sistêmica',
-    visualCue: 'Amarelamento Foliar Difuso',
-    cause: 'Geralmente hipóxia radicular (afogamento das raízes) ou deficiência crônica de Nitrogênio.',
-    solution: 'Interrompa a rega imediatamente. Verifique odor de putrefação no solo. Se necessário, replante em mix mais aerado (com perlita/casca).',
+    title: 'Senescência vs. Clorose',
+    visualCue: 'Amarelamento Foliar (Basal ou Difuso)',
+    cause: 'Pode ser senescência programada (envelhecimento natural) ou patologia. Se a folha for antiga e o amarelo uniforme, a planta está reabsorvendo nutrientes.',
+    solution: 'Não corte imediatamente. Aguarde a folha secar 50% para que a planta complete a translocação de Nitrogênio e Magnésio. Se for em folhas novas, verifique pH do solo.',
     imageUrl: 'https://images.unsplash.com/photo-1616641249764-16a29792a7eb?auto=format&fit=crop&q=80&w=500'
   },
   {
@@ -290,4 +297,3 @@ export const VASE_TERRACOTTA = "https://images.unsplash.com/photo-1506917631379-
 export const VASE_CERAMIC = "https://images.unsplash.com/photo-1616428286950-8919672ce346?q=80&w=1000&auto=format&fit=crop"; 
 export const VASE_TECH = "https://images.unsplash.com/photo-1522748906645-95d8adfd66c7?q=80&w=1000&auto=format&fit=crop"; 
 export const CARE_HERO = "https://images.unsplash.com/photo-1599423423927-951390d79549?q=80&w=2000&auto=format&fit=crop";
-    

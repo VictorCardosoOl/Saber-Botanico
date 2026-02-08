@@ -1,3 +1,4 @@
+
 import React, { useState, useCallback } from 'react';
 import { PlantSpecimen } from '../types';
 import { motion, AnimatePresence } from 'framer-motion';
@@ -82,7 +83,7 @@ const PlantCard: React.FC<PlantCardProps> = ({ plant, onClick }) => {
                    <div className="flex items-center justify-between mt-4">
                      <button
                        onClick={toggleDescription}
-                       className="text-[9px] font-mono uppercase tracking-widest text-gold-dark/70 hover:text-gold-dark flex items-center gap-1 group/btn transition-all focus:outline-none"
+                       className="py-2 pr-4 text-[9px] font-mono uppercase tracking-widest text-gold-dark/70 hover:text-gold-dark flex items-center gap-1 group/btn transition-all focus:outline-none"
                      >
                        <span className="border-b border-transparent group-hover/btn:border-gold-dark transition-all">
                          {isExpanded ? 'Ler Menos' : 'Ler Mais'}

@@ -116,6 +116,43 @@ const SoilSection: React.FC = () => {
             </div>
         </div>
 
+        {/* NOVO CONTEÚDO TÉCNICO - Deep Science */}
+        <Reveal>
+            <div className="mt-32 border-t border-forest-dark/10 pt-20 grid grid-cols-1 lg:grid-cols-2 gap-16">
+              <div>
+                <h3 className="font-serif text-4xl text-forest-dark mb-6">
+                  O Mito da Terra Vegetal
+                </h3>
+                <p className="font-sans text-forest-dark/70 leading-loose text-justify font-light mb-6">
+                  Existe um equívoco fundamental no cultivo <i>indoor</i>: tratar vasos como extensões do solo florestal. 
+                  A terra vegetal comum, densa e argilosa, comporta-se como um bloco de concreto quando confinada. 
+                  Em um vaso, a física muda. Sem a macrofauna do solo para criar túneis, a terra compacta, asfixiando 
+                  o sistema radicular. 
+                </p>
+                <p className="font-sans text-forest-dark/70 leading-loose text-justify font-light">
+                  Nossa engenharia de substrato foca na <strong>aeração mecânica</strong>. Ao substituir a terra por 
+                  materiais de granulometria controlada, garantimos que a água flua, mas que a umidade permaneça 
+                  apenas nos microporos, mimetizando a serrapilheira da mata nativa.
+                </p>
+              </div>
+
+              <div>
+                <h3 className="font-serif text-4xl text-forest-dark mb-6">
+                  A Química do "Efeito Tampão"
+                </h3>
+                <p className="font-sans text-forest-dark/70 leading-loose text-justify font-light mb-6">
+                  Plantas não consomem matéria orgânica sólida; elas absorvem soluções iônicas. O papel da adubação orgânica 
+                  (Húmus, Bocashi) não é apenas nutrir, mas criar o que chamamos na agronomia de <strong>CTC (Capacidade de Troca Catiônica)</strong>.
+                </p>
+                <p className="font-sans text-forest-dark/70 leading-loose text-justify font-light">
+                  A matéria orgânica atua como uma "esponja magnética" molecular. Ela retém os sais minerais e a água, 
+                  evitando que o adubo seja lixiviado (lavado) nas regas ou que queime as raízes por excesso de salinidade. 
+                  É o sistema imunológico do solo, amortecendo erros humanos e liberando nutrientes em ritmo biológico.
+                </p>
+              </div>
+            </div>
+        </Reveal>
+
       </div>
     </section>
   );

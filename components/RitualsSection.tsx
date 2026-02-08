@@ -1,3 +1,4 @@
+
 import React from 'react';
 import { RITUALS, CARE_HERO } from '../constants';
 import { motion } from 'framer-motion';
@@ -103,18 +104,19 @@ const RitualsSection: React.FC = () => {
             </div>
         </div>
 
-        {/* HYDRATION SYSTEM */}
+        {/* HYDRATION & MAINTENANCE SYSTEM */}
         <div className="flex flex-col gap-12">
              <Reveal className="flex items-end justify-between border-b border-white/10 pb-6">
                 <div>
                     <span className="font-mono text-[10px] uppercase tracking-widest text-gold-dark mb-2 block">Parâmetro 02</span>
-                    <h2 className="text-4xl font-serif font-light text-white tracking-tight">Ciclos Hídricos</h2>
+                    <h2 className="text-4xl font-serif font-light text-white tracking-tight">Ciclos Hídricos & Forma</h2>
                 </div>
             </Reveal>
 
-            <div className="grid md:grid-cols-3 gap-px bg-white/10 border border-white/10">
+            {/* Atualizado para suportar 4 itens (Poda incluída) em telas maiores */}
+            <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-px bg-white/10 border border-white/10">
                 {RITUALS.map((ritual, idx) => (
-                    <div key={ritual.id} className="group relative p-10 bg-forest-dark hover:bg-white/[0.02] transition-colors duration-500 flex flex-col">
+                    <div key={ritual.id} className="group relative p-10 bg-forest-dark hover:bg-white/[0.02] transition-colors duration-500 flex flex-col min-h-[400px]">
                          <div className="mb-8 flex justify-between items-start opacity-50 group-hover:opacity-100 transition-opacity">
                             <span className="font-mono text-[10px] uppercase tracking-widest text-gold-dark">
                                 0{idx + 1}

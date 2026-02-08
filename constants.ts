@@ -9,7 +9,7 @@ export const PLANTS: PlantSpecimen[] = [
     family: 'Araceae',
     price: 'Sob Consulta',
     description: 'O "Santo Graal" dos aroids. Endêmico de uma única fazenda no Espírito Santo, Brasil, este espécime possui folhas pendentes em forma de adaga que podem atingir 60cm. Sua quase extinção na natureza o torna um símbolo de conservação ex-situ.',
-    imageUrl: 'https://images.unsplash.com/photo-1610996886221-5c3175dc30e3?auto=format&fit=crop&q=80&w=1000', // Placeholder artístico, img real é rara
+    imageUrl: 'https://images.unsplash.com/photo-1610996886221-5c3175dc30e3?auto=format&fit=crop&q=80&w=1000', // Placeholder artístico
     isRare: true,
     origin: 'Espírito Santo, Brasil',
     climate: 'Tropical de Altitude',
@@ -175,6 +175,34 @@ export const PLANTS: PlantSpecimen[] = [
     toxicity: 'Pet Safe',
     careLevel: 'Iniciante',
     curatorNote: 'Gosta de sol direto no topo da "cabeça" (tubérculo) para evitar calvície, mas luz filtrada nas pontas.'
+  },
+  {
+    id: '13',
+    name: 'Costela-de-Adão',
+    scientificName: 'Monstera deliciosa',
+    family: 'Araceae',
+    price: 'R$ 180',
+    description: 'O ícone do modernismo tropical. Suas folhas gigantescas e fenestradas (com recortes naturais) são uma adaptação evolutiva para permitir a passagem de luz e vento. Uma escultura viva que domina o espaço com sua arquitetura brutalista.',
+    imageUrl: 'https://images.unsplash.com/photo-1617173944883-6644d5a94432?auto=format&fit=crop&q=80&w=1000',
+    origin: 'México e Panamá',
+    climate: 'Tropical Úmido',
+    toxicity: 'Tóxica se ingerida',
+    careLevel: 'Iniciante',
+    curatorNote: 'Limpe as folhas semanalmente para desobstruir os estômatos. Gosta de "ter os pés apertados" no vaso e tutores firmes.'
+  },
+  {
+    id: '14',
+    name: 'Samambaia Blue Star',
+    scientificName: 'Phlebodium aureum',
+    family: 'Polypodiaceae',
+    price: 'R$ 140',
+    description: 'Uma ruptura na paleta verde tradicional. Suas frondes lobadas possuem uma tonalidade glauca (azul-acinzentada) e textura aveludada. Epífita por natureza, prospera quando suas raízes rizomatosas peludas ficam expostas.',
+    imageUrl: 'https://images.unsplash.com/photo-1596507456209-411a0957f495?auto=format&fit=crop&q=80&w=800',
+    origin: 'Américas Tropicais',
+    climate: 'Floresta de Neblina',
+    toxicity: 'Pet Safe',
+    careLevel: 'Intermediário',
+    curatorNote: 'Diferente das samambaias comuns, ela tolera períodos breves de seca, mas exige alta umidade no ar para manter a cor azulada vibrante.'
   }
 ];
 

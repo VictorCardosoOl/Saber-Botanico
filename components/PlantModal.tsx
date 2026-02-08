@@ -1,11 +1,11 @@
 
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { RITUALS } from '../constants';
 import { PlantSpecimen, RitualStep } from '../types';
 import Tooltip from './Tooltip';
 import { useCollection } from '../context/CollectionContext';
 import { useFocusTrap } from '../hooks/useFocusTrap';
-import { motion } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
 import { LUXURY_EASE } from './Animation';
 
 interface PlantModalProps {
@@ -17,6 +17,9 @@ const PlantModal: React.FC<PlantModalProps> = ({ plant, onClose }) => {
   // Hook customizado para gerenciar foco e scroll lock
   const modalRef = useFocusTrap(!!plant);
   const { addToCollection, removeFromCollection, hasInCollection } = useCollection();
+  
+  // Estado local para feedback visual temporário no botão
+  const [showSuccessFeedback, setShowSuccessFeedback] = useState(false);
   
   // Handler para fechar com ESC
   useEffect(() => {
@@ -34,14 +37,30 @@ const PlantModal: React.FC<PlantModalProps> = ({ plant, onClose }) => {
   const handleCollectionToggle = () => {
     if (isCollected) {
         removeFromCollection(plant.id);
+        setShowSuccessFeedback(false);
     } else {
         addToCollection(plant.id, plant.name);
+        // Ativa o feedback visual
+        setShowSuccessFeedback(true);
+        // Remove o feedback após 2 segundos
+        setTimeout(() => setShowSuccessFeedback(false), 2000);
     }
   };
 
   const careRitual: RitualStep = RITUALS.find(r => 
     plant.isRare ? r.id === 'arid' : r.id === 'tropical'
   ) || RITUALS[2];
+
+  // Determina a classe do botão baseada no estado
+  const getButtonClass = () => {
+    if (showSuccessFeedback) {
+        return 'bg-sage-dark border-sage-dark text-white hover:bg-sage';
+    }
+    if (isCollected) {
+        return 'bg-gold border-gold text-white hover:bg-gold-dark';
+    }
+    return 'bg-transparent border-gold text-gold-dark hover:bg-gold hover:text-white';
+  };
 
   return (
     <div 
@@ -223,23 +242,44 @@ const PlantModal: React.FC<PlantModalProps> = ({ plant, onClose }) => {
             >
                <button 
                 onClick={handleCollectionToggle}
-                className={`px-6 py-3 text-[10px] font-bold uppercase tracking-[0.2em] border transition-all duration-300 hover:shadow-lg hover:-translate-y-1 active:scale-95 flex items-center gap-2 ${
-                    isCollected 
-                    ? 'bg-gold border-gold text-white hover:bg-gold-dark' 
-                    : 'bg-transparent border-gold text-gold-dark hover:bg-gold hover:text-white'
-                }`}
+                className={`px-6 py-3 text-[10px] font-bold uppercase tracking-[0.2em] border transition-all duration-300 hover:shadow-lg hover:-translate-y-1 active:scale-95 flex items-center gap-2 ${getButtonClass()}`}
                >
-                  {isCollected ? (
-                      <>
+                  <AnimatePresence mode="wait">
+                    {showSuccessFeedback ? (
+                      <motion.div
+                        key="feedback"
+                        initial={{ opacity: 0, y: 5 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        exit={{ opacity: 0, y: -5 }}
+                        className="flex items-center gap-2"
+                      >
+                         <span className="material-symbols-outlined text-sm">check_circle</span>
+                         Espécime Catalogado
+                      </motion.div>
+                    ) : isCollected ? (
+                      <motion.div
+                        key="collected"
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        exit={{ opacity: 0 }}
+                        className="flex items-center gap-2"
+                      >
                         <span className="material-symbols-outlined text-sm">bookmark</span>
                         Salvo no Herbário
-                      </>
-                  ) : (
-                      <>
+                      </motion.div>
+                    ) : (
+                      <motion.div
+                        key="default"
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        exit={{ opacity: 0 }}
+                        className="flex items-center gap-2"
+                      >
                         <span className="material-symbols-outlined text-sm">bookmark_border</span>
                         Salvar no Herbário
-                      </>
-                  )}
+                      </motion.div>
+                    )}
+                  </AnimatePresence>
                </button>
             </motion.div>
           </div>

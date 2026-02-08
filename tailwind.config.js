@@ -22,7 +22,7 @@ export default {
         lg: '3rem',
         xl: '4rem',
         '2xl': '5rem',
-        '3xl': '8rem',
+        '3xl': '6rem',
       },
       screens: {
         'sm': '640px',
@@ -86,7 +86,7 @@ export default {
         }
       },
       transitionTimingFunction: {
-        'luxury': 'cubic-bezier(0.25, 0.4, 0.25, 1)', // Smooth lag / Heavy interaction
+        'luxury': 'cubic-bezier(0.25, 0.4, 0.25, 1)', // Smooth lag / Heavy interaction look
         'sharp': 'cubic-bezier(0.6, 0.05, -0.01, 0.9)',
       },
       backgroundImage: {

@@ -1,17 +1,66 @@
-
-import React from 'react';
+import React, { useRef, useLayoutEffect } from 'react';
 import { SOIL_IMAGE_MAIN, SOIL_IMAGE_SMALL_1, SOIL_IMAGE_SMALL_2 } from '../constants';
 import LazyImage from './LazyImage';
 import { motion } from 'framer-motion';
 import { Reveal, StaggerContainer, LUXURY_EASE } from './Animation';
+import gsap from 'gsap';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
+
+gsap.registerPlugin(ScrollTrigger);
 
 const SoilSection: React.FC = () => {
+  const sectionRef = useRef<HTMLDivElement>(null);
+  const horizontalTriggerRef = useRef<HTMLDivElement>(null);
+  const horizontalContentRef = useRef<HTMLDivElement>(null);
+
+  useLayoutEffect(() => {
+    const ctx = gsap.context(() => {
+      // Horizontal Scroll Animation
+      // Só ativa em telas maiores que mobile
+      const mm = gsap.matchMedia();
+      
+      mm.add("(min-width: 768px)", () => {
+        const content = horizontalContentRef.current;
+        const trigger = horizontalTriggerRef.current;
+
+        if (content && trigger) {
+          // Calcula a largura total do conteúdo - largura da viewport
+          const scrollWidth = content.scrollWidth - window.innerWidth;
+          
+          gsap.to(content, {
+            x: -scrollWidth,
+            ease: "none",
+            scrollTrigger: {
+              trigger: trigger,
+              start: "top top", // Começa quando o topo do trigger bate no topo da tela
+              end: `+=${scrollWidth + 500}`, // Duração do scroll baseada na largura do conteúdo
+              pin: true, // "Pina" a seção
+              scrub: 1, // Smoothness
+              anticipatePin: 1
+            }
+          });
+        }
+      });
+      
+    }, sectionRef);
+
+    return () => ctx.revert();
+  }, []);
+
+  const minerals = [
+      { title: 'Perlita / Pumice', desc: 'Rocha vulcânica expandida. Retém água microscopicamente enquanto drena macroscopicamente.', img: SOIL_IMAGE_SMALL_2, code: 'MIN-01' },
+      { title: 'Casca de Pinus', desc: 'Matéria orgânica estrutural. Simula os detritos do chão da floresta tropical e acidifica levemente o pH.', img: 'https://images.unsplash.com/photo-1542601906990-b4d3fb778b09?auto=format&fit=crop&q=80&w=800', code: 'MIN-02' },
+      { title: 'Carvão Ativado', desc: 'O purificador. Absorve toxinas acumuladas, previne odores e atua como bactericida natural no sistema.', img: 'https://images.unsplash.com/photo-1550583724-b2692b85b150?auto=format&fit=crop&q=80&w=800', code: 'MIN-03' },
+      { title: 'Fibra de Coco', desc: 'Substituto sustentável do Xaxim. Alta retenção hídrica com excelente porosidade para raízes finas.', img: 'https://images.unsplash.com/photo-1622383563227-0440114a8472?auto=format&fit=crop&q=80&w=800', code: 'MIN-04' }
+  ];
+
   return (
-    <section id="soil" className="relative w-full bg-paper text-forest-dark font-sans py-24 md:py-40 overflow-hidden">
+    <section ref={sectionRef} id="soil" className="relative w-full bg-paper text-forest-dark font-sans overflow-hidden">
       {/* Texture Layer */}
       <div className="absolute inset-0 opacity-[0.4] pointer-events-none bg-[url('https://www.transparenttextures.com/patterns/cream-paper.png')] mix-blend-multiply"></div>
       
-      <div className="container relative z-10 px-6">
+      {/* Intro Section - Vertical */}
+      <div className="container relative z-10 px-6 py-24 md:py-40">
         
         {/* Header Editorial */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 mb-32 items-end">
@@ -35,7 +84,7 @@ const SoilSection: React.FC = () => {
         </div>
 
         {/* Asymmetrical Gallery */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 mb-40 relative">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 mb-20 relative">
              <div className="lg:col-span-7 relative h-[60vh] lg:h-[80vh]">
                 <Reveal className="w-full h-full">
                     <div className="relative w-full h-full overflow-hidden bg-forest-dark group">
@@ -86,39 +135,51 @@ const SoilSection: React.FC = () => {
                 </StaggerContainer>
              </div>
         </div>
+      </div>
 
-        {/* Horizontal Scroll / Metodologia */}
-        <div className="border-t border-forest-dark/5 pt-24">
-            <div className="flex flex-col md:flex-row justify-between items-end mb-16">
-                 <h3 className="text-fluid-h2 font-serif text-forest-dark">A Tríade Mineral</h3>
-                 <span className="font-mono text-[10px] text-forest-dark/50 uppercase tracking-widest">Matéria Prima Essencial</span>
-            </div>
+      {/* GSAP Horizontal Scroll Section */}
+      <div ref={horizontalTriggerRef} className="relative w-full h-[100vh] bg-forest-dark text-paper overflow-hidden flex flex-col justify-center">
             
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-px bg-forest-dark/10 border border-forest-dark/10">
-                {[
-                    { title: 'Perlita / Pumice', desc: 'Rocha vulcânica expandida. Retém água microscopicamente enquanto drena macroscopicamente.', img: SOIL_IMAGE_SMALL_2 },
-                    { title: 'Casca de Pinus', desc: 'Matéria orgânica estrutural. Simula os detritos do chão da floresta tropical e acidifica levemente o pH.', img: 'https://images.unsplash.com/photo-1542601906990-b4d3fb778b09?auto=format&fit=crop&q=80&w=800' },
-                    { title: 'Carvão Ativado', desc: 'O purificador. Absorve toxinas acumuladas, previne odores e atua como bactericida natural no sistema.', img: 'https://images.unsplash.com/photo-1550583724-b2692b85b150?auto=format&fit=crop&q=80&w=800' }
-                ].map((item, idx) => (
-                    <div key={idx} className="group relative bg-paper h-[400px] flex flex-col justify-end p-8 overflow-hidden hover:bg-[#F2EFE9] transition-colors duration-500">
-                        <div className="absolute inset-0 opacity-0 group-hover:opacity-10 transition-opacity duration-700">
-                             <LazyImage src={item.img} alt={item.title} className="w-full h-full object-cover grayscale" />
+            <div className="absolute top-12 left-6 md:left-12 z-20">
+                 <h3 className="text-fluid-h2 font-serif text-paper">A Tríade Mineral</h3>
+                 <span className="font-mono text-[10px] text-white/40 uppercase tracking-widest">Deslize para Explorar -></span>
+            </div>
+
+            {/* Content Wrapper */}
+            <div ref={horizontalContentRef} className="flex gap-px h-[70vh] pl-6 md:pl-12 w-max">
+                {minerals.map((item, idx) => (
+                    <div key={idx} className="group relative w-[85vw] md:w-[40vw] lg:w-[30vw] h-full flex flex-col justify-end p-8 overflow-hidden bg-forest-light border-r border-white/5 transition-colors duration-500 hover:bg-forest-light/80 shrink-0">
+                        
+                        {/* Imagem de Fundo (Revela no Hover) */}
+                        <div className="absolute inset-0 opacity-20 group-hover:opacity-40 transition-opacity duration-1000">
+                             <img src={item.img} alt={item.title} className="w-full h-full object-cover grayscale mix-blend-overlay" />
                         </div>
+
+                        {/* Liquid Filter Effect no Hover */}
+                        <div className="absolute inset-0 bg-gold/10 opacity-0 group-hover:opacity-100 transition-opacity duration-700 backdrop-blur-[2px] liquid-filter"></div>
+
                         <div className="relative z-10">
-                            <span className="text-[10px] font-mono uppercase tracking-widest text-gold-dark mb-2 block">Componente 0{idx + 1}</span>
-                            <h4 className="font-serif text-3xl text-forest-dark mb-4">{item.title}</h4>
-                            <p className="font-sans text-sm text-forest-dark/60 font-light leading-relaxed border-t border-forest-dark/10 pt-4">
+                            <span className="text-[10px] font-mono uppercase tracking-widest text-gold mb-4 block border border-gold/30 w-fit px-2 py-1 rounded-sm">{item.code}</span>
+                            <h4 className="font-serif text-4xl md:text-5xl text-paper mb-6">{item.title}</h4>
+                            <div className="w-12 h-px bg-gold mb-6 group-hover:w-full transition-all duration-700 ease-out"></div>
+                            <p className="font-sans text-sm md:text-base text-white/70 font-light leading-relaxed">
                                 {item.desc}
                             </p>
                         </div>
                     </div>
                 ))}
+                
+                {/* Spacer Final */}
+                <div className="w-[20vw] shrink-0 flex items-center justify-center text-white/20">
+                    <span className="font-serif italic text-2xl">Fim da Seção</span>
+                </div>
             </div>
-        </div>
+      </div>
 
-        {/* NOVO CONTEÚDO TÉCNICO - Deep Science */}
+      {/* NOVO CONTEÚDO TÉCNICO - Deep Science */}
+      <div className="container relative z-10 px-6 py-24">
         <Reveal>
-            <div className="mt-32 border-t border-forest-dark/10 pt-20 grid grid-cols-1 lg:grid-cols-2 gap-16">
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-16">
               <div>
                 <h3 className="font-serif text-4xl text-forest-dark mb-6">
                   O Mito da Terra Vegetal
@@ -152,7 +213,6 @@ const SoilSection: React.FC = () => {
               </div>
             </div>
         </Reveal>
-
       </div>
     </section>
   );

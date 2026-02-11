@@ -1,9 +1,9 @@
-
 import React from 'react';
 import HeroSection from '../components/HeroSection';
 import LazyImage from '../components/LazyImage';
 import SEO from '../components/SEO';
 import { PageTransition, Reveal } from '../components/Animation';
+import GSAPTextReveal from '../components/GSAPTextReveal';
 
 // --- Sub-components (Ideally these would be in their own files) ---
 
@@ -13,33 +13,42 @@ const IdeaSection: React.FC = () => (
     <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/noise.png')] opacity-[0.03] pointer-events-none" aria-hidden="true" />
     
     <div className="container relative z-10">
-      <Reveal className="max-w-6xl mx-auto text-center">
+      <div className="max-w-6xl mx-auto text-center">
         <div className="flex justify-center mb-8">
-            <div className="size-16 border border-gold/30 rounded-full flex items-center justify-center bg-white/50 backdrop-blur-sm">
-                <span className="material-symbols-outlined text-3xl text-gold-dark">psychology_alt</span>
-            </div>
+            <Reveal>
+              <div className="size-16 border border-gold/30 rounded-full flex items-center justify-center bg-white/50 backdrop-blur-sm">
+                  <span className="material-symbols-outlined text-3xl text-gold-dark">psychology_alt</span>
+              </div>
+            </Reveal>
         </div>
         
-        <span className="font-mono text-xs uppercase tracking-[0.3em] text-gold-dark mb-4 block">Manifesto</span>
+        <Reveal>
+            <span className="font-mono text-xs uppercase tracking-[0.3em] text-gold-dark mb-4 block">Manifesto</span>
+        </Reveal>
         
-        <h2 className="text-fluid-h2 font-serif font-light mb-10 text-ink leading-tight">
-          O Santuário <span className="italic text-sage">Digital</span>
-        </h2>
+        <GSAPTextReveal tag="h2" className="text-fluid-h2 font-serif font-light mb-10 text-ink leading-tight">
+          O Santuário Digital
+        </GSAPTextReveal>
         
         <div className="relative py-12 mb-10">
             <span className="absolute top-0 left-1/2 -translate-x-1/2 text-6xl text-gold/20 font-serif" aria-hidden="true">"</span>
-            <p className="font-alt text-2xl md:text-5xl leading-relaxed text-ink/90 relative z-10">
-              O Saber Botânico não é apenas um arquivo,<br className="hidden md:block"/> é um ato de preservação estética.
-            </p>
+            <GSAPTextReveal tag="p" className="font-alt text-2xl md:text-5xl leading-relaxed text-ink/90 relative z-10">
+              O Saber Botânico não é apenas um arquivo,
+            </GSAPTextReveal>
+            <GSAPTextReveal tag="p" className="font-alt text-2xl md:text-5xl leading-relaxed text-ink/90 relative z-10" delay={0.2}>
+               é um ato de preservação estética.
+            </GSAPTextReveal>
             <div className="w-16 h-px bg-gold/50 mx-auto mt-12" aria-hidden="true"></div>
         </div>
 
-        <p className="font-sans text-charcoal/70 leading-loose max-w-3xl mx-auto text-sm md:text-lg">
-          Nascemos da interseção entre a ciência biológica e o design contemplativo. 
-          Aqui, celebramos a botânica como uma disciplina de <strong className="text-ink font-serif italic text-lg">paciência e observação</strong>. 
-          Um espaço dedicado ao estudo profundo de espécies que desafiam a botânica convencional, curado para aqueles que entendem que cuidar de uma planta é, em última análise, cuidar do próprio tempo.
-        </p>
-      </Reveal>
+        <Reveal delay={0.4}>
+          <p className="font-sans text-charcoal/70 leading-loose max-w-3xl mx-auto text-sm md:text-lg">
+            Nascemos da interseção entre a ciência biológica e o design contemplativo. 
+            Aqui, celebramos a botânica como uma disciplina de <strong className="text-ink font-serif italic text-lg">paciência e observação</strong>. 
+            Um espaço dedicado ao estudo profundo de espécies que desafiam a botânica convencional, curado para aqueles que entendem que cuidar de uma planta é, em última análise, cuidar do próprio tempo.
+          </p>
+        </Reveal>
+      </div>
     </div>
   </section>
 );
@@ -73,17 +82,23 @@ const AboutMeSection: React.FC = () => (
         </Reveal>
         
         <div className="lg:col-span-7 lg:pl-16">
+          <div className="mb-8">
+            <Reveal>
+                <div className="flex items-center gap-4 mb-8">
+                    <span className="h-px w-12 bg-gold" aria-hidden="true"></span>
+                    <span className="text-gold text-xs font-mono uppercase tracking-[0.25em]">O Estúdio</span>
+                </div>
+            </Reveal>
+            
+            <GSAPTextReveal tag="h2" className="text-fluid-h2 font-serif mb-2 leading-[1.1]">
+              Traduzindo a complexidade
+            </GSAPTextReveal>
+             <GSAPTextReveal tag="h2" className="text-fluid-h2 font-serif italic text-transparent bg-clip-text bg-gradient-to-r from-sage via-white to-sage mb-8" delay={0.1}>
+              da natureza em código.
+            </GSAPTextReveal>
+          </div>
+            
           <Reveal delay={0.4}>
-            <div className="flex items-center gap-4 mb-8">
-                <span className="h-px w-12 bg-gold" aria-hidden="true"></span>
-                <span className="text-gold text-xs font-mono uppercase tracking-[0.25em]">O Estúdio</span>
-            </div>
-            
-            <h2 className="text-fluid-h2 font-serif mb-8 leading-[1.1]">
-              Traduzindo a complexidade <br/> 
-              <span className="italic text-transparent bg-clip-text bg-gradient-to-r from-sage via-white to-sage">da natureza em código.</span>
-            </h2>
-            
             <p className="font-alt text-2xl text-white/90 mb-8 border-l-2 border-gold/30 pl-6 leading-relaxed">
               "Somos um coletivo de desenvolvedores e paisagistas. Nossa missão é digitalizar a experiência tátil do cultivo raro."
             </p>
@@ -125,4 +140,3 @@ const Home: React.FC = () => {
 };
 
 export default Home;
-    

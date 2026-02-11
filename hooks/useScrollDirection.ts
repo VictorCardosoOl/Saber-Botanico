@@ -1,3 +1,4 @@
+
 import { useState, useEffect, useRef } from 'react';
 
 interface ScrollDirData {
@@ -17,33 +18,39 @@ export function useScrollDirection(): ScrollDirData {
   const ticking = useRef(false);
 
   useEffect(() => {
-    const threshold = 10; // Mínimo de pixels para considerar uma mudança de direção
+    const threshold = 10; 
 
     const updateScrollDirection = () => {
       const currentScrollY = window.scrollY;
       const previousScrollY = lastScrollY.current;
       
       const scrollDifference = Math.abs(currentScrollY - previousScrollY);
-
-      // Previne comportamento elástico (overscroll) no topo/fundo
       const safeScrollY = Math.max(0, currentScrollY);
 
+      // Apenas processa se houve movimento significativo
       if (scrollDifference > threshold) {
         const isScrollingUp = safeScrollY < previousScrollY;
+        const newDirection = isScrollingUp ? 'up' : 'down';
         
-        setData({
-          isScrollingUp,
-          scrollPosition: safeScrollY,
-          scrollDirection: isScrollingUp ? 'up' : 'down',
+        // PERFORMANCE: Só atualiza o estado se a direção mudou ou se é a primeira vez
+        // Isso evita re-renders massivos do Header enquanto o usuário apenas rola na mesma direção
+        setData(prev => {
+            if (prev.scrollDirection !== newDirection || Math.abs(prev.scrollPosition - safeScrollY) > 50) {
+                return {
+                    isScrollingUp,
+                    scrollPosition: safeScrollY,
+                    scrollDirection: newDirection,
+                };
+            }
+            return prev;
         });
 
         lastScrollY.current = safeScrollY;
       } else {
-        // Apenas atualiza a posição se a diferença for pequena, mas não a direção
-        setData(prev => ({
-          ...prev,
-          scrollPosition: safeScrollY
-        }));
+        // Atualiza posição ocasionalmente para efeitos de transparência no topo
+        if (safeScrollY < 50) {
+            setData(prev => ({ ...prev, scrollPosition: safeScrollY }));
+        }
       }
 
       ticking.current = false;

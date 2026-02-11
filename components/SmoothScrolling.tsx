@@ -1,3 +1,4 @@
+
 import React, { useEffect, useRef } from 'react';
 import Lenis from 'lenis';
 import { useLocation } from 'react-router-dom';
@@ -11,21 +12,20 @@ const SmoothScrolling: React.FC<SmoothScrollingProps> = ({ children }) => {
   const location = useLocation();
 
   useEffect(() => {
-    // Configuração de Luxo para o Scroll
-    // Duration mais alta (1.5) cria sensação de peso/inércia.
+    // Configuração Otimizada para Performance
     const lenis = new Lenis({
-      duration: 1.5, 
-      easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)), // Exponencial suave
+      duration: 1.2, // Reduzido de 1.5 para sentir menos "arrastado"
+      easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)), 
       orientation: 'vertical',
       gestureOrientation: 'vertical',
       smoothWheel: true,
-      wheelMultiplier: 0.9, // Reduz um pouco a velocidade para dar sensação de controle
-      touchMultiplier: 1.5,
+      wheelMultiplier: 1, // Resetado para 1 para sentir mais natural
+      touchMultiplier: 2,
+      // infinite: false, // Garantir que não está loopando
     });
 
     lenisRef.current = lenis;
 
-    // Loop de animação sincronizado
     function raf(time: number) {
       lenis.raf(time);
       requestAnimationFrame(raf);
@@ -39,11 +39,8 @@ const SmoothScrolling: React.FC<SmoothScrollingProps> = ({ children }) => {
     };
   }, []);
 
-  // Efeito para resetar o scroll ao mudar de rota
   useEffect(() => {
     if (lenisRef.current) {
-      // immediate: true faz o scroll pular instantaneamente para o topo
-      // isso evita conflito com a animação de saída da página (exit transition)
       lenisRef.current.scrollTo(0, { immediate: true });
     }
   }, [location.pathname]);

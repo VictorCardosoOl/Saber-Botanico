@@ -277,7 +277,6 @@ export const HERO_IMAGE = "https://images.unsplash.com/photo-1592150621744-aca64
 export const SOIL_IMAGE_MAIN = "https://images.unsplash.com/photo-1615479261276-857e49eb72dc?q=80&w=2000&auto=format&fit=crop"; 
 export const SOIL_IMAGE_SMALL_1 = "https://images.unsplash.com/photo-1599056637894-3a95d43818e6?q=80&w=1000&auto=format&fit=crop"; 
 export const SOIL_IMAGE_SMALL_2 = "https://images.unsplash.com/photo-1611735341450-74d61e66ee62?q=80&w=1000&auto=format&fit=crop"; 
-export const ARCHIVE_HERO = "https://images.unsplash.com/photo-1530968464165-3a114ce72449?q=80&w=2000&auto=format&fit=crop"; 
 export const VASES_HERO = "https://images.unsplash.com/photo-1580480055273-228ff5388ef8?q=80&w=2000&auto=format&fit=crop"; 
 export const VASE_TERRACOTTA = "https://images.unsplash.com/photo-1506917631379-4d6cb037d383?q=80&w=1000&auto=format&fit=crop"; 
 export const VASE_CERAMIC = "https://images.unsplash.com/photo-1616428286950-8919672ce346?q=80&w=1000&auto=format&fit=crop"; 

@@ -1,4 +1,5 @@
-import React, { useState, useEffect } from 'react';
+
+import React, { useState, useEffect, useCallback } from 'react';
 import { PlantService } from '../services/plantService';
 import { PlantSpecimen } from '../types';
 import PlantCard from '../components/PlantCard';
@@ -10,29 +11,28 @@ import { PageTransition, Reveal } from '../components/Animation';
 import { AnimatePresence } from 'framer-motion';
 
 const Glossary: React.FC = () => {
+  // State Management
   const [searchTerm, setSearchTerm] = useState<string>('');
   const [plants, setPlants] = useState<PlantSpecimen[]>([]);
-  const [isLoading, setIsLoading] = useState(true);
+  const [isLoading, setIsLoading] = useState<boolean>(true);
   const [selectedPlant, setSelectedPlant] = useState<PlantSpecimen | null>(null);
   
   const debouncedSearchTerm = useDebounce(searchTerm, 300);
 
+  // Data Fetching Logic
   useEffect(() => {
     let isMounted = true;
 
     const fetchPlants = async () => {
       setIsLoading(true);
+      
       try {
-        const [results] = await Promise.all([
-           PlantService.search(debouncedSearchTerm),
-           new Promise(resolve => setTimeout(resolve, 600)) // Leve aumento no delay para suavidade
-        ]);
-        
+        const results = await PlantService.search(debouncedSearchTerm);
         if (isMounted) {
           setPlants(results);
         }
       } catch (error) {
-        console.error("Failed to fetch plants", error);
+        console.error("Glossary: Failed to fetch plants", error);
         if (isMounted) setPlants([]);
       } finally {
         if (isMounted) setIsLoading(false);
@@ -46,8 +46,11 @@ const Glossary: React.FC = () => {
     };
   }, [debouncedSearchTerm]);
 
-  const handleCloseModal = () => setSelectedPlant(null);
+  // Handlers
+  const handleCloseModal = useCallback(() => setSelectedPlant(null), []);
+  const handleClearSearch = useCallback(() => setSearchTerm(''), []);
 
+  // SEO Logic
   const seoTitle = selectedPlant ? selectedPlant.name : "Glosário Botânico";
   const seoDescription = selectedPlant 
     ? `Detalhes botânicos, origem e rituais de cuidado para ${selectedPlant.name} (${selectedPlant.scientificName}).` 
@@ -79,7 +82,7 @@ const Glossary: React.FC = () => {
           </Reveal>
         </div>
 
-        {/* Search Interface - Minimalist Underline Style */}
+        {/* Search Interface */}
         <Reveal delay={0.1} className="sticky top-28 z-40 mb-32 max-w-2xl mx-auto">
           <div className="relative group">
             <input 
@@ -94,7 +97,7 @@ const Glossary: React.FC = () => {
           </div>
           
           <div className="flex justify-between items-center mt-6">
-             <div className="h-px w-full max-w-[100px] bg-transparent"></div> {/* Spacer */}
+             <div className="h-px w-full max-w-[100px] bg-transparent"></div>
              {!isLoading && (
                  <span className="text-[9px] font-mono uppercase tracking-widest text-forest-dark/30 animate-fade-in">
                     {plants.length} {plants.length === 1 ? 'Espécime Encontrado' : 'Espécimes Encontrados'}
@@ -107,7 +110,7 @@ const Glossary: React.FC = () => {
         {isLoading ? (
            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-12 gap-y-24">
               {Array.from({ length: 6 }).map((_, i) => (
-                 <div key={i} className="opacity-40">
+                 <div key={`skeleton-${i}`} className="opacity-40">
                     <PlantCardSkeleton />
                  </div>
               ))}
@@ -127,7 +130,7 @@ const Glossary: React.FC = () => {
              <span className="material-symbols-outlined text-6xl mb-6 text-gold/30 font-thin">spa</span>
              <p className="text-3xl font-display-italic text-forest-dark/40">Nenhum resultado para "{searchTerm}"</p>
              <button 
-                onClick={() => setSearchTerm('')} 
+                onClick={handleClearSearch} 
                 className="mt-6 text-xs font-mono uppercase tracking-widest border-b border-forest-dark/20 hover:border-gold hover:text-gold transition-all"
              >
                 Limpar filtros
